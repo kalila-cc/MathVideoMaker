@@ -102,6 +102,7 @@ python -m venv .venv
 - `render-preview-pipeline`：片段渲染、拼接、合成音轨、封面和最终渲染前验证。
 - `video-gallery-maintenance`：本地视频库、元数据、封面、章节跳转和清理。
 - `project-self-evolution`：把新踩坑和用户反馈沉淀回文档、脚本和 skills，保持项目自我迭代。
+- `pre-commit-doc-sync`：提交前检查 diff、文档同步点和生成产物忽略情况，避免实现和文档脱节。
 
 ## 维护原则
 
