@@ -1,0 +1,16 @@
+/.venv/
+__pycache__/
+*.pyc
+.env
+.video_gallery.pid
+/media/
+/exports/
+topics/*/exports/manim/
+topics/*/exports/final/
+topics/*/exports/covers/
+topics/*/exports/posters/
+topics/*/audio/*.mp3
+topics/*/audio/*.wav
+*.log
+/tools/ffmpeg/
+/tools/_downloads/
