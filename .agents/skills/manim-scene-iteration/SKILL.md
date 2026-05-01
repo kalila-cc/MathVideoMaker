@@ -17,8 +17,8 @@ Use this skill when changing files under `topics/<topic>/scenes/`.
 
 - Split complex videos into multiple Manim `Scene` classes.
 - Keep each scene aligned to a narration paragraph or chapter beat.
-- Use a short `CoverFrame` scene when a video needs a first-frame thumbnail.
-- For mathematical text, prefer `MathTex`; for Chinese `Text`, map Latin letters and numbers to Times New Roman when mixed into Chinese copy.
+- Use a short `CoverFrame` scene when a video needs a first-frame thumbnail. Design it for mobile two-column feeds: when downscaled to roughly 160-200 px wide, the main title should still be basically readable. Prefer a short one- or two-line title, high contrast, generous margins, and avoid relying on small subtitles or dense formulas to carry the topic. For title sizing, prefer fitting to a target width over guessing with fixed `scale()` values; the main title should visibly occupy a large share of the frame. After rendering, inspect both the full frame and a 160-200 px thumbnail; the title plus one core visual should occupy the main area instead of leaving large unused space.
+- For mathematical text, prefer `MathTex`. For Chinese prose in `Text`, keep one UI font by default; mixing Times New Roman into the same `Text` via `t2f` can raise inline letters/numbers above the Chinese baseline. When inline math needs professional glyphs, split the line into `Text` + `MathTex` pieces and align them manually.
 - Do not add formula highlight or focus animations unless there is an explicit timestamped cue map tying narration text to that exact expression. Prefer clear sequencing, spacing, and color hierarchy; unsynced highlights are worse than no highlights.
 - Keep source files under `topics/<topic>/scenes/` and generated media under `topics/<topic>/exports/`.
 
