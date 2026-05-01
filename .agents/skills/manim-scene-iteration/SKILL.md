@@ -19,6 +19,7 @@ Use this skill when changing files under `topics/<topic>/scenes/`.
 - Keep each scene aligned to a narration paragraph or chapter beat.
 - Use a short `CoverFrame` scene when a video needs a first-frame thumbnail.
 - For mathematical text, prefer `MathTex`; for Chinese `Text`, map Latin letters and numbers to Times New Roman when mixed into Chinese copy.
+- Do not add formula highlight or focus animations unless there is an explicit timestamped cue map tying narration text to that exact expression. Prefer clear sequencing, spacing, and color hierarchy; unsynced highlights are worse than no highlights.
 - Keep source files under `topics/<topic>/scenes/` and generated media under `topics/<topic>/exports/`.
 
 ## Timing

@@ -13,8 +13,9 @@
 默认扫描：
 
 - `topics/*/exports/final`
-- `topics/*/exports/manim/videos`
-- 旧版根目录 `exports/` 只作为迁移兜底
+- 旧版根目录 `exports/final` 只作为迁移兜底
+
+网页默认只展示完整视频或完整预览，不展示 `exports/manim/videos` 里的 Manim 分段草稿。需要调试单个 Scene 时，直接打开 Manim 输出目录或显式通过 `--video-root` 指定分段目录。
 
 网页支持：
 
@@ -54,6 +55,7 @@
 - `cover` 指向本地生成封面，不提交 Git；可用 `scripts/generate_cover.py` 生成并写回 metadata。
 - `cover` 不填或文件不存在时会自动抽帧，主题视频会生成到 `topics/<topic>/exports/posters`。
 - `chapters` 用于播放器下方章节进度条和点击跳转。
+- 修改中文 metadata 时，避免通过 PowerShell here-string 或管道直接写入大段中文；优先使用 UTF-8 文件或 Python 脚本写入，并在写完后用 Python 读取确认标题、简介和章节不是乱码或问号。
 
 生成封面：
 
@@ -79,6 +81,7 @@
 
 - `old-astroid-iterations`：删除星形线 v2-v5 和最早版本的旧迭代视频，保留当前 v6。
 - `manim-partials`：删除 Manim 的 `partial_movie_files` 缓存。
+- 需要清理分段草稿时，可额外使用 `--glob "topics/<topic>/exports/manim/videos/*"`；默认会先 dry-run，确认后再加 `--execute`。
 
 安全边界：
 

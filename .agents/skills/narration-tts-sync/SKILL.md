@@ -27,6 +27,12 @@ For TTS, write trigonometric names as full English words in the narration text w
 
 The video can still display standard formula abbreviations with `MathTex`.
 
+Avoid isolated Chinese polyphones that edge-tts may misread. Prefer unambiguous spoken wording:
+
+- Use `变量` or `符号` instead of an isolated `量` in phrases like `几个量`.
+- Use `物理量`, `数值`, `长度`, or `高度` when that is the intended meaning.
+- After changing wording for pronunciation, regenerate both MP3 and SRT so scene timing remains aligned.
+
 ## Commands
 
 ```powershell

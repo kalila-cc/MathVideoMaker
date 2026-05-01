@@ -16,6 +16,7 @@ Each important video should have:
 - `topic`, `tags`, `status`, `priority`.
 - `cover`: explicit image path when automatic poster extraction is not good enough.
 - `chapters`: fine-grained `{title,start,end}` entries for jump controls.
+- Avoid writing Chinese metadata through PowerShell stdin/here-strings; use UTF-8 files or Unicode escapes, then read `data/videos.json` back with Python to confirm titles and descriptions are not garbled.
 
 ## Gallery Behavior
 
@@ -24,9 +25,10 @@ Each important video should have:
 - Local deletion must only target MP4 files inside configured export roots.
 - After deleting videos, also prune generated posters and stale metadata.
 - Prefer topic-local paths, such as `topics/astroid-envelope/exports/final/video.mp4` and `topics/astroid-envelope/exports/covers/cover.jpg`.
-- The gallery scans `topics/*/exports/final` and `topics/*/exports/manim/videos`, with legacy root `exports/` paths only as a migration fallback.
+- The gallery scans only complete-video roots such as `topics/*/exports/final`, with legacy root `exports/final` as a migration fallback. Do not show Manim scene drafts from `exports/manim/videos` unless the user explicitly asks for segment debugging.
 - Generated covers live at `topics/<topic>/exports/covers` and are ignored by Git.
 - Generated posters live beside their topic at `topics/<topic>/exports/posters`.
+- Final gallery cleanup should leave only complete videos intended for preview; silent masters, Manim scene drafts, old previews, render logs, stale covers, and orphan posters should be removed after the new final passes validation.
 
 ## Cleanup Commands
 

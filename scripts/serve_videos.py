@@ -31,7 +31,6 @@ DEFAULT_POSTER_DIR = PROJECT_ROOT / "exports" / "posters"
 DEFAULT_TOPICS_DIR = PROJECT_ROOT / "topics"
 LEGACY_VIDEO_ROOTS = [
     PROJECT_ROOT / "exports" / "final",
-    PROJECT_ROOT / "exports" / "manim" / "videos",
 ]
 
 
@@ -52,7 +51,6 @@ def default_video_roots() -> list[Path]:
             roots.extend(
                 [
                     topic / "exports" / "final",
-                    topic / "exports" / "manim" / "videos",
                 ]
             )
     roots.extend(LEGACY_VIDEO_ROOTS)
@@ -332,6 +330,7 @@ def scan_videos(roots: list[Path], ffmpeg: Path) -> list[dict[str, object]]:
                     "posterPath": cover_path.relative_to(PROJECT_ROOT).as_posix() if cover_path else None,
                     "size": stat.st_size,
                     "sizeLabel": human_size(stat.st_size),
+                    "created": datetime.fromtimestamp(stat.st_ctime).isoformat(timespec="seconds"),
                     "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(timespec="seconds"),
                     "duration": probe["duration"],
                     "durationSeconds": probe.get("duration_seconds"),
@@ -611,10 +610,14 @@ def index_html() -> bytes:
 
     .featured-meta {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(210px, 340px);
-      gap: clamp(16px, 2vw, 28px);
-      padding: 20px 4px 2px;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+      gap: clamp(18px, 2.4vw, 34px);
+      padding: 22px 4px 2px;
       align-items: start;
+    }
+
+    .featured-copy {
+      min-width: 0;
     }
 
     .kicker {
@@ -649,17 +652,10 @@ def index_html() -> bytes:
       word-break: break-all;
     }
 
-    .meta-row, .tag-row {
+    .tag-row {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-    }
-
-    .meta-row {
-      justify-content: flex-start;
-      align-content: start;
-      max-width: 360px;
-      padding-top: 2px;
     }
 
     .tag-row {
@@ -692,45 +688,146 @@ def index_html() -> bytes:
       border-color: transparent;
     }
 
-    .delete-video {
+    .video-info-panel {
       width: 100%;
-      min-height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 24px;
+      padding: 14px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+        rgba(6, 13, 24, 0.62);
+      box-shadow: var(--inner-edge);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .info-item {
+      min-height: 74px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 18px;
+      padding: 12px 13px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .info-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .info-value {
+      color: var(--ink);
+      font-family: "Geist Mono", "Cascadia Code", "Consolas", monospace;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    .info-value.primary {
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .file-strip {
+      margin-top: 10px;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .file-strip span {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .file-strip code {
+      color: var(--soft);
+      font-family: "Geist Mono", "Cascadia Code", "Consolas", monospace;
+      font-size: 11.5px;
+      line-height: 1.65;
+      word-break: break-all;
+    }
+
+    .danger-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.10);
+      padding-top: 12px;
+    }
+
+    .danger-panel strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #ffd9de;
+      font-size: 13px;
+    }
+
+    .danger-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .delete-video {
+      min-height: 40px;
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      gap: 9px;
-      border: 1px solid rgba(255, 111, 124, 0.58);
-      border-radius: 16px;
-      padding: 11px 14px;
+      gap: 8px;
+      border: 1px solid rgba(255, 111, 124, 0.46);
+      border-radius: 14px;
+      padding: 10px 13px;
       color: #ffecef;
-      background:
-        linear-gradient(135deg, rgba(255, 111, 124, 0.28), rgba(255, 111, 124, 0.10)),
-        rgba(255, 111, 124, 0.08);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 22px rgba(255, 111, 124, 0.10);
+      background: rgba(255, 111, 124, 0.105);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
       cursor: pointer;
       font: inherit;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.02em;
       transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
     }
 
-    .delete-video::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--danger);
-      box-shadow: 0 0 14px rgba(255, 111, 124, 0.48);
+    .delete-video svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 1.9;
     }
 
     .delete-video:hover {
       border-color: rgba(255, 111, 124, 0.86);
-      background:
-        linear-gradient(135deg, rgba(255, 111, 124, 0.36), rgba(255, 111, 124, 0.14)),
-        rgba(255, 111, 124, 0.10);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10), 0 0 30px rgba(255, 111, 124, 0.18);
+      background: rgba(255, 111, 124, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 10px 28px rgba(255, 111, 124, 0.12);
       transform: translateY(-1px);
+    }
+
+    .delete-video:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .delete-video[disabled] {
+      cursor: progress;
+      opacity: 0.72;
+      transform: none;
     }
 
     .chapter-panel {
@@ -1254,9 +1351,16 @@ def index_html() -> bytes:
         grid-template-columns: 1fr;
       }
 
-      .meta-row {
-        justify-content: flex-start;
-        max-width: none;
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .danger-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .delete-video {
+        width: 100%;
       }
 
       .card {
@@ -1536,6 +1640,9 @@ def index_html() -> bytes:
         return;
       }
       const tagHtml = tags(video).map(tag => `<span class="tag">${esc(tag)}</span>`).join("");
+      const durationLabel = formatDurationChip(video);
+      const createdLabel = formatModified(video.created || video.modified);
+      const modifiedLabel = formatModified(video.modified);
       stage.innerHTML = `
         <div class="player-chrome">
           <div class="chrome-top">
@@ -1548,7 +1655,7 @@ def index_html() -> bytes:
         </div>
         ${chapterMarkup(video)}
         <div class="featured-meta">
-          <div>
+          <div class="featured-copy">
             <div class="kicker">
               <span class="badge topic">${esc(video.topic || "未分类")}</span>
               <span class="badge">${esc(video.status || "渲染片段")}</span>
@@ -1558,11 +1665,45 @@ def index_html() -> bytes:
             <p class="path">${esc(video.path)}</p>
             <div class="tag-row">${tagHtml}</div>
           </div>
-          <div class="meta-row">
-            <span class="badge">${esc(video.duration || "未知时长")}</span>
-            <span class="badge">${esc(video.sizeLabel)}</span>
-            <span class="badge">${esc(formatModified(video.modified))}</span>
-            <button class="delete-video" type="button" data-delete-video="${esc(video.id)}">删除本地视频</button>
+          <div class="video-info-panel" aria-label="视频文件信息">
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Duration</span>
+                <strong class="info-value primary">${esc(durationLabel)}</strong>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Size</span>
+                <strong class="info-value">${esc(video.sizeLabel || formatBytes(video.size))}</strong>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Created</span>
+                <strong class="info-value">${esc(createdLabel)}</strong>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Updated</span>
+                <strong class="info-value">${esc(modifiedLabel)}</strong>
+              </div>
+            </div>
+            <div class="file-strip">
+              <span>Local file</span>
+              <code>${esc(video.path)}</code>
+            </div>
+            <div class="danger-panel">
+              <div>
+                <strong>删除本地视频</strong>
+                <p>仅删除这个 MP4 文件，并清理图库里的对应记录。</p>
+              </div>
+              <button class="delete-video" type="button" data-delete-video="${esc(video.id)}" aria-label="删除视频：${esc(video.title || video.name)}">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 7h16"></path>
+                  <path d="M10 11v6"></path>
+                  <path d="M14 11v6"></path>
+                  <path d="M6 7l1 13h10l1-13"></path>
+                  <path d="M9 7V4h6v3"></path>
+                </svg>
+                <span>删除</span>
+              </button>
+            </div>
           </div>
         </div>
       `;

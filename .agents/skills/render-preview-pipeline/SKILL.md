@@ -38,6 +38,9 @@ Keep outputs topic-local:
 ## Validation
 
 - Use FFmpeg to confirm video duration and audio stream.
+- For final release, rerender high-quality clips from the current scene source; do not reuse an older HD MP4 after visual or narration fixes.
+- Keep the new final MP4 until it passes resolution, frame-rate, duration, audio, cover, and gallery checks; only then clean old outputs.
+- The bundled tool may only include `tools\ffmpeg\bin\ffmpeg.exe`; use `ffmpeg -hide_banner -i <video>` when `ffprobe.exe` is unavailable.
 - If the first frame is just for thumbnail capture, keep it short and add the remaining time to the real opening scene.
 - Do not commit generated MP4, MP3, poster, or cover files.
 - Prefer project-local `tools\ffmpeg\bin\ffmpeg.exe`.

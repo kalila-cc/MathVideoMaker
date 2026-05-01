@@ -1,0 +1,4 @@
+interface:
+  display_name: "Narration Script Review"
+  short_description: "Review Chinese math narration before TTS generation."
+  default_prompt: "Review this Chinese math video narration draft before TTS generation, checking structure, tone, hook, analogies, polyphones, and formula read-aloud wording."

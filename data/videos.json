@@ -1,105 +1,8 @@
 {
   "videos": {
-    "topics/astroid-envelope/exports/final/LadderAstroidEnvelope_v6_preview_with_audio.mp4": {
-      "title": "一根滑落的棍子，为什么会画出星形线？v6 短封面预览",
-      "description": "v6 低清预览：把首帧封面压缩到约 0.6 秒，只用于网页缩略图和视频概览；封面改成更大的吸引式标题。其余推导沿用 v5 的口语旁白、微分条件拆解、联立求参数式和四象限星形线展示。",
-      "topic": "微分与包络线",
-      "tags": [
-        "星形线",
-        "包络线",
-        "低清预览",
-        "短封面",
-        "预览封面"
-      ],
-      "status": "低清预览",
-      "priority": 720,
-      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg",
-      "chapters": [
-        {
-          "title": "滑落棍子的场景",
-          "start": 0.0,
-          "end": 7.94
-        },
-        {
-          "title": "外轮廓到底是什么",
-          "start": 7.94,
-          "end": 20.8
-        },
-        {
-          "title": "给画面里的量起名字",
-          "start": 20.8,
-          "end": 29.68
-        },
-        {
-          "title": "端点截距和点 P",
-          "start": 29.68,
-          "end": 42.75
-        },
-        {
-          "title": "用截距式写直线",
-          "start": 42.75,
-          "end": 54.19
-        },
-        {
-          "title": "倒数记号简化式子",
-          "start": 54.19,
-          "end": 68.29
-        },
-        {
-          "title": "点在某一根棍子上",
-          "start": 68.29,
-          "end": 76.9
-        },
-        {
-          "title": "相邻棍子共同擦边",
-          "start": 76.9,
-          "end": 91.48
-        },
-        {
-          "title": "固定点后对 θ 求导",
-          "start": 91.48,
-          "end": 109.56
-        },
-        {
-          "title": "导数式的直观含义",
-          "start": 109.56,
-          "end": 115.57
-        },
-        {
-          "title": "联立两个条件",
-          "start": 115.57,
-          "end": 125.78
-        },
-        {
-          "title": "写成 sine/cosine 比例",
-          "start": 125.78,
-          "end": 140.04
-        },
-        {
-          "title": "解出参数式",
-          "start": 140.04,
-          "end": 149.25
-        },
-        {
-          "title": "化成星形线方程",
-          "start": 149.25,
-          "end": 165.23
-        },
-        {
-          "title": "四象限看到星形",
-          "start": 165.23,
-          "end": 172.41
-        },
-        {
-          "title": "现实中的包络线",
-          "start": 172.41,
-          "end": 190.75
-        }
-      ]
-    },
-    "topics/astroid-envelope/exports/final/LadderAstroidEnvelope_bilibili_1080p60_with_chatgpt_outro.mp4": {
-      "title": "一根滑落的棍子，为什么会画出星形线？B站高清版",
-      "description": "1080p60 发布版：从一根靠墙滑落的棍子出发，用微分和包络线思想推导星形线方程，保留短封面帧，并在片尾加入 ChatGPT 制作署名动画。",
+    "topics/astroid-envelope/exports/final/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro.mp4": {
+      "title": "一根滑落的棍子，为什么会画出星形线？B站高清最终版",
+      "description": "最终 1080p60 发布版：从一根靠墙滑落的棍子出发，用微分和包络线思想推导星形线方程，片尾改为无背景线性 ChatGPT 图标署名动画。已基于当前 v6 无公式高亮版本重新渲染。",
       "topic": "微分与包络线",
       "tags": [
         "星形线",
@@ -110,8 +13,8 @@
         "ChatGPT片尾"
       ],
       "status": "高清成片",
-      "priority": 1000,
-      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_bilibili_1080p60_cover.jpg",
+      "priority": 1300,
+      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro_cover.jpg",
       "chapters": [
         {
           "title": "滑落棍子的场景",
@@ -124,110 +27,7 @@
           "end": 20.8
         },
         {
-          "title": "给画面里的量起名字",
-          "start": 20.8,
-          "end": 29.68
-        },
-        {
-          "title": "端点截距和点 P",
-          "start": 29.68,
-          "end": 42.75
-        },
-        {
-          "title": "用截距式写直线",
-          "start": 42.75,
-          "end": 54.19
-        },
-        {
-          "title": "倒数记号简化式子",
-          "start": 54.19,
-          "end": 68.29
-        },
-        {
-          "title": "点在某一根棍子上",
-          "start": 68.29,
-          "end": 76.9
-        },
-        {
-          "title": "相邻棍子共同擦边",
-          "start": 76.9,
-          "end": 91.48
-        },
-        {
-          "title": "固定点后对 θ 求导",
-          "start": 91.48,
-          "end": 109.56
-        },
-        {
-          "title": "导数式的直观含义",
-          "start": 109.56,
-          "end": 115.57
-        },
-        {
-          "title": "联立两个条件",
-          "start": 115.57,
-          "end": 125.78
-        },
-        {
-          "title": "写成 sine/cosine 比例",
-          "start": 125.78,
-          "end": 140.04
-        },
-        {
-          "title": "解出参数式",
-          "start": 140.04,
-          "end": 149.25
-        },
-        {
-          "title": "化成星形线方程",
-          "start": 149.25,
-          "end": 165.23
-        },
-        {
-          "title": "四象限看到星形",
-          "start": 165.23,
-          "end": 172.41
-        },
-        {
-          "title": "现实中的包络线",
-          "start": 172.41,
-          "end": 190.75
-        },
-        {
-          "title": "ChatGPT 制作署名片尾",
-          "start": 190.75,
-          "end": 198.45
-        }
-      ]
-    },
-    "topics/astroid-envelope/exports/final/LadderAstroidEnvelope_bilibili_1080p60_line_outro.mp4": {
-      "title": "一根滑落的棍子，为什么会画出星形线？B站高清线性片尾版",
-      "description": "最新 1080p60 发布版：从一根靠墙滑落的棍子出发，用微分和包络线思想推导星形线方程，片尾改为无背景线性 ChatGPT 图标署名动画。",
-      "topic": "微分与包络线",
-      "tags": [
-        "星形线",
-        "包络线",
-        "微分",
-        "B站发布版",
-        "1080p60",
-        "线性片尾"
-      ],
-      "status": "高清成片",
-      "priority": 1100,
-      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_bilibili_1080p60_line_outro_cover.jpg",
-      "chapters": [
-        {
-          "title": "滑落棍子的场景",
-          "start": 0.0,
-          "end": 7.94
-        },
-        {
-          "title": "外轮廓到底是什么",
-          "start": 7.94,
-          "end": 20.8
-        },
-        {
-          "title": "给画面里的量起名字",
+          "title": "给变量找位置",
           "start": 20.8,
           "end": 29.68
         },

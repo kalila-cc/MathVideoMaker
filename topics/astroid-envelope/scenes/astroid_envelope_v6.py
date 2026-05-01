@@ -203,7 +203,7 @@ class StoryHook(Scene):
 class VariablesMatter(Scene):
     def construct(self) -> None:
         self.camera.background_color = BG
-        title = cn("给画面里的量起名字", 0.52).to_edge(UP)
+        title = cn("给变量找位置", 0.52).to_edge(UP)
         subtitle = cn("先把长度、角度和点的位置看清楚", 0.34, MUTED).next_to(title, DOWN, buff=0.14)
         self.play(FadeIn(title, shift=DOWN * 0.18), FadeIn(subtitle, shift=DOWN * 0.12), run_time=0.8)
         self.play(Create(corner()), run_time=0.8)
@@ -273,7 +273,7 @@ class LineEquationNatural(Scene):
         self.play(FadeIn(box, shift=LEFT * 0.2), FadeIn(box_title))
         for item in stack:
             self.play(FadeIn(item, shift=UP * 0.08), run_time=0.95)
-        self.play(Circumscribe(f4, color=AMBER, time_width=0.75), run_time=1.0)
+        self.wait(1.0)
         self.wait(14.95)
 
 
@@ -315,7 +315,7 @@ class EnvelopeIdea(Scene):
         self.play(FadeIn(box, shift=LEFT * 0.2), FadeIn(box_title))
         for item in stack:
             self.play(FadeIn(item, shift=UP * 0.08), run_time=0.95)
-        self.play(Circumscribe(c2, color=AMBER, time_width=0.75), run_time=1.0)
+        self.wait(1.0)
         self.wait(9.85)
 
 
@@ -352,7 +352,7 @@ class DerivativeStep(Scene):
         self.play(FadeIn(box, shift=LEFT * 0.2), FadeIn(box_title), run_time=0.8)
         for item in stack:
             self.play(FadeIn(item, shift=UP * 0.08), run_time=0.8)
-        self.play(Circumscribe(result, color=AMBER, time_width=0.7), run_time=1.0)
+        self.wait(1.0)
         self.wait(14.9)
 
 
@@ -380,7 +380,7 @@ class SolveParameter(Scene):
         self.play(FadeIn(box, shift=LEFT * 0.2), FadeIn(box_title), run_time=0.8)
         for item in stack:
             self.play(FadeIn(item, shift=UP * 0.08), run_time=0.85)
-        self.play(Circumscribe(param, color=MINT, time_width=0.8), run_time=1.0)
+        self.wait(1.0)
         self.wait(23.5)
 
 
@@ -417,7 +417,7 @@ class FourQuadrantAstroid(Scene):
         self.play(FadeIn(power1, shift=UP * 0.08), run_time=1.0)
         self.play(FadeIn(identity, shift=UP * 0.08), run_time=0.9)
         self.play(TransformFromCopy(identity, final), FadeIn(name), run_time=1.6)
-        self.play(Circumscribe(final, color=AMBER, time_width=0.8), run_time=1.0)
+        self.wait(1.0)
         self.wait(11.25)
 
 

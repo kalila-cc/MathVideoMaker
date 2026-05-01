@@ -10,8 +10,8 @@
 ## 当前状态
 
 - 当前主题：`topics/astroid-envelope/`
-- 当前成片预览：`topics/astroid-envelope/exports/final/LadderAstroidEnvelope_v6_preview_with_audio.mp4`
-- 当前封面：`topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg`
+- 当前高清成片：`topics/astroid-envelope/exports/final/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro.mp4`
+- 当前封面：`topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro_cover.jpg`
 - 本地图库入口：`.\.venv\Scripts\python scripts\serve_videos.py`
 
 项目已配置 `.venv`、Manim、edge-tts、本地 FFmpeg 和 MiKTeX。第一次接手时建议先运行：
@@ -94,6 +94,7 @@ python -m venv .venv
 ## 文档地图
 
 - [docs/workflow.md](docs/workflow.md)：从选题、旁白、渲染到合成预览的完整迭代流程。
+- [docs/final_release_checklist.md](docs/final_release_checklist.md)：高清最终成片发布、验收和清理检查清单。
 - [docs/creative_quality_principles.md](docs/creative_quality_principles.md)：从用户反馈中沉淀出的通用创作质量原则。
 - [docs/gallery_and_cleanup.md](docs/gallery_and_cleanup.md)：`data/videos.json` 元数据、本地图库、封面、删除和清理脚本。
 - [docs/tooling_research.md](docs/tooling_research.md)：工具调研和取舍记录。
@@ -105,6 +106,7 @@ python -m venv .venv
 
 - `math-video-outline`：选题、大纲、开头钩子、比喻和观众理解风险。
 - `manim-scene-iteration`：Manim 场景版本化、低清预览、封面帧和排版控制。
+- `narration-script-review`：旁白稿写完、生成 TTS 前审阅章节、口语感、开头钩子、比喻、多音字和公式读法。
 - `narration-tts-sync`：中文旁白、TTS 读音规避、SRT 和画面节奏同步。
 - `render-preview-pipeline`：片段渲染、拼接、合成音轨、封面和最终渲染前验证。
 - `video-gallery-maintenance`：本地视频库、元数据、封面、章节跳转和清理。

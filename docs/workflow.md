@@ -15,18 +15,22 @@
 1. 写清楚选题钩子：观众看完会多一个什么直觉。
 2. 建主题目录：`topics/<topic>/scenes`、`audio`、`docs`、`exports`。
 3. 写旁白草稿：一段旁白对应一个视觉节拍。
-4. 生成低清配音和 SRT：先拿配音长度反推画面节奏。
-5. 拆分 Manim 场景：每个章节独立渲染，方便局部重做。
-6. 低清渲染预览：优先使用 `-ql` 验证叙事、推导、配音和画面同步。
-7. 按 SRT 校准停顿：对照每个场景实际时长，微调 `self.wait(...)`。
-8. 拼接片段并合成音轨：输出到 `topics/<topic>/exports/final`。
-9. 从短封面帧生成本地封面 JPG，输出到 `topics/<topic>/exports/covers`。
-10. 进本地网页检查：标题、简介、封面、章节跳转、音轨和预览体验。
-11. 低清版确认后，再渲染最终高清版。
+4. 用 `narration-script-review` 审阅旁白：先检查章节、口语感、开头钩子、比喻、多音字和公式读法。
+5. 生成低清配音和 SRT：先拿配音长度反推画面节奏。
+6. 拆分 Manim 场景：每个章节独立渲染，方便局部重做。
+7. 低清渲染预览：优先使用 `-ql` 验证叙事、推导、配音和画面同步。
+8. 按 SRT 校准停顿：对照每个场景实际时长，微调 `self.wait(...)`。
+9. 拼接片段并合成音轨：输出到 `topics/<topic>/exports/final`。
+10. 从短封面帧生成本地封面 JPG，输出到 `topics/<topic>/exports/covers`。
+11. 进本地网页检查：标题、简介、封面、章节跳转、音轨和预览体验。
+12. 低清版确认后，再渲染最终高清版。
+13. 高清发布前后按 `docs/final_release_checklist.md` 做验收和清理，避免复用旧高清文件或误删新成片。
 
 ## 常用命令
 
 生成旁白：
+
+生成前先让 `narration-script-review` 审阅旁白稿；只有结论为 `Ready for TTS`，或阻塞问题已修正后，再执行命令。
 
 ```powershell
 .\.venv\Scripts\python scripts\make_voice.py --text-file topics\<topic>\audio\narration.txt --out topics\<topic>\audio\preview.mp3 --srt topics\<topic>\audio\preview.srt --rate +14%

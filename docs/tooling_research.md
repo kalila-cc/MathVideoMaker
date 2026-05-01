@@ -34,7 +34,7 @@ topics/<主题 slug>/
     posters/       # 网页自动抽帧 poster
 ```
 
-通用脚本保留在 `scripts/`。渲染脚本会根据 `topics/<主题>/scenes/...` 自动把 Manim 输出定位到同主题的 `exports/manim`；网页服务默认扫描 `topics/*/exports/final` 和 `topics/*/exports/manim/videos`。如果直接调用 `manim`，请显式传入 `--media_dir topics/<主题>/exports/manim`，不要重新写入根目录 `exports/`。
+通用脚本保留在 `scripts/`。渲染脚本会根据 `topics/<主题>/scenes/...` 自动把 Manim 输出定位到同主题的 `exports/manim`；网页服务默认只扫描 `topics/*/exports/final`，避免把 Manim 分段草稿混进片库。如果直接调用 `manim`，请显式传入 `--media_dir topics/<主题>/exports/manim`，不要重新写入根目录 `exports/`。
 
 ## 核心工具对比
 

@@ -200,7 +200,7 @@ class StoryHook(Scene):
 class VariablesMatter(Scene):
     def construct(self) -> None:
         self.camera.background_color = BG
-        title = cn("给画面里的量起名字", 0.52).to_edge(UP)
+        title = cn("给变量找位置", 0.52).to_edge(UP)
         subtitle = cn("先把长度、角度和点的位置看清楚", 0.34, MUTED).next_to(title, DOWN, buff=0.14)
         self.play(FadeIn(title, shift=DOWN * 0.18), FadeIn(subtitle, shift=DOWN * 0.12), run_time=0.8)
         self.play(Create(corner()), run_time=0.8)
