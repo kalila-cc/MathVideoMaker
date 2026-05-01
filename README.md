@@ -37,7 +37,13 @@ topics/
       posters/       # 网页自动抽帧 poster
 ```
 
-通用脚本放在 `scripts/`，全局视频库索引放在 `data/videos.json`，项目 skills 放在 `.agents/skills/`。
+通用脚本放在 `scripts/`，全局视频库索引放在 `data/videos.json`，通用素材放在 `assets/`，项目 skills 放在 `.agents/skills/`。
+
+```text
+assets/
+  brand/
+    chatgpt_logo_line.svg  # 透明背景线性 ChatGPT 片尾标识，需提交 Git
+```
 
 ## 快速开始
 
@@ -77,6 +83,7 @@ python -m venv .venv
 
 - `scripts/render_scene.ps1`：渲染单个 Manim Scene，并自动把 topic 场景输出到 `topics/<topic>/exports/manim`。
 - `scripts/render_scenes_parallel.ps1`：并行渲染多个 Scene，低清预览默认 `MaxParallel 3` 较稳。
+- `scripts/render_astroid_bilibili.ps1`：星形线主题专用高清发布渲染脚本，包含正片章节和 ChatGPT 线性片尾。
 - `scripts/make_voice.py`：生成 MP3 和 SRT。
 - `scripts/concat_videos.py`：用 FFmpeg 拼接章节片段。
 - `scripts/add_audio.py`：把旁白合成到 MP4。
@@ -101,6 +108,7 @@ python -m venv .venv
 - `narration-tts-sync`：中文旁白、TTS 读音规避、SRT 和画面节奏同步。
 - `render-preview-pipeline`：片段渲染、拼接、合成音轨、封面和最终渲染前验证。
 - `video-gallery-maintenance`：本地视频库、元数据、封面、章节跳转和清理。
+- `chatgpt-outro-branding`：当视频末尾需要追加 ChatGPT 标识、署名片尾或品牌 credit 时，指导先单独预览片尾，再高清拼接到成片。
 - `project-self-evolution`：把新踩坑和用户反馈沉淀回文档、脚本和 skills，保持项目自我迭代。
 - `pre-commit-doc-sync`：提交前检查 diff、文档同步点和生成产物忽略情况，避免实现和文档脱节。
 

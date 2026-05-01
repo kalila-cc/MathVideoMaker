@@ -1,0 +1,4 @@
+interface:
+  display_name: "ChatGPT Outro Branding"
+  short_description: "Append a ChatGPT-branded outro to generated math videos."
+  default_prompt: "Add a polished ChatGPT outro to the end of the current video."

@@ -380,7 +380,7 @@ def index_html() -> bytes:
     body {
       margin: 0;
       color: var(--ink);
-      font-family: "Geist", "Satoshi", "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+      font-family: "Satoshi", "Outfit", "MiSans", "HarmonyOS Sans SC", "Noto Sans SC", "Microsoft YaHei UI", sans-serif;
       background:
         linear-gradient(rgba(111, 230, 255, 0.035) 1px, transparent 1px),
         linear-gradient(90deg, rgba(111, 230, 255, 0.03) 1px, transparent 1px),
@@ -455,11 +455,14 @@ def index_html() -> bytes:
 
     h1 {
       margin: 8px 0 10px;
-      max-width: 960px;
-      font-size: clamp(38px, 5.2vw, 86px);
-      line-height: 0.94;
-      letter-spacing: -0.065em;
+      max-width: 1080px;
+      font-family: "Outfit", "Satoshi", "MiSans", "HarmonyOS Sans SC", "Noto Sans SC", "Microsoft YaHei UI", sans-serif;
+      font-size: clamp(36px, 4.65vw, 76px);
+      font-weight: 800;
+      line-height: 1.06;
+      letter-spacing: -0.018em;
       text-wrap: balance;
+      font-feature-settings: "kern" 1;
     }
 
     .subtitle {
@@ -917,7 +920,7 @@ def index_html() -> bytes:
       overflow: auto;
       padding: 12px;
       display: grid;
-      gap: 10px;
+      gap: 12px;
       scrollbar-color: rgba(38, 217, 255, 0.45) rgba(255, 255, 255, 0.05);
     }
 
@@ -927,54 +930,78 @@ def index_html() -> bytes:
 
     .card {
       width: 100%;
-      min-height: 96px;
+      min-height: 106px;
+      min-width: 0;
       display: grid;
-      grid-template-columns: 116px minmax(0, 1fr);
-      gap: 10px;
+      grid-template-columns: 132px minmax(0, 1fr);
+      gap: 12px;
       text-align: left;
       border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 22px;
-      padding: 9px;
+      border-radius: 20px;
+      padding: 9px 12px 9px 9px;
       color: inherit;
       background:
-        linear-gradient(135deg, rgba(111, 230, 255, 0.07), rgba(111, 230, 255, 0.022)),
-        rgba(0, 0, 0, 0.16);
+        linear-gradient(135deg, rgba(111, 230, 255, 0.065), rgba(111, 230, 255, 0.018)),
+        rgba(1, 8, 16, 0.44);
       cursor: pointer;
       font: inherit;
-      transition: transform 190ms cubic-bezier(0.16, 1, 0.3, 1), border-color 190ms ease, background 190ms ease;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+      transition: transform 190ms cubic-bezier(0.16, 1, 0.3, 1), border-color 190ms ease, background 190ms ease, box-shadow 190ms ease;
       animation: rise-in 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
       animation-delay: calc(var(--i, 0) * 42ms);
     }
 
     .card-delete {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      right: 14px;
+      bottom: 13px;
       z-index: 2;
-      border: 1px solid rgba(255, 111, 124, 0.64);
-      border-radius: 12px;
-      padding: 6px 10px;
-      color: #ffecef;
-      background: rgba(82, 20, 30, 0.84);
-      box-shadow: 0 8px 24px rgba(0, 8, 20, 0.26);
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 6px;
+      padding: 0;
+      color: rgba(255, 111, 124, 0.72);
+      background: transparent;
+      box-shadow: none;
       cursor: pointer;
       font: inherit;
-      font-size: 12px;
-      font-weight: 700;
-      backdrop-filter: blur(10px);
-      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+      transition: color 160ms ease, transform 160ms ease, opacity 160ms ease;
+    }
+
+    .card-delete svg {
+      width: 17px;
+      height: 17px;
+      pointer-events: none;
+      stroke-width: 1.85;
     }
 
     .card-delete:hover {
       transform: translateY(-1px);
-      background: rgba(193, 106, 98, 0.26);
-      border-color: rgba(193, 106, 98, 0.78);
+      color: rgba(255, 111, 124, 0.98);
+    }
+
+    .card-delete:active {
+      transform: translateY(0) scale(0.96);
+    }
+
+    .delete-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.32);
+      border-top-color: #fff7f8;
+      border-radius: 999px;
+      animation: spin 760ms linear infinite;
     }
 
     .card:hover {
       transform: translateY(-2px);
       border-color: rgba(38, 217, 255, 0.52);
       background: rgba(38, 217, 255, 0.075);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 14px 34px rgba(0, 8, 20, 0.22);
     }
 
     .card.active {
@@ -992,6 +1019,7 @@ def index_html() -> bytes:
       background: var(--bg-deep);
       aspect-ratio: 16 / 9;
       align-self: start;
+      box-shadow: 0 8px 22px rgba(0, 8, 20, 0.30);
     }
 
     .thumb video {
@@ -1015,12 +1043,36 @@ def index_html() -> bytes:
       background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.56));
     }
 
+    .duration-chip {
+      position: absolute;
+      right: 7px;
+      bottom: 7px;
+      z-index: 1;
+      min-width: 42px;
+      padding: 3px 6px;
+      border-radius: 7px;
+      color: #f6fdff;
+      background: rgba(2, 7, 13, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      box-shadow: 0 8px 18px rgba(0, 8, 20, 0.28);
+      font-family: "Geist Mono", "Cascadia Code", "Consolas", monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: center;
+      backdrop-filter: blur(9px);
+    }
+
     .card h3 {
       margin: 0 0 6px;
       font-size: 15px;
       line-height: 1.24;
       letter-spacing: -0.02em;
       word-break: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .card-desc {
@@ -1040,6 +1092,7 @@ def index_html() -> bytes:
       flex-wrap: wrap;
       font-size: 11px;
       line-height: 1.5;
+      padding-right: 30px;
     }
 
     .card .badge {
@@ -1153,6 +1206,10 @@ def index_html() -> bytes:
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.001ms !important;
@@ -1203,7 +1260,13 @@ def index_html() -> bytes:
       }
 
       .card {
-        grid-template-columns: 92px minmax(0, 1fr);
+        grid-template-columns: 112px minmax(0, 1fr);
+        padding-right: 10px;
+      }
+
+      .card-delete {
+        right: 12px;
+        bottom: 12px;
       }
     }
   </style>
@@ -1288,6 +1351,22 @@ def index_html() -> bytes:
       const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
       if (hours > 0) return `${hours}:${minutes.toString().padStart(2, "0")}:${secs}`;
       return `${minutes}:${secs}`;
+    }
+
+    function formatDurationChip(video) {
+      const directSeconds = Number(video.durationSeconds);
+      if (Number.isFinite(directSeconds) && directSeconds > 0) {
+        return formatClock(directSeconds);
+      }
+
+      const raw = String(video.duration || "").trim();
+      const match = raw.match(/^(\d+):(\d+):(\d+(?:\.\d+)?)/);
+      if (match) {
+        const [, hours, minutes, seconds] = match;
+        return formatClock(Number(hours) * 3600 + Number(minutes) * 60 + Number(seconds));
+      }
+
+      return raw || "未知";
     }
 
     function tags(video) {
@@ -1390,8 +1469,13 @@ def index_html() -> bytes:
       const deleteButtons = document.querySelectorAll(`[data-delete-video="${video.id}"], [data-delete-id="${video.id}"]`);
       deleteButtons.forEach(button => {
         button.disabled = true;
-        button.dataset.originalText = button.textContent;
-        button.textContent = "删除中";
+        button.dataset.originalHtml = button.innerHTML;
+        button.setAttribute("aria-busy", "true");
+        if (button.classList.contains("card-delete")) {
+          button.innerHTML = '<span class="delete-spinner" aria-hidden="true"></span>';
+        } else {
+          button.textContent = "删除中";
+        }
       });
 
       try {
@@ -1401,7 +1485,8 @@ def index_html() -> bytes:
           showNotice(payload.error || "删除失败。");
           deleteButtons.forEach(button => {
             button.disabled = false;
-            button.textContent = button.dataset.originalText || "删除";
+            button.removeAttribute("aria-busy");
+            button.innerHTML = button.dataset.originalHtml || "删除";
           });
           return;
         }
@@ -1409,7 +1494,8 @@ def index_html() -> bytes:
         showNotice(`删除失败：${error}`);
         deleteButtons.forEach(button => {
           button.disabled = false;
-          button.textContent = button.dataset.originalText || "删除";
+          button.removeAttribute("aria-busy");
+          button.innerHTML = button.dataset.originalHtml || "删除";
         });
         return;
       }
@@ -1495,17 +1581,26 @@ def index_html() -> bytes:
           <button class="card ${index === state.active ? 'active' : ''}" data-index="${index}" style="--i:${index}" type="button">
             <div class="thumb">
               <video src="${video.url}"${posterAttr(video)} preload="metadata" muted playsinline></video>
+              <span class="duration-chip">${esc(formatDurationChip(video))}</span>
             </div>
             <div>
               <h3>${esc(video.title || video.name)}</h3>
               <p class="card-desc">${esc(video.description)}</p>
               <div class="meta">
-                <span class="badge">${esc(video.duration || "未知时长")}</span>
                 <span class="badge">${esc(video.topic || "未分类")}</span>
+                <span class="badge">${esc(video.status || "渲染片段")}</span>
               </div>
             </div>
           </button>
-          <button class="card-delete" type="button" data-delete-index="${index}" data-delete-id="${esc(video.id)}">删除文件</button>
+          <button class="card-delete" type="button" data-delete-index="${index}" data-delete-id="${esc(video.id)}" aria-label="删除视频：${esc(video.title || video.name)}" title="删除视频">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 7h16"></path>
+              <path d="M10 11v6"></path>
+              <path d="M14 11v6"></path>
+              <path d="M6 7l1 13h10l1-13"></path>
+              <path d="M9 7V4h6v3"></path>
+            </svg>
+          </button>
         </div>
       `).join("");
 
