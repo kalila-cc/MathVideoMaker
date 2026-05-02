@@ -65,6 +65,11 @@ def encode_relpath(path: Path) -> str:
     return base64.urlsafe_b64encode(rel.encode("utf-8")).decode("ascii").rstrip("=")
 
 
+def encode_virtual_id(value: str) -> str:
+    encoded = base64.urlsafe_b64encode(value.encode("utf-8")).decode("ascii").rstrip("=")
+    return f"virtual-{encoded}"
+
+
 def decode_relpath(value: str) -> Path:
     padded = value + "=" * (-len(value) % 4)
     rel = base64.urlsafe_b64decode(padded.encode("ascii")).decode("utf-8")
@@ -113,6 +118,16 @@ def duration_to_seconds(duration: str | None) -> float | None:
 
     hours, minutes, seconds = match.groups()
     return int(hours) * 3600 + int(minutes) * 60 + float(seconds)
+
+
+def seconds_to_duration(seconds: float | None) -> str | None:
+    if seconds is None or seconds <= 0:
+        return None
+
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = seconds - hours * 3600 - minutes * 60
+    return f"{hours:02d}:{minutes:02d}:{secs:05.2f}"
 
 
 def poster_seek_time(duration_seconds: float | None) -> float:
@@ -196,12 +211,11 @@ def metadata_for(rel_path: str, file_name: str, metadata: dict[str, dict[str, ob
     return metadata.get(rel_path) or metadata.get(file_name) or {}
 
 
-def resolve_metadata_cover(meta: dict[str, object]) -> Path | None:
-    cover = meta.get("cover")
-    if not isinstance(cover, str) or not cover.strip():
+def resolve_cover_path(value: object) -> Path | None:
+    if not isinstance(value, str) or not value.strip():
         return None
 
-    path = Path(cover)
+    path = Path(value)
     if not path.is_absolute():
         path = PROJECT_ROOT / path
     path = path.resolve()
@@ -212,10 +226,114 @@ def resolve_metadata_cover(meta: dict[str, object]) -> Path | None:
     return path
 
 
+def resolve_metadata_covers(meta: dict[str, object]) -> dict[str, Path | None]:
+    covers = meta.get("covers")
+    desktop: Path | None = None
+    mobile: Path | None = None
+
+    if isinstance(covers, dict):
+        desktop = resolve_cover_path(covers.get("desktop"))
+        mobile = resolve_cover_path(covers.get("mobile"))
+
+    desktop = desktop or resolve_cover_path(meta.get("desktopCover")) or resolve_cover_path(meta.get("cover"))
+    mobile = mobile or resolve_cover_path(meta.get("mobileCover"))
+
+    if desktop and not mobile:
+        mobile = desktop
+    if mobile and not desktop:
+        desktop = mobile
+
+    return {"desktop": desktop, "mobile": mobile}
+
+
+def resolve_metadata_cover(meta: dict[str, object]) -> Path | None:
+    return resolve_metadata_covers(meta)["desktop"]
+
+
 def asset_url(path: Path | None) -> str | None:
     if not path:
         return None
     return f"/asset/{encode_relpath(path)}"
+
+
+def resolve_video_path(value: object) -> Path | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+
+    path = Path(value)
+    if not path.is_absolute():
+        path = PROJECT_ROOT / path
+    path = path.resolve()
+    if not path.exists() or not is_inside(path, PROJECT_ROOT):
+        return None
+    if path.suffix.lower() != ".mp4" or "partial_movie_files" in path.parts:
+        return None
+    return path
+
+
+def resolve_audio_path(value: object) -> Path | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+
+    path = Path(value)
+    if not path.is_absolute():
+        path = PROJECT_ROOT / path
+    path = path.resolve()
+    if not path.exists() or not is_inside(path, PROJECT_ROOT):
+        return None
+    if path.suffix.lower() not in {".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac"}:
+        return None
+    return path
+
+
+def normalize_segments(raw: object, ffmpeg: Path) -> list[dict[str, object]]:
+    if not isinstance(raw, list):
+        return []
+
+    segments: list[dict[str, object]] = []
+    offset = 0.0
+    for item in raw:
+        segment_path_value: object
+        title: object = None
+        if isinstance(item, str):
+            segment_path_value = item
+        elif isinstance(item, dict):
+            segment_path_value = item.get("path")
+            title = item.get("title")
+        else:
+            continue
+
+        path = resolve_video_path(segment_path_value)
+        if not path:
+            continue
+
+        rel = path.relative_to(PROJECT_ROOT).as_posix()
+        stat = path.stat()
+        probe = probe_video(path, ffmpeg)
+        raw_seconds = probe.get("duration_seconds")
+        duration_seconds = float(raw_seconds) if isinstance(raw_seconds, (int, float)) else None
+        start = offset
+        if duration_seconds is not None:
+            offset += duration_seconds
+
+        segment: dict[str, object] = {
+            "index": len(segments),
+            "title": str(title or path.stem),
+            "path": rel,
+            "url": f"/media/{encode_relpath(path)}",
+            "size": stat.st_size,
+            "created": datetime.fromtimestamp(stat.st_ctime).isoformat(timespec="seconds"),
+            "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(timespec="seconds"),
+            "duration": probe.get("duration"),
+            "durationSeconds": round(duration_seconds, 3) if duration_seconds is not None else None,
+            "start": round(start, 3),
+            "hasAudio": probe.get("has_audio"),
+        }
+        if duration_seconds is not None:
+            segment["end"] = round(offset, 3)
+        segments.append(segment)
+
+    return segments
 
 
 def normalize_chapters(raw: object) -> list[dict[str, object]]:
@@ -248,6 +366,107 @@ def normalize_chapters(raw: object) -> list[dict[str, object]]:
         chapters.append(chapter)
 
     return sorted(chapters, key=lambda chapter: float(chapter["start"]))
+
+
+def metadata_tags(meta: dict[str, object]) -> list[str]:
+    tags = meta.get("tags", [])
+    if not isinstance(tags, list):
+        return []
+    return [str(tag) for tag in tags]
+
+
+def metadata_priority(meta: dict[str, object]) -> int:
+    try:
+        return int(meta.get("priority") or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def metadata_float(meta: dict[str, object], key: str, default: float = 0.0) -> float:
+    try:
+        return float(meta.get(key, default) or default)
+    except (TypeError, ValueError):
+        return default
+
+
+def build_segmented_video(key: str, meta: dict[str, object], segments: list[dict[str, object]], ffmpeg: Path) -> dict[str, object] | None:
+    if not segments:
+        return None
+
+    first_segment_path = resolve_video_path(segments[0].get("path"))
+    cover_paths = resolve_metadata_covers(meta)
+    if not cover_paths["desktop"] and not cover_paths["mobile"] and first_segment_path:
+        first_duration = segments[0].get("durationSeconds")
+        poster = generate_poster(
+            first_segment_path,
+            ffmpeg,
+            float(first_duration) if isinstance(first_duration, (int, float)) else None,
+        )
+        cover_paths = {"desktop": poster, "mobile": poster}
+    elif cover_paths["desktop"] and not cover_paths["mobile"]:
+        cover_paths["mobile"] = cover_paths["desktop"]
+    elif cover_paths["mobile"] and not cover_paths["desktop"]:
+        cover_paths["desktop"] = cover_paths["mobile"]
+
+    cover_path = cover_paths["desktop"] or cover_paths["mobile"]
+    duration_values = [
+        float(segment["durationSeconds"])
+        for segment in segments
+        if isinstance(segment.get("durationSeconds"), (int, float))
+    ]
+    total_duration = sum(duration_values) if len(duration_values) == len(segments) else None
+    total_size = sum(int(segment.get("size") or 0) for segment in segments)
+    created_values = [str(segment.get("created")) for segment in segments if segment.get("created")]
+    modified_values = [str(segment.get("modified")) for segment in segments if segment.get("modified")]
+    title = meta.get("title") or Path(key).stem or "分段预览"
+    audio_path = resolve_audio_path(meta.get("audio"))
+
+    item: dict[str, object] = {
+        "id": encode_virtual_id(key),
+        "name": title,
+        "title": title,
+        "description": meta.get("description") or "由多个片段串接预览的逻辑视频；不需要先生成完整 MP4。",
+        "topic": meta.get("topic") or "未分类",
+        "tags": metadata_tags(meta),
+        "status": meta.get("status") or "分段预览",
+        "priority": metadata_priority(meta),
+        "file": Path(key).name or "segment-preview",
+        "path": key,
+        "url": segments[0].get("url"),
+        "posterUrl": asset_url(cover_path),
+        "posterPath": cover_path.relative_to(PROJECT_ROOT).as_posix() if cover_path else None,
+        "posterDesktopUrl": asset_url(cover_paths["desktop"]),
+        "posterDesktopPath": cover_paths["desktop"].relative_to(PROJECT_ROOT).as_posix()
+        if cover_paths["desktop"]
+        else None,
+        "posterMobileUrl": asset_url(cover_paths["mobile"]),
+        "posterMobilePath": cover_paths["mobile"].relative_to(PROJECT_ROOT).as_posix()
+        if cover_paths["mobile"]
+        else None,
+        "size": total_size,
+        "sizeLabel": human_size(total_size),
+        "created": min(created_values) if created_values else None,
+        "modified": max(modified_values) if modified_values else None,
+        "duration": seconds_to_duration(total_duration),
+        "durationSeconds": round(total_duration, 3) if total_duration is not None else None,
+        "hasAudio": any(segment.get("hasAudio") is True for segment in segments),
+        "chapters": normalize_chapters(meta.get("chapters")),
+        "segments": segments,
+        "segmentCount": len(segments),
+        "segmentPaths": [str(segment.get("path")) for segment in segments],
+        "isSegmented": True,
+        "deletable": False,
+    }
+    if audio_path:
+        item.update(
+            {
+                "audioUrl": f"/audio/{encode_relpath(audio_path)}",
+                "audioPath": audio_path.relative_to(PROJECT_ROOT).as_posix(),
+                "audioDelay": metadata_float(meta, "audioDelay", 0.0),
+                "audioVolume": metadata_float(meta, "audioVolume", 1.0),
+            }
+        )
+    return item
 
 
 def remove_video_metadata(rel_path: str, file_name: str, metadata_file: Path = DEFAULT_METADATA_FILE) -> int:
@@ -287,6 +506,7 @@ def remove_video_metadata(rel_path: str, file_name: str, metadata_file: Path = D
 def scan_videos(roots: list[Path], ffmpeg: Path) -> list[dict[str, object]]:
     videos: list[dict[str, object]] = []
     seen: set[Path] = set()
+    seen_rel_paths: set[str] = set()
     metadata = load_video_metadata()
 
     for root in roots:
@@ -298,20 +518,31 @@ def scan_videos(roots: list[Path], ffmpeg: Path) -> list[dict[str, object]]:
             path = path.resolve()
             if path in seen or "partial_movie_files" in path.parts:
                 continue
+            if path.stem.endswith("_silent") or path.stem.endswith("_silent_master"):
+                continue
             if not is_inside(path, PROJECT_ROOT):
                 continue
 
             seen.add(path)
             stat = path.stat()
             rel = path.relative_to(PROJECT_ROOT).as_posix()
+            seen_rel_paths.add(rel)
             probe = probe_video(path, ffmpeg)
             meta = metadata_for(rel, path.name, metadata)
-            cover_path = resolve_metadata_cover(meta) or generate_poster(
-                path, ffmpeg, probe.get("duration_seconds") if isinstance(probe.get("duration_seconds"), float) else None
-            )
-            tags = meta.get("tags", [])
-            if not isinstance(tags, list):
-                tags = []
+            cover_paths = resolve_metadata_covers(meta)
+            if not cover_paths["desktop"] and not cover_paths["mobile"]:
+                poster = generate_poster(
+                    path,
+                    ffmpeg,
+                    probe.get("duration_seconds") if isinstance(probe.get("duration_seconds"), float) else None,
+                )
+                cover_paths = {"desktop": poster, "mobile": poster}
+            elif cover_paths["desktop"] and not cover_paths["mobile"]:
+                cover_paths["mobile"] = cover_paths["desktop"]
+            elif cover_paths["mobile"] and not cover_paths["desktop"]:
+                cover_paths["desktop"] = cover_paths["mobile"]
+
+            cover_path = cover_paths["desktop"] or cover_paths["mobile"]
             chapters = normalize_chapters(meta.get("chapters"))
             videos.append(
                 {
@@ -320,14 +551,22 @@ def scan_videos(roots: list[Path], ffmpeg: Path) -> list[dict[str, object]]:
                     "title": meta.get("title") or path.stem,
                     "description": meta.get("description") or "还没有介绍文案。可以在 data/videos.json 里补充这个视频的核心问题、观看收获和适用场景。",
                     "topic": meta.get("topic") or "未分类",
-                    "tags": [str(tag) for tag in tags],
+                    "tags": metadata_tags(meta),
                     "status": meta.get("status") or ("成片" if "/exports/final/" in f"/{rel}" else "渲染片段"),
-                    "priority": int(meta.get("priority") or 0),
+                    "priority": metadata_priority(meta),
                     "file": path.name,
                     "path": rel,
                     "url": f"/media/{encode_relpath(path)}",
                     "posterUrl": asset_url(cover_path),
                     "posterPath": cover_path.relative_to(PROJECT_ROOT).as_posix() if cover_path else None,
+                    "posterDesktopUrl": asset_url(cover_paths["desktop"]),
+                    "posterDesktopPath": cover_paths["desktop"].relative_to(PROJECT_ROOT).as_posix()
+                    if cover_paths["desktop"]
+                    else None,
+                    "posterMobileUrl": asset_url(cover_paths["mobile"]),
+                    "posterMobilePath": cover_paths["mobile"].relative_to(PROJECT_ROOT).as_posix()
+                    if cover_paths["mobile"]
+                    else None,
                     "size": stat.st_size,
                     "sizeLabel": human_size(stat.st_size),
                     "created": datetime.fromtimestamp(stat.st_ctime).isoformat(timespec="seconds"),
@@ -336,10 +575,25 @@ def scan_videos(roots: list[Path], ffmpeg: Path) -> list[dict[str, object]]:
                     "durationSeconds": probe.get("duration_seconds"),
                     "hasAudio": probe["has_audio"],
                     "chapters": chapters,
+                    "segments": [],
+                    "segmentCount": 0,
+                    "segmentPaths": [],
+                    "isSegmented": False,
+                    "deletable": True,
                 }
             )
 
-    return sorted(videos, key=lambda item: (item["priority"], item["modified"]), reverse=True)
+    for key, meta in metadata.items():
+        if key in seen_rel_paths:
+            continue
+        segments = normalize_segments(meta.get("segments"), ffmpeg)
+        if not segments:
+            continue
+        segmented_video = build_segmented_video(key, meta, segments, ffmpeg)
+        if segmented_video:
+            videos.append(segmented_video)
+
+    return sorted(videos, key=lambda item: (item.get("modified") or "", item["priority"]), reverse=True)
 
 
 def index_html() -> bytes:
@@ -564,6 +818,7 @@ def index_html() -> bytes:
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       padding: 10px 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.09);
       color: var(--muted);
@@ -571,6 +826,20 @@ def index_html() -> bytes:
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+    }
+
+    .monitor-label {
+      margin-right: auto;
+    }
+
+    .segment-chip {
+      padding: 3px 7px;
+      border-radius: 999px;
+      color: var(--ok);
+      background: rgba(120, 243, 189, 0.10);
+      border: 1px solid rgba(120, 243, 189, 0.22);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
     }
 
     .dots {
@@ -760,6 +1029,7 @@ def index_html() -> bytes:
       font-family: "Geist Mono", "Cascadia Code", "Consolas", monospace;
       font-size: 11.5px;
       line-height: 1.65;
+      white-space: pre-wrap;
       word-break: break-all;
     }
 
@@ -785,6 +1055,10 @@ def index_html() -> bytes:
       color: var(--muted);
       font-size: 12px;
       line-height: 1.55;
+    }
+
+    .danger-panel.safe-panel strong {
+      color: var(--ok);
     }
 
     .delete-video {
@@ -1160,6 +1434,22 @@ def index_html() -> bytes:
       backdrop-filter: blur(9px);
     }
 
+    .segment-card-chip {
+      position: absolute;
+      left: 7px;
+      bottom: 7px;
+      z-index: 1;
+      padding: 3px 6px;
+      border-radius: 7px;
+      color: var(--ok);
+      background: rgba(2, 7, 13, 0.78);
+      border: 1px solid rgba(120, 243, 189, 0.22);
+      font-size: 10.5px;
+      font-weight: 700;
+      line-height: 1.25;
+      backdrop-filter: blur(9px);
+    }
+
     .card h3 {
       margin: 0 0 6px;
       font-size: 15px;
@@ -1410,6 +1700,7 @@ def index_html() -> bytes:
 
   <script>
     const state = { videos: [], filtered: [], active: 0 };
+    const mobileCoverMedia = window.matchMedia("(max-width: 760px)");
     const library = document.querySelector("#library");
     const stage = document.querySelector("#stage");
     const stats = document.querySelector("#stats");
@@ -1477,12 +1768,175 @@ def index_html() -> bytes:
       return Array.isArray(video.tags) ? video.tags : [];
     }
 
+    function segments(video) {
+      return Array.isArray(video && video.segments) ? video.segments : [];
+    }
+
+    function isSegmented(video) {
+      return segments(video).length > 0 || Boolean(video && video.isSegmented);
+    }
+
     function chapters(video) {
-      return Array.isArray(video.chapters) ? video.chapters : [];
+      const own = Array.isArray(video && video.chapters) ? video.chapters : [];
+      if (own.length) return own;
+      return segments(video).map((segment, index) => ({
+        title: segment.title || `片段 ${index + 1}`,
+        start: Number(segment.start) || 0,
+        end: Number(segment.end || segment.start || 0)
+      }));
+    }
+
+    function videoSourceUrl(video) {
+      const firstSegment = segments(video)[0];
+      return firstSegment ? firstSegment.url : (video && video.url) || "";
+    }
+
+    function audioAttr(video) {
+      return video && video.audioUrl ? `<audio class="segment-audio" src="${esc(video.audioUrl)}" preload="metadata"></audio>` : "";
+    }
+
+    function segmentBadge(video) {
+      const count = segments(video).length;
+      if (!count) return "";
+      return `<span class="segment-chip" data-segment-counter>1/${count} SEGMENTS</span>`;
+    }
+
+    function segmentForTime(video, target) {
+      const items = segments(video);
+      if (!items.length) return null;
+      const time = Math.max(0, Number(target) || 0);
+      return items.find((segment, index) => {
+        const start = Number(segment.start) || 0;
+        const end = Number(segment.end || segment.start || 0);
+        return time >= start && (time < end || index === items.length - 1);
+      }) || items[items.length - 1];
+    }
+
+    function currentTimelineTime(player, video) {
+      if (!isSegmented(video)) return player.currentTime || 0;
+      const start = Number(player.dataset.segmentStart) || 0;
+      return start + (player.currentTime || 0);
+    }
+
+    function syncSegmentAudio(player, video, shouldPlay = !player.paused) {
+      const audio = stage.querySelector(".segment-audio");
+      if (!audio) return;
+      const timeline = currentTimelineTime(player, video);
+      const delay = Math.max(0, Number(video.audioDelay) || 0);
+      const target = timeline - delay;
+      audio.volume = Math.min(1, Math.max(0, Number(video.audioVolume ?? 1)));
+
+      if (target < 0) {
+        audio.pause();
+        if (audio.currentTime > 0.05) audio.currentTime = 0;
+        return;
+      }
+
+      const applyTime = () => {
+        const maxTime = Number.isFinite(audio.duration) ? Math.max(0, audio.duration - 0.05) : target;
+        const nextTime = Math.min(target, maxTime);
+        if (Math.abs((audio.currentTime || 0) - nextTime) > 0.35) {
+          audio.currentTime = nextTime;
+        }
+        if (shouldPlay) {
+          audio.play().catch(() => {});
+        } else {
+          audio.pause();
+        }
+      };
+
+      if (audio.readyState < 1) {
+        audio.addEventListener("loadedmetadata", applyTime, { once: true });
+        audio.load();
+      } else {
+        applyTime();
+      }
+    }
+
+    function seekTimeline(player, video, target, shouldPlay = true) {
+      const items = segments(video);
+      if (!items.length) {
+        player.currentTime = Math.max(0, Number(target) || 0);
+        if (shouldPlay) player.play().catch(() => {});
+        return;
+      }
+
+      const segment = segmentForTime(video, target) || items[0];
+      const segmentIndex = Number(segment.index) || 0;
+      const segmentStart = Number(segment.start) || 0;
+      const localTime = Math.max(0, (Number(target) || 0) - segmentStart);
+      const applyTime = () => {
+        const maxTime = Number.isFinite(player.duration) ? Math.max(0, player.duration - 0.05) : localTime;
+        player.currentTime = Math.min(localTime, maxTime);
+        player.dispatchEvent(new Event("timeupdate"));
+        syncSegmentAudio(player, video, shouldPlay);
+        if (shouldPlay) player.play().catch(() => {});
+      };
+
+      if (player.dataset.segmentIndex !== String(segmentIndex) || player.getAttribute("src") !== segment.url) {
+        player.dataset.segmentIndex = String(segmentIndex);
+        player.dataset.segmentStart = String(segmentStart);
+        player.src = segment.url;
+        player.load();
+        player.addEventListener("loadedmetadata", applyTime, { once: true });
+      } else {
+        applyTime();
+      }
+    }
+
+    function bindSegmentPlayback(video) {
+      const items = segments(video);
+      const player = stage.querySelector(".stage-video");
+      if (!player || !items.length) return;
+
+      const counter = stage.querySelector("[data-segment-counter]");
+      const updateCounter = () => {
+        if (!counter) return;
+        const current = (Number(player.dataset.segmentIndex) || 0) + 1;
+        counter.textContent = `${current}/${items.length} SEGMENTS`;
+      };
+
+      player.dataset.segmentIndex = "0";
+      player.dataset.segmentStart = String(Number(items[0].start) || 0);
+      updateCounter();
+      player.addEventListener("loadedmetadata", updateCounter);
+      player.addEventListener("play", () => syncSegmentAudio(player, video, true));
+      player.addEventListener("pause", () => {
+        const audio = stage.querySelector(".segment-audio");
+        if (audio) audio.pause();
+      });
+      player.addEventListener("seeking", () => syncSegmentAudio(player, video, !player.paused));
+      player.addEventListener("timeupdate", () => {
+        if (!player.paused) syncSegmentAudio(player, video, true);
+      });
+      player.addEventListener("ended", () => {
+        const current = Number(player.dataset.segmentIndex) || 0;
+        const next = items[current + 1];
+        const audio = stage.querySelector(".segment-audio");
+        const wasPlaying = audio && !audio.paused;
+        if (!next) return;
+        player.dataset.segmentIndex = String(Number(next.index) || current + 1);
+        player.dataset.segmentStart = String(Number(next.start) || 0);
+        player.src = next.url;
+        player.load();
+        player.addEventListener("loadedmetadata", () => {
+          updateCounter();
+          syncSegmentAudio(player, video, Boolean(wasPlaying));
+          player.play().catch(() => {});
+        }, { once: true });
+      });
+    }
+
+    function responsivePosterUrl(video) {
+      if (!video) return "";
+      const desktop = video.posterDesktopUrl || video.posterUrl || "";
+      const mobile = video.posterMobileUrl || video.posterUrl || desktop;
+      return mobileCoverMedia.matches ? (mobile || desktop) : (desktop || mobile);
     }
 
     function posterAttr(video) {
-      return video.posterUrl ? ` poster="${esc(video.posterUrl)}"` : "";
+      const poster = responsivePosterUrl(video);
+      return poster ? ` poster="${esc(poster)}"` : "";
     }
 
     function renderLoading() {
@@ -1535,7 +1989,7 @@ def index_html() -> bytes:
       if (!player || !buttons.length) return;
 
       const update = () => {
-        const now = player.currentTime || 0;
+        const now = currentTimelineTime(player, video);
         const fallbackEnd = Number(video.durationSeconds || player.duration || 0);
         buttons.forEach((button, index) => {
           const start = Number(button.dataset.chapterStart) || 0;
@@ -1553,17 +2007,21 @@ def index_html() -> bytes:
       buttons.forEach(button => {
         button.addEventListener("click", () => {
           const target = Number(button.dataset.chapterStart) || 0;
-          player.currentTime = target;
-          player.play().catch(() => {});
+          seekTimeline(player, video, target, true);
           update();
         });
       });
       player.addEventListener("timeupdate", update);
+      player.addEventListener("ended", update);
       player.addEventListener("loadedmetadata", update);
       update();
     }
 
     async function deleteVideo(video) {
+      if (video.deletable === false || isSegmented(video)) {
+        showNotice("分段预览不会删除源片段。");
+        return;
+      }
       const title = video.title || video.name || video.file;
       const confirmed = window.confirm(`确定要删除这个本地视频文件吗？\n\n${title}\n${video.path}\n\n这个操作会从磁盘删除 MP4 文件。`);
       if (!confirmed) return;
@@ -1620,6 +2078,71 @@ def index_html() -> bytes:
       });
     }
 
+    function fileStripMarkup(video) {
+      const items = segments(video);
+      if (!items.length) {
+        return `
+          <div class="file-strip">
+            <span>Local file</span>
+            <code>${esc(video.path)}</code>
+          </div>
+        `;
+      }
+      const lines = items.map((segment, index) => `${index + 1}. ${segment.path}`).join("\\n");
+      return `
+        <div class="file-strip">
+          <span>Segment preview</span>
+          <code>${esc(lines)}</code>
+        </div>
+      `;
+    }
+
+    function deletePanelMarkup(video) {
+      if (video.deletable === false || isSegmented(video)) {
+        return `
+          <div class="danger-panel safe-panel">
+            <div>
+              <strong>分段预览条目</strong>
+              <p>这里只串接播放源片段，不会删除或合成新的完整 MP4。</p>
+            </div>
+          </div>
+        `;
+      }
+      return `
+        <div class="danger-panel">
+          <div>
+            <strong>删除本地视频</strong>
+            <p>仅删除这个 MP4 文件，并清理图库里的对应记录。</p>
+          </div>
+          <button class="delete-video" type="button" data-delete-video="${esc(video.id)}" aria-label="删除视频：${esc(video.title || video.name)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 7h16"></path>
+              <path d="M10 11v6"></path>
+              <path d="M14 11v6"></path>
+              <path d="M6 7l1 13h10l1-13"></path>
+              <path d="M9 7V4h6v3"></path>
+            </svg>
+            <span>删除</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function cardDeleteButton(video, index) {
+      if (video.deletable === false || isSegmented(video)) return "";
+      return `
+        <button class="card-delete" type="button" data-delete-index="${index}" data-delete-id="${esc(video.id)}" aria-label="删除视频：${esc(video.title || video.name)}" title="删除视频">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7h16"></path>
+            <path d="M10 11v6"></path>
+            <path d="M14 11v6"></path>
+            <path d="M6 7l1 13h10l1-13"></path>
+            <path d="M9 7V4h6v3"></path>
+          </svg>
+        </button>
+      `;
+    }
+
     function renderStats() {
       const total = state.videos.length;
       const totalSize = state.videos.reduce((sum, video) => sum + Number(video.size || 0), 0);
@@ -1647,10 +2170,12 @@ def index_html() -> bytes:
         <div class="player-chrome">
           <div class="chrome-top">
             <div class="dots"><span></span><span></span><span></span></div>
-            <span>Preview Monitor</span>
+            <span class="monitor-label">Preview Monitor</span>
+            ${segmentBadge(video)}
           </div>
           <div class="player-wrap">
-            <video class="stage-video" src="${video.url}"${posterAttr(video)} controls preload="metadata"></video>
+            <video class="stage-video" src="${videoSourceUrl(video)}"${posterAttr(video)} controls preload="metadata"></video>
+            ${audioAttr(video)}
           </div>
         </div>
         ${chapterMarkup(video)}
@@ -1684,29 +2209,12 @@ def index_html() -> bytes:
                 <strong class="info-value">${esc(modifiedLabel)}</strong>
               </div>
             </div>
-            <div class="file-strip">
-              <span>Local file</span>
-              <code>${esc(video.path)}</code>
-            </div>
-            <div class="danger-panel">
-              <div>
-                <strong>删除本地视频</strong>
-                <p>仅删除这个 MP4 文件，并清理图库里的对应记录。</p>
-              </div>
-              <button class="delete-video" type="button" data-delete-video="${esc(video.id)}" aria-label="删除视频：${esc(video.title || video.name)}">
-                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 7h16"></path>
-                  <path d="M10 11v6"></path>
-                  <path d="M14 11v6"></path>
-                  <path d="M6 7l1 13h10l1-13"></path>
-                  <path d="M9 7V4h6v3"></path>
-                </svg>
-                <span>删除</span>
-              </button>
-            </div>
+            ${fileStripMarkup(video)}
+            ${deletePanelMarkup(video)}
           </div>
         </div>
       `;
+      bindSegmentPlayback(video);
       bindChapterControls(video);
       bindDeleteButton(video);
     }
@@ -1721,8 +2229,9 @@ def index_html() -> bytes:
         <div class="card-wrap">
           <button class="card ${index === state.active ? 'active' : ''}" data-index="${index}" style="--i:${index}" type="button">
             <div class="thumb">
-              <video src="${video.url}"${posterAttr(video)} preload="metadata" muted playsinline></video>
+              <video src="${videoSourceUrl(video)}"${posterAttr(video)} preload="metadata" muted playsinline></video>
               <span class="duration-chip">${esc(formatDurationChip(video))}</span>
+              ${isSegmented(video) ? `<span class="segment-card-chip">${segments(video).length} 段</span>` : ""}
             </div>
             <div>
               <h3>${esc(video.title || video.name)}</h3>
@@ -1733,15 +2242,7 @@ def index_html() -> bytes:
               </div>
             </div>
           </button>
-          <button class="card-delete" type="button" data-delete-index="${index}" data-delete-id="${esc(video.id)}" aria-label="删除视频：${esc(video.title || video.name)}" title="删除视频">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 7h16"></path>
-              <path d="M10 11v6"></path>
-              <path d="M14 11v6"></path>
-              <path d="M6 7l1 13h10l1-13"></path>
-              <path d="M9 7V4h6v3"></path>
-            </svg>
-          </button>
+          ${cardDeleteButton(video, index)}
         </div>
       `).join("");
 
@@ -1777,7 +2278,8 @@ def index_html() -> bytes:
           video.path,
           video.topic,
           video.status,
-          ...tags(video)
+          ...tags(video),
+          ...segments(video).map(segment => segment.path)
         ].map(value => String(value || "").toLowerCase());
         return !q || haystack.some(value => value.includes(q));
       });
@@ -1794,6 +2296,10 @@ def index_html() -> bytes:
     }
 
     search.addEventListener("input", applyFilter);
+    mobileCoverMedia.addEventListener("change", () => {
+      if (!state.filtered.length) return;
+      renderLibrary();
+    });
     renderLoading();
     boot().catch(error => {
       stage.innerHTML = `<p class="empty">加载失败：${esc(error)}</p>`;
@@ -1826,6 +2332,10 @@ class VideoGalleryHandler(BaseHTTPRequestHandler):
 
         if route.startswith("/media/"):
             self.send_media(route.removeprefix("/media/"))
+            return
+
+        if route.startswith("/audio/"):
+            self.send_audio(route.removeprefix("/audio/"))
             return
 
         if route.startswith("/asset/"):
@@ -1896,6 +2406,56 @@ class VideoGalleryHandler(BaseHTTPRequestHandler):
             return
 
         content_type = mimetypes.guess_type(path.name)[0] or "video/mp4"
+        self.send_response(status)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Length", str(end - start + 1))
+        if status == HTTPStatus.PARTIAL_CONTENT:
+            self.send_header("Content-Range", f"bytes {start}-{end}/{file_size}")
+        self.end_headers()
+
+        with path.open("rb") as file:
+            file.seek(start)
+            remaining = end - start + 1
+            while remaining > 0:
+                chunk = file.read(min(1024 * 1024, remaining))
+                if not chunk:
+                    break
+                self.wfile.write(chunk)
+                remaining -= len(chunk)
+
+    def send_audio(self, audio_id: str) -> None:
+        try:
+            path = decode_relpath(unquote(audio_id))
+        except Exception:
+            self.send_error(HTTPStatus.BAD_REQUEST, "Invalid audio id")
+            return
+
+        if not path.exists() or path.suffix.lower() not in {".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac"}:
+            self.send_error(HTTPStatus.NOT_FOUND, "Audio not found")
+            return
+
+        file_size = path.stat().st_size
+        start = 0
+        end = file_size - 1
+        status = HTTPStatus.OK
+        range_header = self.headers.get("Range")
+
+        if range_header:
+            match = re.match(r"bytes=(\d*)-(\d*)", range_header)
+            if match:
+                if match.group(1):
+                    start = int(match.group(1))
+                if match.group(2):
+                    end = int(match.group(2))
+                end = min(end, file_size - 1)
+                status = HTTPStatus.PARTIAL_CONTENT
+
+        if start > end or start >= file_size:
+            self.send_error(HTTPStatus.REQUESTED_RANGE_NOT_SATISFIABLE)
+            return
+
+        content_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Accept-Ranges", "bytes")

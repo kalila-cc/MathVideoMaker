@@ -38,7 +38,11 @@
       "tags": ["星形线", "包络线", "低清预览"],
       "status": "低清预览",
       "priority": 720,
-      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg",
+      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_desktop_cover.jpg",
+      "covers": {
+        "desktop": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_desktop_cover.jpg",
+        "mobile": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_mobile_cover.jpg"
+      },
       "chapters": [
         {"title": "滑落棍子的场景", "start": 0.0, "end": 7.94},
         {"title": "外轮廓到底是什么", "start": 7.94, "end": 20.8}
@@ -51,17 +55,59 @@
 说明：
 
 - 键可以使用视频相对路径，也可以使用文件名作为兜底匹配。
-- `priority` 越高越靠前。
-- `cover` 指向本地生成封面，不提交 Git；可用 `scripts/generate_cover.py` 生成并写回 metadata。
-- `cover` 不填或文件不存在时会自动抽帧，主题视频会生成到 `topics/<topic>/exports/posters`。
+- 默认展示顺序按 `modified` 更新时间降序；`priority` 只作为更新时间相同时的次级排序和人工标记。
+- `covers.desktop` 和 `covers.mobile` 分别指向电脑端封面和手机端/双列信息流封面；`cover` 保留为旧版兼容字段，通常指向 desktop。
+- 封面图不提交 Git；可用 `scripts/generate_cover.py` 同时生成两张封面并写回 metadata。
+- `covers`/`cover` 不填或文件不存在时会自动抽帧，主题视频会生成到 `topics/<topic>/exports/posters`。
 - `chapters` 用于播放器下方章节进度条和点击跳转。
 - 修改中文 metadata 时，避免通过 PowerShell here-string 或管道直接写入大段中文；优先使用 UTF-8 文件或 Python 脚本写入，并在写完后用 Python 读取确认标题、简介和章节不是乱码或问号。
+- 最终成片条目要使用面向发布的标题、简介、状态和标签；不要继续保留 `v10`、`低清预览`、`字体试用`、平台规格等迭代语义。
+- 同一主题最终版确认后，删除或移除旧预览、分段预览和静音母版的 metadata，避免图库把过期版本当作当前视频展示。
 
 生成封面：
 
 ```powershell
-.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\LadderAstroidEnvelope_v6_preview_with_audio.mp4 --time 0.100 --out topics\astroid-envelope\exports\covers\LadderAstroidEnvelope_v6_cover.jpg --overwrite --update-metadata
+.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\LadderAstroidEnvelope_v6_preview_with_audio.mp4 --time 0.100 --desktop-out topics\astroid-envelope\exports\covers\LadderAstroidEnvelope_v6_desktop_cover.jpg --mobile-out topics\astroid-envelope\exports\covers\LadderAstroidEnvelope_v6_mobile_cover.jpg --overwrite --update-metadata
 ```
+
+## 分段预览
+
+如果只改了片头、片尾或单个 Manim scene，不必先拼出完整 MP4。可以在 `data/videos.json` 新增一个没有实体文件的逻辑条目，并用 `segments` 列出本地 MP4 片段：
+
+```json
+{
+  "videos": {
+    "topics/example/exports/final/example_segmented_preview": {
+      "title": "示例分段预览",
+      "status": "分段低清预览",
+      "priority": 900,
+      "covers": {
+        "desktop": "topics/example/exports/covers/example_desktop.jpg",
+        "mobile": "topics/example/exports/covers/example_mobile.jpg"
+      },
+      "audio": "topics/example/audio/example_preview.mp3",
+      "audioDelay": 2.0,
+      "segments": [
+        {"title": "片头", "path": "topics/example/exports/manim/videos/intro/480p15/Intro.mp4"},
+        {"title": "正文", "path": "topics/example/exports/manim/videos/main/480p15/Main.mp4"}
+      ]
+    }
+  }
+}
+```
+
+- `segments` 可以指向 `exports/manim/videos` 下的 scene 输出，但必须显式写入 metadata，图库不会自动扫出所有草稿片段。
+- 分段条目会按片段总时长显示为一个完整视频，章节未填写时自动使用每个 segment 的 `title` 生成跳转按钮。
+- 如果 Manim 分段本身没有音轨，可给分段条目配置 `audio` 指向旁白 MP3；`audioDelay` 表示这条音频在虚拟完整时间轴中延迟多少秒开始播放，用来避开无旁白片头或抵消音频文件自带静默。
+- 分段条目只串接播放，不会生成新 MP4，也不会在网页里提供删除源片段的按钮。
+- 真正发布前仍要执行完整 concat/mux/final render 验证，分段预览只用于快速检查局部改动和整体节奏。
+
+## 工具阻塞与处理
+
+- `scripts/serve_videos.py --stop` 在 Windows 上可能因为陈旧 PID 报 `WinError 87`；先用 `Get-NetTCPConnection -LocalPort 8765 -State Listen` 查实际监听进程，必要时再 `Stop-Process -Id <pid> -Force`，随后重新启动服务。
+- 当前环境可能没有全局 `ffprobe`；用 `.venv\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe -hide_banner -i <video>` 读取时长、分辨率、帧率和音频流。
+- Playwright 包可能存在但浏览器二进制未安装；不要临时运行安装命令，优先用已安装的 Chrome/Edge `executablePath` 做网页验证。
+- 如果 `rg` 在 Windows 会话中临时返回 `Access is denied`，用 `Select-String` 兜底搜索，不要卡在工具本身。
 
 ## 清理脚本
 
@@ -88,3 +134,4 @@
 - 脚本只允许操作旧版 `exports/*` 输出目录或 `topics/<topic>/exports/*` 输出目录。
 - 不会删除 `topics/<topic>/scenes`、`audio`、`docs` 等源码和素材目录。
 - 默认 dry-run，不加 `--execute` 不会真正删除文件。
+- 主题最终清理时，目标状态通常是只保留 `topics/<topic>/exports/final/<final>.mp4`、`topics/<topic>/exports/covers/<final desktop/mobile>.jpg`，以及有复用价值的最终旁白稿和 SRT。执行递归删除前必须确认解析后的绝对路径仍在该主题目录内。

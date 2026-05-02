@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import re
+from pathlib import Path
 import numpy as np
 from manim import *
 
 
-FONT = "Microsoft YaHei"
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+SMILEY_FONT_FILE = PROJECT_ROOT / "assets" / "fonts" / "SmileySans-Oblique.ttf"
+FONT = "Smiley Sans"
 LATIN_FONT = "Times New Roman"
 BG = "#07120F"
 PANEL = "#0E1B19"
@@ -32,7 +35,15 @@ def latin_font_map(text: str) -> dict[str, str]:
 def cn(text: str, size: float = 0.36, color: str = INK) -> Text:
     # Keep prose in one font. Pango raises inline Times glyphs inside Chinese Text,
     # so math-like tokens in captions are either plain UI-font text or separate MathTex.
-    return Text(text, font=FONT, color=color).scale(size)
+    return Text(text, font=FONT, slant=OBLIQUE, color=color).scale(size)
+
+
+def smiley_text(text: str, **kwargs) -> Text:
+    # Smiley Sans ships as one oblique style; asking Pango for Bold can create
+    # an empty SVG on Windows, so keep the original weight.
+    kwargs.pop("weight", None)
+    kwargs.setdefault("slant", OBLIQUE)
+    return Text(text, font=FONT, **kwargs)
 
 
 def wait_to(scene: Scene, used: float, target: float) -> None:
@@ -108,9 +119,9 @@ class CoverFrame(Scene):
         watermark.set_opacity(0.32)
         watermark.move_to(RIGHT * 3.40 + UP * 0.72)
 
-        title_top = Text("幂和公式", font=FONT, weight=BOLD, color=INK)
+        title_top = smiley_text("幂和公式", weight=BOLD, color=INK)
         title_top.scale_to_fit_width(9.85)
-        title_bottom = Text("自己算", font=FONT, weight=BOLD, color=AMBER)
+        title_bottom = smiley_text("自己算", weight=BOLD, color=AMBER)
         title_bottom.scale_to_fit_width(9.15)
         title = VGroup(title_top, title_bottom).arrange(DOWN, aligned_edge=LEFT, buff=-0.08)
         title.to_edge(LEFT, buff=0.28).to_edge(UP, buff=0.12)
@@ -118,8 +129,8 @@ class CoverFrame(Scene):
         underline = Line(LEFT * 4.72, RIGHT * 4.72, color=AMBER, stroke_width=10, stroke_opacity=0.90)
         underline.next_to(title_bottom, DOWN, buff=0.04).align_to(title, LEFT)
 
-        hook = Text("不用背公式", font=FONT, weight=BOLD, color=INK).scale(0.58)
-        hook2 = Text("直接解系数", font=FONT, weight=BOLD, color=MINT).scale(0.58)
+        hook = smiley_text("不用背公式", weight=BOLD, color=INK).scale(0.58)
+        hook2 = smiley_text("直接解系数", weight=BOLD, color=MINT).scale(0.58)
         hook_group = VGroup(hook, hook2).arrange(RIGHT, buff=0.28)
         hook_group.next_to(underline, DOWN, buff=0.20).align_to(title, LEFT)
 
@@ -133,7 +144,7 @@ class CoverFrame(Scene):
                 fill_color=MINT,
                 fill_opacity=0.18,
             ),
-            Text("待定系数法", font=FONT, weight=BOLD, color=MINT).scale(0.38),
+            smiley_text("待定系数法", weight=BOLD, color=MINT).scale(0.38),
         )
         badge[1].move_to(badge[0])
         badge.next_to(hook_group, RIGHT, buff=0.42).align_to(hook_group, DOWN)
@@ -162,7 +173,7 @@ class CoverFrame(Scene):
         formula[0].set_color(CORAL)
         formula[2].set_color(AMBER)
 
-        path = Text("从 0/1/2 次方推出 3 次方", font=FONT, color=MUTED).scale(0.34)
+        path = smiley_text("从 0/1/2 次方推出 3 次方", color=MUTED).scale(0.34)
         path.next_to(formula_plate, UP, buff=0.22).align_to(formula_plate, RIGHT).shift(LEFT * 0.15)
 
         self.add(watermark, title, underline, hook_group, badge, side_formula, path, formula_plate, formula)
@@ -173,9 +184,9 @@ class DesktopCoverFrame(Scene):
     def construct(self) -> None:
         self.camera.background_color = BG
 
-        title_top = Text("幂和公式", font=FONT, weight=BOLD, color=INK)
+        title_top = smiley_text("幂和公式", weight=BOLD, color=INK)
         title_top.scale_to_fit_width(6.85)
-        title_bottom = Text("自己算", font=FONT, weight=BOLD, color=AMBER)
+        title_bottom = smiley_text("自己算", weight=BOLD, color=AMBER)
         title_bottom.scale_to_fit_width(5.65)
         title = VGroup(title_top, title_bottom).arrange(DOWN, aligned_edge=LEFT, buff=0.00)
         title.to_edge(LEFT, buff=0.55).to_edge(UP, buff=0.42)
@@ -252,7 +263,7 @@ class KnownFormulas(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("把熟悉公式排在一起", "它们像被同一条线索串起来")
+        title = make_title("常见求和公式", "先把已经知道的答案放在一起")
         formulas = VGroup(
             formula_row("0 次方", r"\sum_{k=1}^{n} k^0=n", MINT, 0.70),
             formula_row("1 次方", r"\sum_{k=1}^{n} k=\frac{n(n+1)}{2}", BLUE, 0.66),
@@ -264,42 +275,43 @@ class KnownFormulas(Scene):
         formulas.next_to(paper_title, DOWN, buff=0.48).align_to(paper, LEFT).shift(RIGHT * 0.48)
 
         thread_card = card(4.6, 4.8).to_edge(RIGHT, buff=0.55).shift(DOWN * 0.34)
-        thread_title = cn("共同线索", 0.42, INK).move_to(thread_card.get_top() + DOWN * 0.46)
-        nodes = VGroup(
-            VGroup(Circle(radius=0.14, color=MINT, stroke_width=3), MathTex(r"k^0", color=MINT).scale(0.48)),
-            VGroup(Circle(radius=0.14, color=BLUE, stroke_width=3), MathTex(r"k^1", color=BLUE).scale(0.48)),
-            VGroup(Circle(radius=0.14, color=VIOLET, stroke_width=3), MathTex(r"k^2", color=VIOLET).scale(0.48)),
-            VGroup(Circle(radius=0.14, color=AMBER, stroke_width=3), MathTex(r"k^3", color=AMBER).scale(0.48)),
-        )
-        for node in nodes:
-            node[1].next_to(node[0], RIGHT, buff=0.22)
-        nodes.arrange(DOWN, aligned_edge=LEFT, buff=0.42)
-        nodes.move_to(thread_card.get_center() + LEFT * 0.35 + UP * 0.10)
-        connectors = VGroup(
-            *[
-                Line(nodes[i][0].get_bottom(), nodes[i + 1][0].get_top(), color=MUTED, stroke_width=2.2)
-                for i in range(3)
-            ]
-        )
-        rule = VGroup(
-            cn("幂次每升一格", 0.27, MUTED),
-            cn("求和多项式也升一阶", 0.27, AMBER),
-        ).arrange(DOWN, buff=0.16)
-        rule.next_to(nodes, DOWN, buff=0.38).align_to(nodes, LEFT)
+        thread_title = cn("下一条呢？", 0.42, INK).move_to(thread_card.get_top() + DOWN * 0.46)
+        unknowns = VGroup(
+            MathTex(r"\sum_{k=1}^{n} k^3=\ ?", color=AMBER).scale(0.70),
+            MathTex(r"\sum_{k=1}^{n} k^4=\ ?", color=CORAL).scale(0.66),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.38)
+        unknowns.next_to(thread_title, DOWN, buff=0.52).align_to(thread_card, LEFT).shift(RIGHT * 0.56)
+        wait_line = cn("如果只靠背公式", 0.29, MUTED)
+        wait_line.next_to(unknowns, DOWN, buff=0.50).align_to(unknowns, LEFT)
+        wait_line_2 = cn("就只能继续等答案", 0.32, CORAL)
+        wait_line_2.next_to(wait_line, DOWN, buff=0.18).align_to(wait_line, LEFT)
+
+        structure_box = RoundedRectangle(
+            width=10.55,
+            height=0.92,
+            corner_radius=0.18,
+            stroke_color=MINT,
+            stroke_width=1.5,
+            fill_color=MINT,
+            fill_opacity=0.10,
+        ).to_edge(DOWN, buff=0.34)
+        structure_question = cn("这些公式背后，会不会有同一套结构？", 0.34, MINT).move_to(structure_box)
 
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
         self.play(FadeIn(paper), FadeIn(paper_title), run_time=0.7)
         used += 0.7
-        self.play(LaggedStart(*[FadeIn(row, shift=UP * 0.10) for row in formulas], lag_ratio=0.22), run_time=3.0)
-        used += 3.0
+        self.play(LaggedStart(*[FadeIn(row, shift=UP * 0.10) for row in formulas], lag_ratio=0.30), run_time=9.0)
+        used += 9.0
         self.play(FadeIn(thread_card, shift=LEFT * 0.18), FadeIn(thread_title), run_time=1.0)
-        used += 1.4
-        self.play(Create(connectors), LaggedStart(*[FadeIn(node, shift=UP * 0.08) for node in nodes], lag_ratio=0.18), run_time=2.4)
-        used += 2.2
-        self.play(FadeIn(rule, shift=UP * 0.08), run_time=1.2)
-        used += 1.2
-        wait_to(self, used, 17.90)
+        used += 1.0
+        self.play(LaggedStart(*[FadeIn(row, shift=UP * 0.08) for row in unknowns], lag_ratio=0.25), run_time=3.0)
+        used += 3.0
+        self.play(FadeIn(wait_line, shift=UP * 0.08), FadeIn(wait_line_2, shift=UP * 0.08), run_time=2.4)
+        used += 2.4
+        self.play(FadeIn(structure_box), FadeIn(structure_question, shift=UP * 0.08), run_time=1.6)
+        used += 1.6
+        wait_to(self, used, 29.71)
 
 
 class DegreePattern(Scene):
@@ -307,7 +319,7 @@ class DegreePattern(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("展开以后，次数在往上走", "p 次方的和，看起来会高一阶")
+        title = make_title("幂次和多项式次数", "零次、一次、二次的结果都高一阶")
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
 
@@ -328,24 +340,35 @@ class DegreePattern(Scene):
         )
         for row in arrows:
             row.arrange(RIGHT, buff=0.26)
-        arrows.arrange(DOWN, buff=0.42).move_to(right_panel).shift(UP * 0.42)
+        arrows.arrange(DOWN, buff=0.34).move_to(right_panel).shift(UP * 0.72)
         label = cn("幂的次数  →  求和多项式次数", 0.30, MUTED).next_to(arrows, UP, buff=0.34)
 
-        question = MathTex(r"3 \rightarrow 4,\quad 4 \rightarrow 5,\quad ?", color=AMBER).scale(0.76)
-        question.next_to(arrows, DOWN, buff=0.62)
-        note = cn("如果只是多项式，系数就有机会被解出来。", 0.30, INK).next_to(question, DOWN, buff=0.32)
+        general = VGroup(
+            MathTex(r"p", color=AMBER).scale(0.62),
+            cn("次方的和", 0.26, MUTED),
+            MathTex(r"\rightarrow", color=MUTED).scale(0.52),
+            MathTex(r"p+1", color=AMBER).scale(0.62),
+            cn("次多项式", 0.26, MUTED),
+        ).arrange(RIGHT, buff=0.12)
+        general.next_to(arrows, DOWN, buff=0.50)
+        question = MathTex(r"p=3\quad\Rightarrow\quad 4", color=AMBER).scale(0.78)
+        question.next_to(general, DOWN, buff=0.38)
+        question_label = cn("三次方求和，先猜四次多项式", 0.27, AMBER).next_to(question, DOWN, buff=0.22)
+        note = cn("真正要算的，是多项式里的系数。", 0.29, INK).next_to(question_label, DOWN, buff=0.30)
 
         self.play(FadeIn(left_panel), FadeIn(right_panel), run_time=0.7)
         used += 0.7
-        self.play(LaggedStart(*[FadeIn(row, shift=UP * 0.08) for row in expanded], lag_ratio=0.20), run_time=3.2)
-        used += 3.2
-        self.play(FadeIn(label), LaggedStart(*[FadeIn(row, shift=UP * 0.08) for row in arrows], lag_ratio=0.22), run_time=3.0)
-        used += 3.0
-        self.play(FadeIn(question, shift=UP * 0.12), run_time=1.1)
-        used += 1.1
+        self.play(LaggedStart(*[FadeIn(row, shift=UP * 0.08) for row in expanded], lag_ratio=0.20), run_time=5.5)
+        used += 5.5
+        self.play(FadeIn(label), LaggedStart(*[FadeIn(row, shift=UP * 0.08) for row in arrows], lag_ratio=0.22), run_time=4.6)
+        used += 4.6
+        self.play(FadeIn(general, shift=UP * 0.08), run_time=2.4)
+        used += 2.4
+        self.play(FadeIn(question, shift=UP * 0.12), FadeIn(question_label, shift=UP * 0.10), run_time=2.0)
+        used += 2.0
         self.play(FadeIn(note, shift=UP * 0.10), run_time=1.0)
         used += 1.0
-        wait_to(self, used, 20.72)
+        wait_to(self, used, 25.70)
 
 
 class DifferenceIdea(Scene):
@@ -353,7 +376,7 @@ class DifferenceIdea(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("求和只比上一格多一块", "相邻两个结果的差，就是新来的那一项")
+        title = make_title("相邻求和结果的差", "从前 n-1 项到前 n 项，只新增最后一项")
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
 
@@ -410,7 +433,7 @@ class CubicSetup(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("用三次方做实验", "能差出三次方，就先猜四次多项式")
+        title = make_title("三次方求和的设定", "用四次多项式表示未知答案")
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
 
@@ -477,7 +500,7 @@ class DifferenceExpansion(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("把差分展开，再把同类项排齐", "一行一行看，账本就不会乱")
+        title = make_title("差分后的同类项", "把每一列系数排齐比较")
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
 
@@ -521,7 +544,7 @@ class SolveCoefficients(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("比较系数，四个数依次锁住", "让多余的平方项、一次项、常数项全部消失")
+        title = make_title("解出四个待定系数", "三次项留下，其他次数都为 0")
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
 
@@ -569,7 +592,7 @@ class BinomialRecurrence(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("系数法之后，看见组合数", "同一个差分，还能变成递推公式")
+        title = make_title("二项式差分与递推", "把等式两边同时从一加到 n")
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
 
@@ -604,21 +627,30 @@ class BinomialRecurrence(Scene):
         proof_title = cn("先展开，再相减", 0.38, MUTED).move_to(proof_panel.get_top() + DOWN * 0.42)
         raw_delta = MathTex(r"(k+1)^4-k^4", color=INK).scale(0.62)
         raw_delta.next_to(proof_title, DOWN, buff=0.26)
+        base_power = MathTex(r"(k+1)^4", color=INK).scale(0.58)
+        base_power.next_to(raw_delta, DOWN, buff=0.26).align_to(raw_delta, LEFT)
         factor = MathTex(
-            r"(k+1)^4=(k+1)(k+1)(k+1)(k+1)",
+            r"=",
+            r"(k+1)(k+1)(k+1)(k+1)",
             color=INK,
-        )
-        factor.scale_to_fit_width(7.15)
-        factor.next_to(raw_delta, DOWN, buff=0.26)
+        ).scale(0.58)
+        factor[0].set_color(MUTED)
+        factor.next_to(base_power, DOWN, buff=0.24).align_to(base_power, LEFT)
         expanded = MathTex(
-            r"(k+1)^4=k^4+4k^3+6k^2+4k+1",
+            r"=",
+            r"k^4+4k^3+6k^2+4k+1",
             color=INK,
-        )
-        expanded.scale_to_fit_width(7.40)
-        expanded.next_to(factor, DOWN, buff=0.30)
-        leaves = MathTex(r"(k+1)^4-k^4=4k^3+6k^2+4k+1", color=AMBER)
-        leaves.scale_to_fit_width(7.15)
-        leaves.next_to(expanded, DOWN, buff=0.34)
+        ).scale(0.58)
+        expanded[0].set_color(MUTED)
+        expanded.next_to(factor, DOWN, buff=0.30).align_to(factor, LEFT)
+        subtract_note = cn("再减去 k 的四次方，左边回到同一个差分", 0.23, MUTED)
+        subtract_note.next_to(expanded, DOWN, buff=0.30).align_to(factor, LEFT)
+        leaves = MathTex(
+            r"=",
+            r"4k^3+6k^2+4k+1",
+            color=AMBER,
+        ).scale(0.64)
+        leaves.next_to(subtract_note, DOWN, buff=0.18).align_to(factor, LEFT)
         choose_note = cn("这些系数来自：四个括号里选几个 1", 0.25, MUTED)
         choose_note.next_to(leaves, DOWN, buff=0.32)
         proof_rows = VGroup(
@@ -684,13 +716,13 @@ class BinomialRecurrence(Scene):
 
         self.play(FadeIn(proof_panel), FadeIn(proof_title), FadeIn(raw_delta), run_time=1.4)
         used += 1.4
-        self.play(Write(factor), run_time=2.4)
+        self.play(Write(base_power), Write(factor), run_time=2.4)
         used += 2.4
         wait_to(self, used, 13.02)
         used = 13.02
         self.play(Write(expanded), run_time=3.0)
         used += 3.0
-        self.play(Write(leaves), run_time=3.0)
+        self.play(FadeIn(subtract_note, shift=UP * 0.08), Write(leaves), run_time=3.0)
         used += 3.0
         wait_to(self, used, 30.44)
         used = 30.44
@@ -703,8 +735,10 @@ class BinomialRecurrence(Scene):
             FadeOut(proof_panel),
             FadeOut(proof_title),
             FadeOut(raw_delta),
+            FadeOut(base_power),
             FadeOut(factor),
             FadeOut(expanded),
+            FadeOut(subtract_note),
             FadeOut(leaves),
             FadeOut(choose_note),
             FadeOut(proof_rows),
@@ -809,7 +843,7 @@ class SquarePayoff(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("最后，它收成了一个平方", "三次方求和，就是三角数的平方")
+        title = make_title("三次方求和的另一种写法", "它也可以写成三角数的平方")
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
 
@@ -861,7 +895,7 @@ class BernoulliDoor(Scene):
         self.camera.background_color = BG
         used = 0.0
 
-        title = make_title("伯努利数：不只出现在幂和里", "把这个名字放进更宽的数学地图")
+        title = make_title("伯努利数的出现", "它整理高次幂和里的固定系数")
         self.play(FadeIn(title, shift=DOWN * 0.15), run_time=0.8)
         used += 0.8
 

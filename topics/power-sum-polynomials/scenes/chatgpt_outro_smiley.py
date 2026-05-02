@@ -9,14 +9,15 @@ BG = "#07120F"
 INK = "#F8F4E3"
 MUTED = "#A9B7AE"
 ACCENT = "#67D7B0"
-FONT = "Microsoft YaHei UI"
+FONT = "Smiley Sans"
 LATIN_FONT = "Times New Roman"
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
+SMILEY_FONT_FILE = PROJECT_ROOT / "assets" / "fonts" / "SmileySans-Oblique.ttf"
 CHATGPT_LINE_LOGO = PROJECT_ROOT / "assets" / "brand" / "chatgpt_logo_line.svg"
 
 
 def cn(text: str, size: float = 0.36, color: str = INK) -> Text:
-    return Text(text, font=FONT, color=color).scale(size)
+    return Text(text, font=FONT, slant=OBLIQUE, color=color).scale(size)
 
 
 def chatgpt_word(size: float = 0.42, color: str = INK) -> Text:

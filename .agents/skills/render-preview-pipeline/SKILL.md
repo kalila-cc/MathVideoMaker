@@ -10,11 +10,12 @@ Use this skill for end-to-end preview generation.
 ## Standard Flow
 
 1. Render low-quality scene clips first.
-2. Concatenate clips into a silent MP4.
-3. Mux narration audio into the video.
-4. Generate a readable local cover from the short cover frame.
-5. Verify duration, audio presence, and local gallery metadata.
-6. Only render final high quality after the low-quality preview is approved.
+2. For fast local iteration, optionally register those clips in `data/videos.json` as a `segments` virtual preview and inspect them in the gallery before concatenating. If the clips are silent, attach the narration with `audio` and align it with `audioDelay`.
+3. Concatenate clips into a silent MP4 when the segmented preview is approved.
+4. Mux narration audio into the video.
+5. Generate readable local covers separately from the video timeline: one desktop cover and one mobile/feed cover.
+6. Verify duration, audio presence, and local gallery metadata.
+7. Only render final high quality after the low-quality preview is approved.
 
 Keep outputs topic-local:
 
@@ -32,15 +33,19 @@ Keep outputs topic-local:
 
 .\.venv\Scripts\python scripts\add_audio.py --video topics\astroid-envelope\exports\final\example_silent.mp4 --audio topics\astroid-envelope\audio\narration.mp3 --out topics\astroid-envelope\exports\final\example_with_audio.mp4 --overwrite
 
-.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\example_with_audio.mp4 --time 0.100 --out topics\astroid-envelope\exports\covers\example_cover.jpg --overwrite --update-metadata
+.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\example_with_audio.mp4 --time 0.100 --desktop-out topics\astroid-envelope\exports\covers\example_desktop_cover.jpg --mobile-out topics\astroid-envelope\exports\covers\example_mobile_cover.jpg --overwrite --update-metadata
 ```
 
 ## Validation
 
 - Use FFmpeg to confirm video duration and audio stream.
+- When a branded intro or silent pre-roll precedes narration, measure the actual rendered intro clip for each quality and use that duration for sync. HD mux delay and segmented-preview `audioDelay` may differ because 60 fps and 15 fps renders round to different clip lengths; do not reuse an old nominal delay after changing the intro.
 - For final release, rerender high-quality clips from the current scene source; do not reuse an older HD MP4 after visual or narration fixes.
 - Keep the new final MP4 until it passes resolution, frame-rate, duration, audio, cover, and gallery checks; only then clean old outputs.
-- The bundled tool may only include `tools\ffmpeg\bin\ffmpeg.exe`; use `ffmpeg -hide_banner -i <video>` when `ffprobe.exe` is unavailable.
-- If the first frame is just for thumbnail capture, keep it short and add the remaining time to the real opening scene.
+- After final approval, prune the topic outputs down to the final MP4, final desktop/mobile covers, and any final narration/SRT files worth preserving. Remove old low-quality previews, segmented preview entries, silent masters, Manim render caches, debug frames, generated posters, stale covers, and obsolete MP3/SRT drafts.
+- Before recursive cleanup, resolve the target paths and verify they are inside `topics/<topic>/exports` or the explicitly named topic `audio` directory.
+- The current environment may not expose global `ffmpeg` or `ffprobe`. Prefer `tools\ffmpeg\bin\ffmpeg.exe` when present; otherwise use `.venv\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe -hide_banner -i <video>` to inspect streams.
+- Do not keep a cover frame in the final video just for thumbnail capture. Render cover art as a separate scene or image, export desktop and mobile/feed JPGs into `topics/<topic>/exports/covers`, and reference them from metadata.
 - Do not commit generated MP4, MP3, poster, or cover files.
 - Prefer project-local `tools\ffmpeg\bin\ffmpeg.exe`.
+- Playwright may have the package installed but no browser binary. For gallery QA, use an already installed Chrome/Edge executable path instead of installing browsers during the task.
