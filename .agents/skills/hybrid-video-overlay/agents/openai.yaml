@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hybrid Video Overlay"
+  short_description: "Compose Manim scenes with transparent dynamic overlays."
+  default_prompt: "Use this skill to render a Manim-owned background or shell scene, render a transparent Remotion overlay for local dynamic content, and composite the result with FFmpeg while preserving fonts, timing, and topic-local outputs."

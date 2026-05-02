@@ -38,10 +38,10 @@
       "tags": ["星形线", "包络线", "低清预览"],
       "status": "低清预览",
       "priority": 720,
-      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_desktop_cover.jpg",
+      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg",
       "covers": {
-        "desktop": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_desktop_cover.jpg",
-        "mobile": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_mobile_cover.jpg"
+        "desktop": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg",
+        "mobile": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg"
       },
       "chapters": [
         {"title": "滑落棍子的场景", "start": 0.0, "end": 7.94},
@@ -56,8 +56,10 @@
 
 - 键可以使用视频相对路径，也可以使用文件名作为兜底匹配。
 - 默认展示顺序按 `modified` 更新时间降序；`priority` 只作为更新时间相同时的次级排序和人工标记。
-- `covers.desktop` 和 `covers.mobile` 分别指向电脑端封面和手机端/双列信息流封面；`cover` 保留为旧版兼容字段，通常指向 desktop。
-- 封面图不提交 Git；可用 `scripts/generate_cover.py` 同时生成两张封面并写回 metadata。
+- 默认只生成一张移动端优先封面；`cover` 指向这张图。为了兼容宽窄屏读取逻辑，`covers.desktop` 与 `covers.mobile` 可以同时指向同一张图。
+- 只有用户明确要求多平台差异版时，才分别生成电脑端封面和手机端/双列信息流封面。
+- 封面图不提交 Git；可用 `scripts/generate_cover.py` 生成封面并写回 metadata。
+- Remotion 预览目录里的 `public/audio` 和 `public/segments` 通常是旁白和 Manim 分段的本地镜像素材，不提交 Git；需要复现时按主题脚本或渲染流程重新生成。
 - `covers`/`cover` 不填或文件不存在时会自动抽帧，主题视频会生成到 `topics/<topic>/exports/posters`。
 - `chapters` 用于播放器下方章节进度条和点击跳转。
 - 修改中文 metadata 时，避免通过 PowerShell here-string 或管道直接写入大段中文；优先使用 UTF-8 文件或 Python 脚本写入，并在写完后用 Python 读取确认标题、简介和章节不是乱码或问号。
@@ -67,7 +69,7 @@
 生成封面：
 
 ```powershell
-.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\LadderAstroidEnvelope_v6_preview_with_audio.mp4 --time 0.100 --desktop-out topics\astroid-envelope\exports\covers\LadderAstroidEnvelope_v6_desktop_cover.jpg --mobile-out topics\astroid-envelope\exports\covers\LadderAstroidEnvelope_v6_mobile_cover.jpg --overwrite --update-metadata
+.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\LadderAstroidEnvelope_v6_preview_with_audio.mp4 --time 0.100 --out topics\astroid-envelope\exports\covers\LadderAstroidEnvelope_v6_cover.jpg --overwrite --update-metadata
 ```
 
 ## 分段预览
@@ -81,10 +83,7 @@
       "title": "示例分段预览",
       "status": "分段低清预览",
       "priority": 900,
-      "covers": {
-        "desktop": "topics/example/exports/covers/example_desktop.jpg",
-        "mobile": "topics/example/exports/covers/example_mobile.jpg"
-      },
+      "cover": "topics/example/exports/covers/example_cover.jpg",
       "audio": "topics/example/audio/example_preview.mp3",
       "audioDelay": 2.0,
       "segments": [
@@ -134,4 +133,4 @@
 - 脚本只允许操作旧版 `exports/*` 输出目录或 `topics/<topic>/exports/*` 输出目录。
 - 不会删除 `topics/<topic>/scenes`、`audio`、`docs` 等源码和素材目录。
 - 默认 dry-run，不加 `--execute` 不会真正删除文件。
-- 主题最终清理时，目标状态通常是只保留 `topics/<topic>/exports/final/<final>.mp4`、`topics/<topic>/exports/covers/<final desktop/mobile>.jpg`，以及有复用价值的最终旁白稿和 SRT。执行递归删除前必须确认解析后的绝对路径仍在该主题目录内。
+- 主题最终清理时，目标状态通常是只保留 `topics/<topic>/exports/final/<final>.mp4`、`topics/<topic>/exports/covers/<final>_cover.jpg`，以及有复用价值的最终旁白稿和 SRT。执行递归删除前必须确认解析后的绝对路径仍在该主题目录内。

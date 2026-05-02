@@ -109,6 +109,7 @@ python -m venv .venv
 - `narration-script-review`：旁白稿写完、生成 TTS 前审阅章节、口语感、开头钩子、比喻、多音字和公式读法。
 - `narration-tts-sync`：中文旁白、TTS 读音规避、SRT 和画面节奏同步。
 - `render-preview-pipeline`：片段渲染、拼接、合成音轨、封面和最终渲染前验证。
+- `hybrid-video-overlay`：Manim 负责全局背景、标题和公式，Remotion 等外部渲染器只负责局部动态卡片/仪表盘并透明合成。
 - `video-gallery-maintenance`：本地视频库、元数据、封面、章节跳转和清理。
 - `chatgpt-outro-branding`：当视频末尾需要追加 ChatGPT 标识、署名片尾或品牌 credit 时，指导先单独预览片尾，再高清拼接到成片。
 - `project-self-evolution`：把新踩坑和用户反馈沉淀回文档、脚本和 skills，保持项目自我迭代。

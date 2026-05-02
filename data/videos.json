@@ -177,6 +177,90 @@
         "desktop": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro_cover.jpg",
         "mobile": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro_cover.jpg"
       }
+    },
+    "topics/bezier-curve-control/exports/final/BezierCurveControl_v1_power_sum_gpt_intro_1080p_with_audio.mp4": {
+      "cover": "topics/bezier-curve-control/exports/covers/BezierCurveControl_v1_power_sum_gpt_intro_1080p_cover.jpg",
+      "covers": {
+        "desktop": "topics/bezier-curve-control/exports/covers/BezierCurveControl_v1_power_sum_gpt_intro_1080p_cover.jpg",
+        "mobile": "topics/bezier-curve-control/exports/covers/BezierCurveControl_v1_power_sum_gpt_intro_1080p_cover.jpg"
+      },
+      "title": "贝塞尔曲线：几个点如何控制一条线？",
+      "description": "使用幂和主题同款 ChatGPT 片头标识的 1080p60 高清完整版本。片头为 5.05 秒静音制作说明，随后进入贝塞尔正片；旁白按片头实测时长整体后移。",
+      "topic": "贝塞尔曲线",
+      "tags": [
+        "贝塞尔曲线",
+        "钢笔工具",
+        "参数曲线",
+        "de Casteljau",
+        "SVG",
+        "Canvas",
+        "CSS动画",
+        "ChatGPT",
+        "高清视频"
+      ],
+      "status": "已定稿高清完整视频",
+      "priority": 1620,
+      "reviewFocus": false,
+      "duration": "00:04:30.61",
+      "hasAudio": true,
+      "audioDelay": 5.05,
+      "chapters": [
+        {
+          "title": "ChatGPT 制作说明",
+          "start": 0.0,
+          "end": 5.05
+        },
+        {
+          "title": "锚点和手柄的疑问",
+          "start": 5.05,
+          "end": 23.82
+        },
+        {
+          "title": "两点线性插值",
+          "start": 23.82,
+          "end": 46.25
+        },
+        {
+          "title": "三点构造过程",
+          "start": 46.25,
+          "end": 69.95
+        },
+        {
+          "title": "系数从哪里来",
+          "start": 69.95,
+          "end": 97.77
+        },
+        {
+          "title": "二次公式和权重",
+          "start": 97.77,
+          "end": 121.67
+        },
+        {
+          "title": "四点三次贝塞尔",
+          "start": 121.67,
+          "end": 146.79
+        },
+        {
+          "title": "控制点位移响应",
+          "start": 146.79,
+          "end": 175.17
+        },
+        {
+          "title": "端点导数和手柄",
+          "start": 175.17,
+          "end": 202.74
+        },
+        {
+          "title": "两段曲线平滑拼接",
+          "start": 202.74,
+          "end": 224.42
+        },
+        {
+          "title": "编程里的贝塞尔曲线",
+          "start": 224.42,
+          "end": 270.6
+        }
+      ]
     }
   }
 }

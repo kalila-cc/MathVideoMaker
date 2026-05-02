@@ -11,6 +11,8 @@ topics/*/exports/covers/
 topics/*/exports/posters/
 topics/*/audio/*.mp3
 topics/*/audio/*.wav
+topics/*/remotion/public/audio/
+topics/*/remotion/public/segments/
 *.log
 /tools/ffmpeg/
 /tools/_downloads/

@@ -430,6 +430,7 @@ def build_segmented_video(key: str, meta: dict[str, object], segments: list[dict
         "tags": metadata_tags(meta),
         "status": meta.get("status") or "分段预览",
         "priority": metadata_priority(meta),
+        "reviewFocus": bool(meta.get("reviewFocus")),
         "file": Path(key).name or "segment-preview",
         "path": key,
         "url": segments[0].get("url"),
@@ -449,7 +450,7 @@ def build_segmented_video(key: str, meta: dict[str, object], segments: list[dict
         "modified": max(modified_values) if modified_values else None,
         "duration": seconds_to_duration(total_duration),
         "durationSeconds": round(total_duration, 3) if total_duration is not None else None,
-        "hasAudio": any(segment.get("hasAudio") is True for segment in segments),
+        "hasAudio": bool(audio_path) or any(segment.get("hasAudio") is True for segment in segments),
         "chapters": normalize_chapters(meta.get("chapters")),
         "segments": segments,
         "segmentCount": len(segments),
@@ -554,6 +555,7 @@ def scan_videos(roots: list[Path], ffmpeg: Path) -> list[dict[str, object]]:
                     "tags": metadata_tags(meta),
                     "status": meta.get("status") or ("成片" if "/exports/final/" in f"/{rel}" else "渲染片段"),
                     "priority": metadata_priority(meta),
+                    "reviewFocus": bool(meta.get("reviewFocus")),
                     "file": path.name,
                     "path": rel,
                     "url": f"/media/{encode_relpath(path)}",
@@ -593,7 +595,11 @@ def scan_videos(roots: list[Path], ffmpeg: Path) -> list[dict[str, object]]:
         if segmented_video:
             videos.append(segmented_video)
 
-    return sorted(videos, key=lambda item: (item.get("modified") or "", item["priority"]), reverse=True)
+    return sorted(
+        videos,
+        key=lambda item: (1 if item.get("reviewFocus") else 0, item.get("modified") or "", item["priority"]),
+        reverse=True,
+    )
 
 
 def index_html() -> bytes:

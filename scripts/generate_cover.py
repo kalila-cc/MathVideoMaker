@@ -64,7 +64,7 @@ def default_output_for(video: Path, variant: str = "cover") -> Path:
     return PROJECT_ROOT / "exports" / "covers" / f"{video.stem}{suffix}.jpg"
 
 
-def update_metadata(video: Path, desktop_cover: Path, mobile_cover: Path | None, metadata_file: Path) -> None:
+def update_metadata(video: Path, primary_cover: Path, mobile_cover: Path | None, metadata_file: Path) -> None:
     if metadata_file.exists():
         raw = json.loads(metadata_file.read_text(encoding="utf-8-sig"))
     else:
@@ -78,15 +78,15 @@ def update_metadata(video: Path, desktop_cover: Path, mobile_cover: Path | None,
         videos = raw["videos"]
 
     video_rel = video.relative_to(PROJECT_ROOT).as_posix()
-    desktop_rel = desktop_cover.relative_to(PROJECT_ROOT).as_posix()
-    mobile_rel = mobile_cover.relative_to(PROJECT_ROOT).as_posix() if mobile_cover else desktop_rel
+    primary_rel = primary_cover.relative_to(PROJECT_ROOT).as_posix()
+    mobile_rel = mobile_cover.relative_to(PROJECT_ROOT).as_posix() if mobile_cover else primary_rel
     item = videos.setdefault(video_rel, {})
     if not isinstance(item, dict):
         item = {}
         videos[video_rel] = item
-    item["cover"] = desktop_rel
+    item["cover"] = primary_rel
     item["covers"] = {
-        "desktop": desktop_rel,
+        "desktop": primary_rel,
         "mobile": mobile_rel,
     }
     metadata_file.parent.mkdir(parents=True, exist_ok=True)
@@ -120,18 +120,18 @@ def render_cover(ffmpeg: Path, video: Path, output: Path, time: str, scale: int,
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate a local cover image from a video frame.")
-    parser.add_argument("--video", help="Desktop/source MP4. Defaults to latest topic final video.")
-    parser.add_argument("--mobile-video", help="Optional separate MP4 source for the mobile/feed cover.")
-    parser.add_argument("--out", help="Desktop cover output path. Alias for --desktop-out.")
-    parser.add_argument("--desktop-out", help="Desktop cover output path.")
-    parser.add_argument("--mobile-out", help="Mobile/feed cover output path. When present, metadata gets covers.desktop/mobile.")
+    parser.add_argument("--video", help="Source MP4. Defaults to latest topic final video.")
+    parser.add_argument("--mobile-video", help="Optional separate MP4 source for a requested platform variant.")
+    parser.add_argument("--out", help="Primary cover output path. Alias for --desktop-out.")
+    parser.add_argument("--desktop-out", help="Compatibility alias for the primary cover output path.")
+    parser.add_argument("--mobile-out", help="Optional separate mobile/feed cover output path. Omit by default.")
     parser.add_argument("--time", default="0.100", help="Seek time in seconds, e.g. 0.100.")
     parser.add_argument("--scale", type=int, default=1280, help="Output width in pixels. Height keeps aspect ratio.")
-    parser.add_argument("--desktop-scale", type=int, help="Desktop cover output width. Defaults to --scale.")
-    parser.add_argument("--mobile-scale", type=int, default=720, help="Mobile/feed cover output width.")
+    parser.add_argument("--desktop-scale", type=int, help="Compatibility alias for primary cover output width. Defaults to --scale.")
+    parser.add_argument("--mobile-scale", type=int, default=720, help="Optional separate variant output width.")
     parser.add_argument("--ffmpeg", default=str(DEFAULT_FFMPEG), help="Path to ffmpeg executable.")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite output if it exists.")
-    parser.add_argument("--update-metadata", action="store_true", help="Write cover or covers.desktop/mobile to data/videos.json.")
+    parser.add_argument("--update-metadata", action="store_true", help="Write cover and compatibility covers.desktop/mobile to data/videos.json.")
     parser.add_argument(
         "--metadata-video",
         help="Video entry to update in metadata. Use this when the cover is rendered from a separate cover scene.",
@@ -145,8 +145,8 @@ def main() -> None:
     video = resolve_path(args.video) if args.video else latest_final_video()
     mobile_video = resolve_path(args.mobile_video) if args.mobile_video else video
     metadata_video = resolve_path(args.metadata_video) if args.metadata_video else video
-    desktop_arg = args.desktop_out or args.out
-    output = resolve_path(desktop_arg) if desktop_arg else default_output_for(video, "desktop_cover")
+    primary_arg = args.desktop_out or args.out
+    output = resolve_path(primary_arg) if primary_arg else default_output_for(video, "cover")
     mobile_output = resolve_path(args.mobile_out) if args.mobile_out else None
     ffmpeg = resolve_path(args.ffmpeg)
     metadata_file = resolve_path(args.metadata_file)

@@ -14,18 +14,19 @@ Each important video should have:
 - `title`: readable title for the gallery.
 - `description`: what this version demonstrates or fixes.
 - `topic`, `tags`, `status`, `priority`.
-- `covers`: explicit `desktop` and `mobile` image paths when automatic poster extraction is not good enough. Keep `cover` as a desktop fallback for older gallery code.
+- `cover`: explicit mobile/feed-first cover image path when automatic poster extraction is not good enough. If `covers.desktop/mobile` are present for compatibility, default both to the same cover unless the user explicitly asked for separate platform variants.
 - `chapters`: fine-grained `{title,start,end}` entries for jump controls.
 - `segments`: optional explicit list of MP4 scene clips for a virtual segmented preview. Use this when a local preview should behave like one complete video before concat/mux has been run.
 - `audio` and `audioDelay`: optional narration MP3 and timeline delay for segmented previews, because raw Manim scene clips often have no audio stream.
-- Avoid writing Chinese metadata through PowerShell stdin/here-strings; use UTF-8 files or Unicode escapes, then read `data/videos.json` back with Python to confirm titles and descriptions are not garbled.
+- Avoid writing Chinese metadata through PowerShell command text, stdin pipes, or here-strings; on Windows this can silently turn UTF-8 Chinese into `?` or mojibake before Python or Node sees it. Use `apply_patch` for small JSON edits, or write/read an explicit UTF-8 script/file with Unicode escapes for programmatic edits.
+- After any metadata edit involving Chinese, read `data/videos.json` back with Python and inspect the exact `title`, `description`, `status`, and chapter titles that changed. JSON parsing alone is not enough; garbled Chinese can still be syntactically valid.
 - Final entries should use public-facing metadata: clean title, final status, topic tags, and stable description. Remove iteration labels such as `v10`, `低清预览`, `字体试用`, or platform/build notes unless they are genuinely part of the published title.
 
 ## Gallery Behavior
 
 - Keep chapter controls close to the main player.
 - Prefer generated explicit covers for important videos; automatic posters can catch black frames.
-- Generate and store desktop and mobile/feed covers separately under `topics/<topic>/exports/covers`. The gallery should use the desktop cover on wide viewports and the mobile cover on narrow/mobile viewports.
+- Generate and store one mobile/feed-first cover by default under `topics/<topic>/exports/covers`. The gallery can reuse that same cover on wide and narrow viewports.
 - Local deletion must only target MP4 files inside configured export roots.
 - After deleting videos, also prune generated posters and stale metadata.
 - Prefer topic-local paths, such as `topics/astroid-envelope/exports/final/video.mp4` and `topics/astroid-envelope/exports/covers/cover.jpg`.

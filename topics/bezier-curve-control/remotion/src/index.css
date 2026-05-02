@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Smiley Sans";
+  src: url("../public/fonts/SmileySans-Oblique.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  font-family: "Smiley Sans", "Microsoft YaHei", "PingFang SC", sans-serif;
+  color: #eef7ff;
+  background: transparent;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.bezier-stage {
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(10, 26, 42, 0.94), rgba(3, 10, 18, 0.98)),
+    #06101d;
+}
+
+.bezier-stage::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, transparent, black 16%, black 84%, transparent);
+}
+
+.ambient {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(28px);
+  opacity: 0.34;
+}
+
+.ambient-a {
+  width: 620px;
+  height: 160px;
+  top: -76px;
+  right: 120px;
+  background: rgba(95, 211, 255, 0.28);
+  transform: rotate(-8deg);
+}
+
+.ambient-b {
+  width: 420px;
+  height: 130px;
+  left: 34px;
+  bottom: -70px;
+  background: rgba(255, 195, 72, 0.18);
+  transform: rotate(5deg);
+}
+
+.grid-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 48%, transparent 0, transparent 54%, rgba(0, 0, 0, 0.24) 100%);
+}
+
+.top-bar {
+  position: absolute;
+  top: 18px;
+  left: 64px;
+  right: 64px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.eyebrow {
+  color: rgba(130, 243, 221, 0.82);
+  font-family: "Consolas", "SFMono-Regular", monospace;
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.film-title {
+  margin-top: 3px;
+  color: rgba(239, 249, 255, 0.84);
+  font-size: 21px;
+  line-height: 1.08;
+  text-shadow: 0 1px 18px rgba(101, 214, 255, 0.18);
+}
+
+.screen-frame {
+  position: absolute;
+  left: 64px;
+  top: 62px;
+  z-index: 2;
+  width: 1152px;
+  height: 648px;
+  overflow: hidden;
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  border-radius: 16px;
+  background: #030913;
+  box-shadow:
+    0 22px 52px rgba(0, 0, 0, 0.36),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+}
+
+.screen-frame::before {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 18%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.28));
+}
+
+.segment-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

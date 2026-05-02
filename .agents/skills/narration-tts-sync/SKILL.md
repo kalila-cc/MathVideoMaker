@@ -35,6 +35,8 @@ Avoid isolated Chinese polyphones that edge-tts may misread. Prefer unambiguous 
 - Keep the TTS rate consistent within one topic. Use the topic notes if they specify a rate; otherwise start from `--rate +14%` for these Chinese math videos and do not silently fall back to `+0%`.
 - After any narration rewrite, regenerate the MP3 and SRT together, then realign Manim scene waits to the new SRT boundaries. Replacing only the audio is a common cause of segment titles, visuals, and voiceover drifting apart.
 - If a branded intro or silent lead-in precedes the narration, measure the actual rendered intro duration for the target quality and use it for mux delay and segmented-preview `audioDelay`; low-quality and high-quality renders can differ by a few frames.
+- For symbolic point labels followed by Chinese function words, avoid phrases that can merge into quantity words, such as `P 二对...` being read like `P 两对...`. Rephrase as `P 二影响...`, `P 二这个点...`, or add a clear noun after the label.
+- Avoid compact compounds that Chinese TTS may split awkwardly after symbolic labels, such as `后半段`. Prefer `曲线后面`, `后面这一段`, or `靠近终点的一侧` when the visual meaning allows it.
 
 ## Commands
 

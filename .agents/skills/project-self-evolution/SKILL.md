@@ -80,3 +80,4 @@ After edits, run the lightest relevant checks:
 - Do not delete source scenes, narration drafts, topic docs, or metadata unless explicitly requested.
 - Prefer dry-run cleanup before destructive cleanup.
 - If a lesson only affects one video, keep it in that topic's design notes instead of global quality rules.
+- On Windows, do not write Chinese documentation or metadata through PowerShell command literals, stdin pipes, or here-strings. Use `apply_patch` for small edits, or an explicit UTF-8 file/script plus a read-back check for Chinese text.
