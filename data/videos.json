@@ -185,7 +185,7 @@
         "mobile": "topics/bezier-curve-control/exports/covers/BezierCurveControl_v1_power_sum_gpt_intro_1080p_cover.jpg"
       },
       "title": "贝塞尔曲线：几个点如何控制一条线？",
-      "description": "使用幂和主题同款 ChatGPT 片头标识的 1080p60 高清完整版本。片头为 5.05 秒静音制作说明，随后进入贝塞尔正片；旁白按片头实测时长整体后移。",
+      "description": "拖动一个手柄，为什么整条曲线会跟着改变？这支视频从钢笔工具的锚点开始，让一串移动点把曲线画出来，再顺着线性插值走到二次、三次贝塞尔，看清权重、切线和平滑拼接如何把直觉操作变成精确规则。",
       "topic": "贝塞尔曲线",
       "tags": [
         "贝塞尔曲线",
@@ -259,6 +259,58 @@
           "title": "编程里的贝塞尔曲线",
           "start": 224.42,
           "end": 270.6
+        }
+      ]
+    },
+    "topics/cyber-seed-chaos/exports/final/CyberSeedChaos_final_1080p60_chatgpt_intro.mp4": {
+      "title": "没有随机数，为什么会长出混沌花纹？",
+      "description": "从一个只按三句行为规则行动的小生命开始，先明确暗格、青格、紫格分别怎么处理，再看它如何在发光棋盘里走出复杂花纹；随后只改一条规则观察纹理差异，再验证同一起点会完整重放，而只差一个被标出的初始亮格就会分岔；最后检查到一百万步，仍没有回到同一个完整状态。",
+      "topic": "混沌",
+      "tags": [
+        "混沌",
+        "确定性混沌",
+        "赛博生命",
+        "简单规则",
+        "敏感性",
+        "可视化迭代",
+        "ChatGPT制作",
+        "1080p60"
+      ],
+      "status": "最终成片",
+      "priority": 1900,
+      "reviewFocus": true,
+      "cover": "topics/cyber-seed-chaos/exports/covers/CyberSeedChaos_final_1080p60_chatgpt_intro_cover.jpg",
+      "covers": {
+        "desktop": "topics/cyber-seed-chaos/exports/covers/CyberSeedChaos_final_1080p60_chatgpt_intro_cover.jpg",
+        "mobile": "topics/cyber-seed-chaos/exports/covers/CyberSeedChaos_final_1080p60_chatgpt_intro_cover.jpg"
+      },
+      "duration": "00:01:42.05",
+      "hasAudio": true,
+      "chapters": [
+        {
+          "title": "ChatGPT 制作标识",
+          "start": 0.0,
+          "end": 5.05
+        },
+        {
+          "title": "一条规则走出花纹",
+          "start": 5.05,
+          "end": 35.05
+        },
+        {
+          "title": "只改一条规则",
+          "start": 35.05,
+          "end": 53.05
+        },
+        {
+          "title": "确定但会分岔",
+          "start": 53.05,
+          "end": 75.05
+        },
+        {
+          "title": "一百万步仍未回环",
+          "start": 75.05,
+          "end": 102.05
         }
       ]
     }

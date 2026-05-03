@@ -1,0 +1,4 @@
+interface:
+  display_name: "Story State Timeline Review"
+  short_description: "Check viewer-known info before labels appear."
+  default_prompt: "Use $story-state-timeline-review to review this narration and animation script for premature names, conclusions, and undefined story information."

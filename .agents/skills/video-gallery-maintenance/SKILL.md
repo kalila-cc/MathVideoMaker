@@ -21,6 +21,7 @@ Each important video should have:
 - Avoid writing Chinese metadata through PowerShell command text, stdin pipes, or here-strings; on Windows this can silently turn UTF-8 Chinese into `?` or mojibake before Python or Node sees it. Use `apply_patch` for small JSON edits, or write/read an explicit UTF-8 script/file with Unicode escapes for programmatic edits.
 - After any metadata edit involving Chinese, read `data/videos.json` back with Python and inspect the exact `title`, `description`, `status`, and chapter titles that changed. JSON parsing alone is not enough; garbled Chinese can still be syntactically valid.
 - Final entries should use public-facing metadata: clean title, final status, topic tags, and stable description. Remove iteration labels such as `v10`, `低清预览`, `字体试用`, or platform/build notes unless they are genuinely part of the published title.
+- After switching a topic from preview to final, delete or move stale MP4s from the same topic's `exports/final`; otherwise the gallery scanner will still surface them even if `data/videos.json` points at the new final.
 
 ## Gallery Behavior
 
@@ -37,6 +38,7 @@ Each important video should have:
 - Generated posters live beside their topic at `topics/<topic>/exports/posters`.
 - Final gallery cleanup should leave only complete videos intended for preview; silent masters, Manim scene drafts, old previews, render logs, stale covers, and orphan posters should be removed after the new final passes validation.
 - After a final entry is accepted, prune old preview and segmented metadata for the same topic so the gallery does not present stale versions as current work.
+- Validate cleanup through the local service API, not only by inspecting files. Query `/api/videos` and confirm the topic shows exactly the intended final entry, with the expected path, status, duration, cover, and chapter list.
 - Default gallery ordering should be newest `modified` time first. Treat `priority` as a tie-breaker or metadata hint, not the primary display order.
 
 ## Troubleshooting

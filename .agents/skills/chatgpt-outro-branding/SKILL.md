@@ -7,7 +7,7 @@ description: Use when a generated math video needs a ChatGPT/OpenAI-branded open
 
 ## Overview
 
-Use this skill to add a polished ChatGPT-branded intro or outro to a finished Manim video while keeping the main narration and derivation untouched. Prefer an opening slate when the user wants the ending to stay focused on the math payoff. Always preview the branding scene alone first, then render and splice the approved high-quality slate into the full video.
+Use this skill to add a polished ChatGPT-branded intro or outro to a finished Manim video while keeping the main narration and derivation untouched. Prefer an opening slate when the user wants the ending to stay focused on the math payoff. Reuse the previously approved ChatGPT intro slate exactly by default; do not redesign colors, layout, wording, timing, or animation unless the user explicitly asks for a new branding treatment. Always preview the branding scene alone first when a new or changed slate is required, then render and splice the approved high-quality slate into the full video.
 
 ## Required Assets
 
@@ -37,24 +37,25 @@ Recommended structure:
 ## Workflow
 
 1. Check whether a reusable outro scene already exists for the topic.
-2. Edit only the outro scene unless the main video timing needs to change.
-3. Render the outro alone in low quality first:
+2. For an intro slate, first look for an already approved 5.05s ChatGPT intro in prior final videos such as `topics/power-sum-polynomials/exports/final/PowerSumPolynomials_final_1080p60_chatgpt_intro.mp4`; extract and reuse that slate unchanged when available.
+3. Edit only the branding scene unless the main video timing needs to change or no approved reusable slate exists.
+4. Render the outro alone in low quality first when the branding scene is new or changed:
 
 ```powershell
 .\scripts\render_scene.ps1 -SceneFile topics\<topic>\scenes\chatgpt_outro.py -SceneName ChatGPTOutro -Quality -ql
 ```
 
-4. Show or reference the low-quality outro preview and wait for user approval before touching the final full video.
-5. After approval, render the outro in high quality:
+5. Show or reference the low-quality outro preview and wait for user approval before touching the final full video.
+6. After approval, render the outro in high quality:
 
 ```powershell
 .\scripts\render_scene.ps1 -SceneFile topics\<topic>\scenes\chatgpt_outro.py -SceneName ChatGPTOutro -Quality -qh
 ```
 
-6. Concatenate the approved high-quality branding scene before or after the existing high-quality main scene clips according to the approved placement.
-7. Mux the narration audio onto the new silent master with `scripts/add_audio.py`.
-8. Generate a new cover with `scripts/generate_cover.py --update-metadata`.
-9. Update `data/videos.json` so the new full video has a clear title, description, final-video status, cover metadata, and a chapter for the ChatGPT branding slate when it is part of the video.
+7. Concatenate the approved high-quality branding scene before or after the existing high-quality main scene clips according to the approved placement.
+8. Mux the narration audio onto the new silent master with `scripts/add_audio.py`.
+9. Generate a new cover with `scripts/generate_cover.py --update-metadata`.
+10. Update `data/videos.json` so the new full video has a clear title, description, final-video status, cover metadata, and a chapter for the ChatGPT branding slate when it is part of the video.
 
 ## Quality Checks
 
