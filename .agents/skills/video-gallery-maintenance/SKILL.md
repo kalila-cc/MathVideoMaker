@@ -12,15 +12,18 @@ Use this skill for `scripts/serve_videos.py`, `data/videos.json`, `topics/<topic
 Each important video should have:
 
 - `title`: readable title for the gallery.
-- `description`: what this version demonstrates or fixes.
+- `description`: public-facing watch reason, not a full-video outline. For final entries, write a hook or curiosity gap in 1-2 sentences; do not list every chapter, derivation step, coordinate form, or production change.
 - `topic`, `tags`, `status`, `priority`.
 - `cover`: explicit mobile/feed-first cover image path when automatic poster extraction is not good enough. If `covers.desktop/mobile` are present for compatibility, default both to the same cover unless the user explicitly asked for separate platform variants.
 - `chapters`: fine-grained `{title,start,end}` entries for jump controls.
 - `segments`: optional explicit list of MP4 scene clips for a virtual segmented preview. Use this when a local preview should behave like one complete video before concat/mux has been run.
 - `audio` and `audioDelay`: optional narration MP3 and timeline delay for segmented previews, because raw Manim scene clips often have no audio stream.
+- After a retimed render, recalculate chapter starts and ends from actual rendered MP4 durations or the gallery API rather than target durations in source code. A few frames of drift can become visible after concat and mux.
+- Avoid catch-all ending chapters that cover multiple viewer beats. If a final "real-world caveat" section also contains a mechanism recap or payoff, split it at the SRT or scene beat so chapter jumps stay useful.
 - Avoid writing Chinese metadata through PowerShell command text, stdin pipes, or here-strings; on Windows this can silently turn UTF-8 Chinese into `?` or mojibake before Python or Node sees it. Use `apply_patch` for small JSON edits, or write/read an explicit UTF-8 script/file with Unicode escapes for programmatic edits.
 - After any metadata edit involving Chinese, read `data/videos.json` back with Python and inspect the exact `title`, `description`, `status`, and chapter titles that changed. JSON parsing alone is not enough; garbled Chinese can still be syntactically valid.
 - Final entries should use public-facing metadata: clean title, final status, topic tags, and stable description. Remove iteration labels such as `v10`, `低清预览`, `字体试用`, or platform/build notes unless they are genuinely part of the published title.
+- Final descriptions should make the viewer want to click. Prefer a concrete phenomenon, tension, or surprising interpretation; keep detailed chapter coverage in `chapters`, not in the description.
 - After switching a topic from preview to final, delete or move stale MP4s from the same topic's `exports/final`; otherwise the gallery scanner will still surface them even if `data/videos.json` points at the new final.
 
 ## Gallery Behavior
@@ -28,15 +31,16 @@ Each important video should have:
 - Keep chapter controls close to the main player.
 - Prefer generated explicit covers for important videos; automatic posters can catch black frames.
 - Generate and store one mobile/feed-first cover by default under `topics/<topic>/exports/covers`. The gallery can reuse that same cover on wide and narrow viewports.
-- Local deletion must only target MP4 files inside configured export roots.
+- Gallery video deletion must only target MP4 files inside configured export roots. Final topic cleanup may also delete stale generated covers and posters inside that topic's `exports` directory.
 - After deleting videos, also prune generated posters and stale metadata.
 - Prefer topic-local paths, such as `topics/astroid-envelope/exports/final/video.mp4` and `topics/astroid-envelope/exports/covers/cover.jpg`.
 - The gallery scans only complete-video roots such as `topics/*/exports/final`, with legacy root `exports/final` as a migration fallback. Do not show Manim scene drafts from `exports/manim/videos` unless the user explicitly asks for segment debugging.
 - The gallery should skip silent intermediate masters such as `*_silent.mp4` and `*_silent_master.mp4`; these are build artifacts, not review targets.
 - Scene draft clips can still be previewed as one logical video when they are explicitly listed in a metadata `segments` entry. These segmented entries are non-deletable in the gallery and do not create a new MP4. Add `audio` when the scene clips are silent and the preview needs narration.
 - Generated covers live at `topics/<topic>/exports/covers` and are ignored by Git. Metadata may reference them even though the image files themselves are local generated assets.
+- After accepting a final video, keep only the generated cover referenced by that final metadata entry. Delete old preview covers and cover candidates unless the user explicitly asks to preserve variants.
 - Generated posters live beside their topic at `topics/<topic>/exports/posters`.
-- Final gallery cleanup should leave only complete videos intended for preview; silent masters, Manim scene drafts, old previews, render logs, stale covers, and orphan posters should be removed after the new final passes validation.
+- Final gallery cleanup should leave only the accepted complete video and its final cover for the topic; silent masters, Manim scene drafts, old previews, render logs, stale covers, old preview covers, and orphan posters should be removed after the new final passes validation.
 - After a final entry is accepted, prune old preview and segmented metadata for the same topic so the gallery does not present stale versions as current work.
 - Validate cleanup through the local service API, not only by inspecting files. Query `/api/videos` and confirm the topic shows exactly the intended final entry, with the expected path, status, duration, cover, and chapter list.
 - Default gallery ordering should be newest `modified` time first. Treat `priority` as a tie-breaker or metadata hint, not the primary display order.

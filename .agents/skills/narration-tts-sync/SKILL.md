@@ -30,7 +30,9 @@ The video can still display standard formula abbreviations with `MathTex`.
 Avoid isolated Chinese polyphones that edge-tts may misread. Prefer unambiguous spoken wording:
 
 - Use `变量` or `符号` instead of an isolated `量` in phrases like `几个量`.
+- If edge-tts misreads `量` in math narration, avoid nearby compounds too when possible: say `方向`, `辅助方向`, `方向箭头`, or `要解的数` in the voiceover, while keeping formal symbols such as `向量` on screen if needed.
 - Use `物理量`, `数值`, `长度`, or `高度` when that is the intended meaning.
+- Avoid `行` in narration when it means a formula line or text row, because edge-tts often reads it as `xing2`. Say `这个式子`, `这条等式`, `底下那组坐标`, or `屏幕上的这一步` instead. Keep `平行` only when the intended reading is `xing2`.
 - After changing wording for pronunciation, regenerate both MP3 and SRT so scene timing remains aligned.
 - Keep the TTS rate consistent within one topic. Use the topic notes if they specify a rate; otherwise start from `--rate +14%` for these Chinese math videos and do not silently fall back to `+0%`.
 - After any narration rewrite, regenerate the MP3 and SRT together, then realign Manim scene waits to the new SRT boundaries. Replacing only the audio is a common cause of segment titles, visuals, and voiceover drifting apart.

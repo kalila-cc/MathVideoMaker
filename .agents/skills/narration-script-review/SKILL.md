@@ -22,7 +22,12 @@ Use this skill as the gate before running `scripts/make_voice.py`.
 - Opening hook: The first 5-15 seconds should start from a concrete scene, surprising phenomenon, or natural question. Avoid opening with formulas, definitions, or assumptions about what the audience is thinking.
 - Accessible analogy: Abstract math should have a physical image, daily-life metaphor, or visual anchor before formal language. Assume the audience does not have advanced math background.
 - Variable grounding: New symbols should be tied to visible objects or real quantities before they are used in equations.
+- Derivation clarity: Do not let the narration skip complex algebra. When a result depends on decomposition, substitution, projection, cancellation, differentiation, or simultaneous conditions, the script should state the intermediate step and why it is valid before naming the result.
+- Local task: Before a derivation starts, the narration should state what is being solved, such as finding a ray's line equation or an envelope condition. Do not assume the viewer can infer the task from a vague title.
+- Formula purpose: When a formula is rewritten into a new form, the narration should say why that form is being used, such as making a family of curves comparable, enabling a derivative condition, or preparing for an envelope calculation.
+- Envelope derivative: If the script uses `\partial F/\partial t=0`, it must say which variables are fixed and why this is not differentiating the constant equation `F=0`. A concise explanation is enough when the screen adds a small note.
 - Formula narration: Spoken text should describe formulas in TTS-safe words, while the screen can still show compact mathematical notation.
+- TTS polyphones: Avoid `行` when referring to formula rows, such as `这一行` or `最后那行`; use `这个式子`, `这条等式`, or `屏幕上的这一步` instead. `平行` is fine when the intended reading is `xing2`.
 - Polyphone risk: Rewrite ambiguous Chinese words that edge-tts may misread.
 - Cognitive load: When a paragraph mentions a specific equation among many visible formulas, ensure the scene plan highlights that expression.
 

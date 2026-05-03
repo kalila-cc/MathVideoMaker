@@ -313,6 +313,102 @@
           "end": 102.05
         }
       ]
+    },
+    "topics/coffee-cup-caustic/exports/final/CoffeeCupCaustic_final_1080p60_chatgpt_intro.mp4": {
+      "title": "咖啡杯里的心形光斑，是怎么来的？",
+      "description": "杯壁上那条像心形一样的亮线，并不是杯子的花纹。它是阳光反射后自然挤出来的一条边界，也是焦散线最容易被看见的样子之一。",
+      "topic": "焦散线与包络线",
+      "tags": [
+        "咖啡杯光斑",
+        "焦散线",
+        "焦散曲线",
+        "包络线",
+        "反射定律",
+        "肾形线",
+        "光学可视化",
+        "滚圆生成",
+        "极坐标",
+        "数学科普",
+        "ChatGPT制作",
+        "1080p60"
+      ],
+      "status": "最终成片",
+      "priority": 2080,
+      "reviewFocus": false,
+      "duration": "00:04:57.95",
+      "hasAudio": true,
+      "cover": "topics/coffee-cup-caustic/exports/covers/CoffeeCupCaustic_final_1080p60_chatgpt_intro_cover.jpg",
+      "covers": {
+        "desktop": "topics/coffee-cup-caustic/exports/covers/CoffeeCupCaustic_final_1080p60_chatgpt_intro_cover.jpg",
+        "mobile": "topics/coffee-cup-caustic/exports/covers/CoffeeCupCaustic_final_1080p60_chatgpt_intro_cover.jpg"
+      },
+      "chapters": [
+        {
+          "title": "ChatGPT 制作标识",
+          "start": 0.0,
+          "end": 5.05
+        },
+        {
+          "title": "杯中亮线",
+          "start": 5.05,
+          "end": 16.6
+        },
+        {
+          "title": "定位反射点",
+          "start": 16.6,
+          "end": 37.37
+        },
+        {
+          "title": "反射方向推导",
+          "start": 37.37,
+          "end": 104.14
+        },
+        {
+          "title": "求反射光线方程",
+          "start": 104.14,
+          "end": 161.99
+        },
+        {
+          "title": "反射光线族",
+          "start": 161.99,
+          "end": 177.56
+        },
+        {
+          "title": "包络线条件",
+          "start": 177.56,
+          "end": 210.64
+        },
+        {
+          "title": "联立求包络点",
+          "start": 210.64,
+          "end": 224.6
+        },
+        {
+          "title": "肾形线结果",
+          "start": 224.6,
+          "end": 244.62
+        },
+        {
+          "title": "滚圆生成",
+          "start": 244.62,
+          "end": 265.42
+        },
+        {
+          "title": "极坐标方程",
+          "start": 265.42,
+          "end": 282.42
+        },
+        {
+          "title": "真实杯子的扰动",
+          "start": 282.42,
+          "end": 289.64
+        },
+        {
+          "title": "机制回扣",
+          "start": 289.64,
+          "end": 297.95
+        }
+      ]
     }
   }
 }

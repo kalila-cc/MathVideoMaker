@@ -597,7 +597,12 @@ def scan_videos(roots: list[Path], ffmpeg: Path) -> list[dict[str, object]]:
 
     return sorted(
         videos,
-        key=lambda item: (1 if item.get("reviewFocus") else 0, item.get("modified") or "", item["priority"]),
+        key=lambda item: (
+            item.get("modified") or "",
+            1 if item.get("reviewFocus") else 0,
+            item.get("priority") or 0,
+            item.get("path") or "",
+        ),
         reverse=True,
     )
 
