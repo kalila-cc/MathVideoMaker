@@ -40,7 +40,11 @@ Keep outputs topic-local:
 ## Validation
 
 - Use FFmpeg to confirm video duration and audio stream.
+- For videos with timeline drift or dense narration/animation sync, maintain a topic-local timeline config and run `scripts/build_timeline_index.py --config <config> --check` after rendering changed clips. Use `--search <text>` to locate where a visual beat and matching SRT cue appear on the accumulated whole-video timeline.
+- When narration is shortened, a derivation is collapsed, or a scene duration changes, rebuild the accumulated timeline before judging sync. Downstream chapter offsets, gallery chapter metadata, and case-by-case comparison beats can all become stale even if the final MP4 duration looks plausible.
 - When a branded intro or silent pre-roll precedes narration, measure the actual rendered intro clip for each quality and use that duration for sync. HD mux delay and segmented-preview `audioDelay` may differ because 60 fps and 15 fps renders round to different clip lengths; do not reuse an old nominal delay after changing the intro.
+- When muxing delayed narration after an intro, prefer `adelay=<intro_ms>:all=1` with an explicit `-t <final_video_duration>` measured from the silent master. Avoid relying on `apad + -shortest` if FFmpeg appears to hang.
+- If a final MP4 includes an intro delay, generate a final SRT with every cue shifted by the same measured delay, and update gallery chapters by the same offset.
 - For final release, rerender high-quality clips from the current scene source; do not reuse an older HD MP4 after visual or narration fixes.
 - When rendering multiple Manim scenes in parallel, avoid sharing one writable `media_dir` for scenes that create `Text`/`MathTex` during animation. Manim hashes text into shared SVG files and may use non-unique temporary parse files; if a text-cache race appears, rerender the affected scene serially or isolate each scene's `media_dir` and copy only the final MP4 back.
 - Keep the new final MP4 until it passes resolution, frame-rate, duration, audio, cover, and gallery checks; only then clean old outputs.
@@ -49,6 +53,7 @@ Keep outputs topic-local:
 - Before recursive cleanup, resolve the target paths and verify they are inside `topics/<topic>/exports` or the explicitly named topic `audio` directory.
 - The current environment may not expose global `ffmpeg` or `ffprobe`. Prefer `tools\ffmpeg\bin\ffmpeg.exe` when present; otherwise use `.venv\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe -hide_banner -i <video>` to inspect streams.
 - Do not keep a cover frame in the final video just for thumbnail capture. Render cover art as a separate scene or image, export one mobile/feed-first JPG into `topics/<topic>/exports/covers`, and reference it from metadata.
+- When the final video starts with ChatGPT branding, render the topic cover from `CoverFrame` or another topic-specific cover source; do not use the branding slate as the gallery cover.
 - Do not commit generated MP4, MP3, poster, or cover files.
 - Prefer project-local `tools\ffmpeg\bin\ffmpeg.exe`.
 - Playwright may have the package installed but no browser binary. For gallery QA, use an already installed Chrome/Edge executable path instead of installing browsers during the task.

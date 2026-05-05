@@ -14,12 +14,13 @@ Use this skill before writing or revising a math animation script.
 3. Split the explanation into small beats: hook, variables, intuitive model, formal step, conclusion, real-world echo.
 4. For each abstract step, attach a visual metaphor or physical anchor.
 5. Flag jumps where a viewer may ask "where did this come from?" and add a bridge.
-6. For complex derivations, write an explicit breadcrumb chain before scripting: known quantities, intermediate variables or components, obvious simplifications, combination step, and final result. Each nontrivial algebraic move needs a spoken reason or a visible operation; split the beat instead of skipping steps.
-7. State the local task before a derivation begins, such as "求这条光线的直线方程" or "找这族线的包络条件"; do not rely on an abstract section title to imply what is being solved.
-8. State the job of each new formula form before using it. If a line is rewritten as an implicit equation, sum, derivative condition, matrix form, or parameterized family, say what that form makes possible in the next step.
-9. Before committing to a section, check whether it still supports the audience promise. If a compelling side mechanism pulls the topic toward a different promise, split it into a future topic instead of forcing it into the current outline.
-10. For formula-derivation videos, prefer a hook based on the viewer's practical friction, such as "memorized formulas stop helping at the next case," then ask what can be computed from structure.
-11. For "physical phenomenon -> family of objects -> envelope/trace -> named curve" videos, outline these as separate beats. First show the visible phenomenon, then derive the generating family, then explain why the envelope/trace operation is needed, and only after that name the final curve or give secondary coordinate forms.
+6. For derivation-led shape topics, delay the final shape name until the outline has earned it. Use neutral goals such as "what path will this rule produce?" before the visual or algebraic reveal, then name the curve as a result.
+7. For complex derivations, write an explicit breadcrumb chain before scripting: known quantities, intermediate variables or components, obvious simplifications, combination step, and final result. Each nontrivial algebraic move needs a spoken reason or a visible operation; split the beat instead of skipping steps.
+8. State the local task before a derivation begins, such as "求这条光线的直线方程" or "找这族线的包络条件"; do not rely on an abstract section title to imply what is being solved.
+9. State the job of each new formula form before using it. If a line is rewritten as an implicit equation, sum, derivative condition, matrix form, or parameterized family, say what that form makes possible in the next step.
+10. Before committing to a section, check whether it still supports the audience promise. If a compelling side mechanism pulls the topic toward a different promise, split it into a future topic instead of forcing it into the current outline.
+11. For formula-derivation videos, prefer a hook based on the viewer's practical friction, such as "memorized formulas stop helping at the next case," then ask what can be computed from structure.
+12. For "physical phenomenon -> family of objects -> envelope/trace -> named curve" videos, outline these as separate beats. First show the visible phenomenon, then derive the generating family, then explain why the envelope/trace operation is needed, and only after that name the final curve or give secondary coordinate forms.
 
 ## Style Rules
 

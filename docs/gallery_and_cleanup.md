@@ -31,21 +31,21 @@
 ```json
 {
   "videos": {
-    "topics/astroid-envelope/exports/final/LadderAstroidEnvelope_v6_preview_with_audio.mp4": {
-      "title": "棍子滑落为什么会扫出星形线？v6 低清预览",
+    "topics/example-topic/exports/final/ExampleTopic_preview_with_audio.mp4": {
+      "title": "示例视频标题",
       "description": "一句话说明这一版解决了什么问题，以及观众能看懂什么。",
-      "topic": "微分与包络线",
-      "tags": ["星形线", "包络线", "低清预览"],
+      "topic": "示例主题",
+      "tags": ["数学科普", "低清预览"],
       "status": "低清预览",
       "priority": 720,
-      "cover": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg",
+      "cover": "topics/example-topic/exports/covers/ExampleTopic_preview_cover.jpg",
       "covers": {
-        "desktop": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg",
-        "mobile": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_cover.jpg"
+        "desktop": "topics/example-topic/exports/covers/ExampleTopic_preview_cover.jpg",
+        "mobile": "topics/example-topic/exports/covers/ExampleTopic_preview_cover.jpg"
       },
       "chapters": [
-        {"title": "滑落棍子的场景", "start": 0.0, "end": 7.94},
-        {"title": "外轮廓到底是什么", "start": 7.94, "end": 20.8}
+        {"title": "开场问题", "start": 0.0, "end": 12.0},
+        {"title": "核心推导", "start": 12.0, "end": 90.0}
       ]
     }
   }
@@ -69,7 +69,7 @@
 生成封面：
 
 ```powershell
-.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\LadderAstroidEnvelope_v6_preview_with_audio.mp4 --time 0.100 --out topics\astroid-envelope\exports\covers\LadderAstroidEnvelope_v6_cover.jpg --overwrite --update-metadata
+.\.venv\Scripts\python scripts\generate_cover.py --video topics\<topic>\exports\final\preview_with_audio.mp4 --time 0.100 --out topics\<topic>\exports\covers\preview_cover.jpg --overwrite --update-metadata
 ```
 
 ## 分段预览

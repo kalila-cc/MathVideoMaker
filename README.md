@@ -7,12 +7,13 @@
 3. 用 FFmpeg 拼接片段、合成音轨、抽取预览封面。
 4. 用本地网页检查视频标题、简介、封面、章节跳转和删除操作。
 
-## 当前状态
+## 当前入口
 
-- 当前主题：`topics/astroid-envelope/`
-- 当前高清成片：`topics/astroid-envelope/exports/final/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro.mp4`
-- 当前封面：`topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro_cover.jpg`
-- 本地图库入口：`.\.venv\Scripts\python scripts\serve_videos.py`
+- 本地图库：`.\.venv\Scripts\python scripts\serve_videos.py`
+- 视频索引：`data/videos.json`
+- 主题目录：`topics/<topic>/`
+
+当前工作主题会随任务变化，不在 README 固定具体成片路径；以本地图库和 `data/videos.json` 为准。
 
 项目已配置 `.venv`、Manim、edge-tts、本地 FFmpeg 和 MiKTeX。第一次接手时建议先运行：
 
@@ -42,7 +43,7 @@ topics/
 ```text
 assets/
   brand/
-    chatgpt_logo_line.svg  # 透明背景线性 ChatGPT 片尾标识，需提交 Git
+    chatgpt_logo_line.svg  # 透明背景线性 ChatGPT 品牌标识，需提交 Git
 ```
 
 ## 快速开始
@@ -83,7 +84,6 @@ python -m venv .venv
 
 - `scripts/render_scene.ps1`：渲染单个 Manim Scene，并自动把 topic 场景输出到 `topics/<topic>/exports/manim`。
 - `scripts/render_scenes_parallel.ps1`：并行渲染多个 Scene，低清预览默认 `MaxParallel 3` 较稳。
-- `scripts/render_astroid_bilibili.ps1`：星形线主题专用高清发布渲染脚本，包含正片章节和 ChatGPT 线性片尾。
 - `scripts/make_voice.py`：生成 MP3 和 SRT。
 - `scripts/concat_videos.py`：用 FFmpeg 拼接章节片段。
 - `scripts/add_audio.py`：把旁白合成到 MP4。
@@ -99,11 +99,11 @@ python -m venv .venv
 - [docs/gallery_and_cleanup.md](docs/gallery_and_cleanup.md)：`data/videos.json` 元数据、本地图库、封面、删除和清理脚本。
 - [docs/tooling_research.md](docs/tooling_research.md)：工具调研和取舍记录。
 - [docs/storyboard_template.md](docs/storyboard_template.md)：新视频分镜模板。
-- [topics/astroid-envelope/docs/design_notes.md](topics/astroid-envelope/docs/design_notes.md)：星形线视频的内容设计沉淀、已采纳改进和踩坑。
-- [topics/astroid-envelope/docs/astroid_envelope_outline.md](topics/astroid-envelope/docs/astroid_envelope_outline.md)：星形线视频早期大纲。
+- `topics/<topic>/docs/`：单个视频主题的大纲、推导记录、设计复盘和踩坑。
 
 ## 项目 Skills
 
+- `video-topic-bootstrap`：新建或规范化视频主题目录，创建当前大纲，并要求后续大纲随话题变化同步更新。
 - `math-video-outline`：选题、大纲、开头钩子、比喻和观众理解风险。
 - `manim-scene-iteration`：Manim 场景版本化、低清预览、封面帧和排版控制。
 - `narration-script-review`：旁白稿写完、生成 TTS 前审阅章节、口语感、开头钩子、比喻、多音字和公式读法。

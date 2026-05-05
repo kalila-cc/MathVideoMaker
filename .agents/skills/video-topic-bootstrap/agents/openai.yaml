@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Topic Bootstrap"
+  short_description: "Create video topics with synced outlines"
+  default_prompt: "Use $video-topic-bootstrap to start a new math video topic with an outline and project structure."

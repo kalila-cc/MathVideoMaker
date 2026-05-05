@@ -409,6 +409,67 @@
           "end": 297.95
         }
       ]
+    },
+    "topics/kepler-orbit-ellipse/exports/final/KeplerOrbitEllipse_final_1080p60_chatgpt_intro.mp4": {
+      "title": "行星轨道为什么偏偏是椭圆？",
+      "description": "只看行星此刻的位置和速度，再加上太阳的引力，能不能判断它以后会怎么走？这支视频沿着牛顿的思路推导：椭圆从哪里来，初速度一变，轨道又为什么会变成圆、抛物线或双曲线。",
+      "topic": "天体力学与圆锥曲线",
+      "tags": [
+        "行星轨道",
+        "椭圆",
+        "牛顿引力",
+        "反平方定律",
+        "角动量守恒",
+        "开普勒定律",
+        "圆锥曲线",
+        "数学科普"
+      ],
+      "status": "最终成片",
+      "priority": 2110,
+      "duration": "00:06:45.77",
+      "hasAudio": true,
+      "cover": "topics/kepler-orbit-ellipse/exports/covers/KeplerOrbitEllipse_final_1080p60_chatgpt_intro_cover.jpg",
+      "covers": {
+        "desktop": "topics/kepler-orbit-ellipse/exports/covers/KeplerOrbitEllipse_final_1080p60_chatgpt_intro_cover.jpg",
+        "mobile": "topics/kepler-orbit-ellipse/exports/covers/KeplerOrbitEllipse_final_1080p60_chatgpt_intro_cover.jpg"
+      },
+      "chapters": [
+        {
+          "title": "ChatGPT 制作标识",
+          "start": 0.0,
+          "end": 5.05
+        },
+        {
+          "title": "初始信息",
+          "start": 5.05,
+          "end": 38.22
+        },
+        {
+          "title": "面积变化率恒定",
+          "start": 38.22,
+          "end": 155.82
+        },
+        {
+          "title": "改写为 r(θ)",
+          "start": 155.82,
+          "end": 232.04
+        },
+        {
+          "title": "读出椭圆",
+          "start": 232.04,
+          "end": 335.69
+        },
+        {
+          "title": "改变初速度",
+          "start": 335.69,
+          "end": 374.37
+        },
+        {
+          "title": "真实行星轨道",
+          "start": 374.37,
+          "end": 405.77
+        }
+      ]
     }
   }
 }

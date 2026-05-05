@@ -42,6 +42,7 @@ Avoid isolated Chinese polyphones that edge-tts may misread. Prefer unambiguous 
 - When adding or removing a slate, bridge, or segment, rebuild the combined SRT with the new offsets instead of manually trusting old chapter timings.
 - For symbolic point labels followed by Chinese function words, avoid phrases that can merge into quantity words, such as `P 二对...` being read like `P 两对...`. Rephrase as `P 二影响...`, `P 二这个点...`, or add a clear noun after the label.
 - Avoid compact compounds that Chinese TTS may split awkwardly after symbolic labels, such as `后半段`. Prefer `曲线后面`, `后面这一段`, or `靠近终点的一侧` when the visual meaning allows it.
+- Avoid repeated-action phrases that expose Chinese polyphones to edge-tts. For example, `一圈又一圈` may read `圈` as `juan4`, and `一圈又一圈地走` may also read `地` as `di4`. Rewrite the sentence with stable wording such as `一遍又一遍绕着太阳运行` or `不断绕着太阳运行`.
 
 ## Commands
 

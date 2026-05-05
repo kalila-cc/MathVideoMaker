@@ -58,3 +58,15 @@
 ## 建议 topic slug
 
 `topics/bezier-curve-control/`
+
+## 重渲染依赖说明
+
+本话题的 Remotion 局部渲染目录在 `topics/bezier-curve-control/remotion/`。`node_modules/` 属于本地依赖缓存，不作为正式话题资料保留；如果后续需要重新打开 Remotion Studio 或重新渲染局部片段，需要先在该目录单独安装一次依赖：
+
+```powershell
+cd topics\bezier-curve-control\remotion
+npm install
+npm run dev
+```
+
+如需命令行渲染，再按当时要导出的 composition 执行 `npx remotion render ...`。正式成片仍以 `topics/bezier-curve-control/exports/final/` 下的最终 MP4 为准。

@@ -24,6 +24,7 @@ Do not treat code variables, future reveals, author intent, math meaning, or lat
    - `time/beat`
    - `viewer can know now`
    - `new information introduced`
+   - `rule/formula status` for physics derivations, such as initial setup, derived now, newly added now, or still forbidden
    - `terms/actions now allowed`
    - `terms/actions still forbidden`
 3. Audit every narration line, subtitle, title, label, and on-screen callout against the timeline.
@@ -35,14 +36,18 @@ Do not treat code variables, future reveals, author intent, math meaning, or lat
 
 - Character leakage: mentioning a character name, intention, behavior rule, or action before the character appears or is named.
 - Premature conclusion: using words like "答案", "加法器", "规律", "秩序", "混沌", "进位", or "读写" before the scene has built the visual basis for that concept.
+- Premature shape naming: in derivation-led physics or geometry videos, do not name the final curve or shape before the viewer has seen the evidence for it. Use neutral terms such as "轨道形状" or "这条路径" until the result is derived or visually revealed.
 - Unmotivated audience framing: saying "别急着下结论", "你可能以为", or "继续看" unless the previous beat clearly created that expectation.
 - Future-scene leakage: using terms from the next segment in a bridge before those objects have appeared.
+- Physics rule leakage: using a physical law, force magnitude, conservation statement, or named theorem before it has been introduced or derived. Track whether each rule is a premise, a current derivation result, or a new rule added at this beat; do not let a formula like `1/r^2` appear during a beat that only established central-force direction.
 - Negative framing leakage: do not say "先不看 X", "暂时不把它当成 X", or "别急着叫它 X" before X has appeared or become a natural viewer thought. Negating an unintroduced concept still introduces it too early.
 - Metaphor without anchor: saying "收灯", "收齐", "记忆", "习惯", "小习惯", "房间在计算" when the viewer has only seen toggles, movement, or marks.
 - Soft-rule wording: avoid calling deterministic iteration rules "习惯" or "小习惯"; prefer "行为规则", "动作规则", "处理规则", or a direct rule description such as "看脚下，动一下，留下变化，再走开".
 - False comparison: reject comparison sentences unless both sides share the same axis. "有的越走越乱，有的把灯慢慢收齐" is not a clean comparison because one side describes global pattern complexity and the other invents an unclear collection action.
 - Pronoun drift: using "它", "这个", "那一步" after a scene change when the referent is no longer visually obvious.
 - Screen/voice mismatch: narration says one object or action while screen text labels another.
+- Deictic mismatch: narration points with words like "这里", "这个位置", or "这一处" before the frame has a visible pointer, highlight, or stable label for the referred object. Add the cue or rewrite to a relational description the viewer can verify.
+- Physics label mismatch: screen text, narration, and arrow labels assign different meanings to the same symbol. For example, `\vec a` cannot be labeled as force or as "the Sun pulls it"; it must be described as acceleration, while force should use its own label if it is being taught.
 - Scene-entry mismatch: if narration says the viewer is entering a room, meeting a character, or seeing a concrete object, the frame should first show that story scene or object. Do not replace scene entry with an abstract flowchart unless the narration has explicitly moved into abstraction.
 
 ## Rewrite Strategy

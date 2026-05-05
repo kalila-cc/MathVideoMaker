@@ -3,12 +3,8 @@
 ## 产物
 
 - 旁白稿：`topics/bezier-curve-control/audio/bezier_curve_control_v1_narration.txt`
-- TTS 音频：`topics/bezier-curve-control/audio/bezier_curve_control_v1_preview.mp3`
-- SRT：`topics/bezier-curve-control/audio/bezier_curve_control_v1_preview.srt`
 - 分段场景：`topics/bezier-curve-control/scenes/bezier_curve_control_v1.py`
-- 静音拼接预览：`topics/bezier-curve-control/exports/final/BezierCurveControl_v1_preview_silent.mp4`
-- 带音轨低清预览：`topics/bezier-curve-control/exports/final/BezierCurveControl_v1_preview_with_audio.mp4`
-- 图库分段预览：`topics/bezier-curve-control/segment-preview/BezierCurveControl_v1_segments`
+- 低清预览音频、SRT、静音拼接预览和带音轨预览已在最终成片确认后清理。
 
 ## 章节对齐
 
