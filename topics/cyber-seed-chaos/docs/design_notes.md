@@ -62,6 +62,6 @@
 
 ## 最终成片
 
-- 最终视频：`topics/cyber-seed-chaos/exports/final/CyberSeedChaos_final_1080p60_chatgpt_intro.mp4`。
-- GPT 标识片头复用既有批准版 `PowerSumPolynomials_final_1080p60_chatgpt_intro.mp4` 的前 5.05 秒，不重新设计片头。
+- 最终视频：`topics/cyber-seed-chaos/exports/final/CyberSeedChaos_1080p60_intro.mp4`。
+- GPT 标识片头复用既有批准版 `PowerSumPolynomials_1080p60_intro.mp4` 的前 5.05 秒，不重新设计片头。
 - 正式目录只保留最终 MP4、最终封面、最终旁白文本/SRT 和本设计备注；旧低清预览、临时封面、Manim 中间目录和草稿音视频产物已清理。

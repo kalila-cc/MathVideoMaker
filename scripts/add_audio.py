@@ -44,11 +44,28 @@ def latest_manim_video() -> Path:
     return max(videos, key=lambda item: item.stat().st_mtime)
 
 
+FINAL_ARTIFACT_SUFFIXES = (
+    "_silent_master",
+    "_preview_silent",
+    "_silent",
+    "_with_audio",
+)
+
+
+def final_stem_for(video: Path) -> str:
+    stem = video.stem
+    for suffix in FINAL_ARTIFACT_SUFFIXES:
+        if stem.endswith(suffix):
+            return stem[: -len(suffix)]
+    return stem
+
+
 def default_output_for(video: Path) -> Path:
+    stem = final_stem_for(video)
     topic_root = topic_root_for(video)
     if topic_root:
-        return topic_root / "exports" / "final" / f"{video.stem}_with_audio.mp4"
-    return PROJECT_ROOT / "exports" / "final" / f"{video.stem}_with_audio.mp4"
+        return topic_root / "exports" / "final" / f"{stem}.mp4"
+    return PROJECT_ROOT / "exports" / "final" / f"{stem}.mp4"
 
 
 def topic_root_for(path: Path) -> Path | None:
@@ -83,7 +100,10 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--video", help="Input MP4. Defaults to latest Manim video.")
     parser.add_argument("--audio", default=str(DEFAULT_AUDIO), help="Input narration audio.")
-    parser.add_argument("--out", help="Output MP4. Prefer topics/<topic>/exports/final/<video>_with_audio.mp4.")
+    parser.add_argument(
+        "--out",
+        help="Output MP4. Prefer topics/<topic>/exports/final/<Subject>_<resolution>(_<intro|outro>).mp4.",
+    )
     parser.add_argument("--ffmpeg", default=str(DEFAULT_FFMPEG), help="Path to ffmpeg executable.")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite output if it exists.")
     return parser.parse_args()

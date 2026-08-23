@@ -2,7 +2,7 @@
 
 本话题最终成片路径：
 
-`topics/coffee-cup-caustic/exports/final/CoffeeCupCaustic_final_1080p60_chatgpt_intro.mp4`
+`topics/coffee-cup-caustic/exports/final/CoffeeCupCaustic_1080p60_intro.mp4`
 
 这次迭代的核心经验不是某个单独画面，而是“可见现象 -> 反射光线族 -> 包络线 -> 命名曲线”的说明链条。后续做光学、包络线、参数曲线或公式推导类视频时，应优先复用下面的规则。
 

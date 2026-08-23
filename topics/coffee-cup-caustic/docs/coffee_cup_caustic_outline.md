@@ -13,7 +13,7 @@
 - v2 场景文件：`topics/coffee-cup-caustic/scenes/coffee_cup_caustic_v2.py`
 - v1 旁白文件：`topics/coffee-cup-caustic/audio/coffee_cup_caustic_v1_narration.txt`
 - v2 旁白文件：`topics/coffee-cup-caustic/audio/coffee_cup_caustic_v2_narration.txt`
-- v2 低清预览：`topics/coffee-cup-caustic/exports/final/CoffeeCupCaustic_v2_preview_with_audio.mp4`
+- v2 低清预览：`topics/coffee-cup-caustic/exports/final/CoffeeCupCaustic_480p15.mp4`
 
 ## 观众承诺
 

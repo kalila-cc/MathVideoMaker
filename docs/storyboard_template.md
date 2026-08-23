@@ -12,7 +12,7 @@
 - 工作目录：`topics/<主题 slug>/`
 - 场景文件：`topics/<主题 slug>/scenes/<name>.py`
 - 旁白文件：`topics/<主题 slug>/audio/<name>_narration.txt`
-- 输出成片：`topics/<主题 slug>/exports/final/<name>_with_audio.mp4`
+- 输出成片：`topics/<主题 slug>/exports/final/<Subject>_<resolution>(_<intro|outro>).mp4`
 
 ## 结构
 

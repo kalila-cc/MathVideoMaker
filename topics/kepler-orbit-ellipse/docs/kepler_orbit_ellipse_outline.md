@@ -29,8 +29,8 @@
 
 ## v1 产物
 
-- 高清最终版：`topics/kepler-orbit-ellipse/exports/final/KeplerOrbitEllipse_final_1080p60_chatgpt_intro.mp4`
-- 低清预览：`topics/kepler-orbit-ellipse/exports/final/KeplerOrbitEllipse_v1_preview_with_audio.mp4`
+- 高清最终版：`topics/kepler-orbit-ellipse/exports/final/KeplerOrbitEllipse_1080p60_intro.mp4`
+- 低清预览：`topics/kepler-orbit-ellipse/exports/final/KeplerOrbitEllipse_480p15.mp4`
 - 静音预览：`topics/kepler-orbit-ellipse/exports/final/KeplerOrbitEllipse_v1_preview_silent.mp4`
 - 最终封面：`topics/kepler-orbit-ellipse/exports/covers/KeplerOrbitEllipse_final_1080p60_chatgpt_intro_cover.jpg`
 - 音频：`topics/kepler-orbit-ellipse/audio/preview.mp3`

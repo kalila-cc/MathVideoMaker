@@ -17,3 +17,4 @@ topics/*/remotion/public/segments/
 *.log
 /tools/ffmpeg/
 /tools/_downloads/
+/output/

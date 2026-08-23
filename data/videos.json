@@ -1,6 +1,88 @@
 {
   "videos": {
-    "topics/power-sum-polynomials/exports/final/PowerSumPolynomials_final_1080p60_chatgpt_intro.mp4": {
+    "topics/constructible-17-gon/exports/final/Constructible17Gon_v7_1080p60_final.mp4": {
+      "title": "尺规作图最反直觉的一集：边更少的正七边形反而画不出来？",
+      "description": "正七边形居然比正十七边形难画？只给一把没刻度的直尺和一个圆规，正十七边形能精确画出来，正七边形反而画不了。这期视频从最基础的规则开始，一步步推给你看，为什么正七边形卡死，正十七边形却能画出来。",
+      "topic": "正多边形与尺规作图",
+      "tags": [
+        "尺规作图",
+        "正十七边形",
+        "正七边形",
+        "高斯—旺策尔判据",
+        "二次方程",
+        "数学科普",
+        "几何动画",
+        "1080p60"
+      ],
+      "status": "最终成片",
+      "priority": 2080,
+      "cover": "topics/constructible-17-gon/exports/covers/constructible_17_gon_cover_16x9.png",
+      "covers": {
+        "desktop": "topics/constructible-17-gon/exports/covers/constructible_17_gon_cover_16x9.png",
+        "mobile": "topics/constructible-17-gon/exports/covers/constructible_17_gon_cover_16x9.png"
+      },
+      "duration": "00:13:20.17",
+      "hasAudio": true,
+      "reviewFocus": false,
+      "chapters": [
+        {
+          "title": "边更少为何反而画不出",
+          "start": 0.0,
+          "end": 33.146
+        },
+        {
+          "title": "把多边形缩成一个坐标",
+          "start": 33.146,
+          "end": 62.445
+        },
+        {
+          "title": "尺规实现加减乘除与开平方",
+          "start": 62.445,
+          "end": 109.353
+        },
+        {
+          "title": "交点为何最多带来二次方程",
+          "start": 109.353,
+          "end": 168.442
+        },
+        {
+          "title": "最简方程次数与尺规边界",
+          "start": 168.442,
+          "end": 236.284
+        },
+        {
+          "title": "正七边形：三次方程与不可约",
+          "start": 236.284,
+          "end": 469.539
+        },
+        {
+          "title": "正十七边形：八个横向投影",
+          "start": 469.539,
+          "end": 525.709
+        },
+        {
+          "title": "三层二次求解 4+4→2+2→1+1",
+          "start": 525.709,
+          "end": 693.593
+        },
+        {
+          "title": "从坐标回到圆上，复制弦长闭合",
+          "start": 693.593,
+          "end": 721.465
+        },
+        {
+          "title": "高斯—旺策尔一般判据",
+          "start": 721.465,
+          "end": 768.22
+        },
+        {
+          "title": "真正分界是方程结构",
+          "start": 768.22,
+          "end": 800.17
+        }
+      ]
+    },
+    "topics/power-sum-polynomials/exports/final/PowerSumPolynomials_1080p60_intro.mp4": {
       "title": "幂和公式，能不能自己算出来？",
       "description": "从常见的自然数幂次求和公式出发，观察前 n 项和的多项式次数规律，用待定系数法推出三次幂和，再通过二项式差分看到组合数递推，最后引出伯努利数的数学背景。",
       "topic": "幂和与伯努利数",
@@ -69,7 +151,7 @@
         }
       ]
     },
-    "topics/astroid-envelope/exports/final/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro.mp4": {
+    "topics/astroid-envelope/exports/final/AstroidEnvelope_1080p60_outro.mp4": {
       "title": "一根滑落的棍子，为什么会画出星形线？",
       "description": "从一根靠墙滑落的棍子出发，把棍子在不同位置留下的外轮廓当作问题，通过直线族、微分和包络线条件推出星形线的参数式和标准方程，并把这个几何现象和现实中的包络线联系起来。",
       "topic": "微分与包络线",
@@ -178,7 +260,7 @@
         "mobile": "topics/astroid-envelope/exports/covers/LadderAstroidEnvelope_v6_bilibili_1080p60_chatgpt_outro_cover.jpg"
       }
     },
-    "topics/bezier-curve-control/exports/final/BezierCurveControl_v1_power_sum_gpt_intro_1080p_with_audio.mp4": {
+    "topics/bezier-curve-control/exports/final/BezierCurveControl_1080p60_intro.mp4": {
       "cover": "topics/bezier-curve-control/exports/covers/BezierCurveControl_v1_power_sum_gpt_intro_1080p_cover.jpg",
       "covers": {
         "desktop": "topics/bezier-curve-control/exports/covers/BezierCurveControl_v1_power_sum_gpt_intro_1080p_cover.jpg",
@@ -262,7 +344,7 @@
         }
       ]
     },
-    "topics/cyber-seed-chaos/exports/final/CyberSeedChaos_final_1080p60_chatgpt_intro.mp4": {
+    "topics/cyber-seed-chaos/exports/final/CyberSeedChaos_1080p60_intro.mp4": {
       "title": "没有随机数，为什么会长出混沌花纹？",
       "description": "从一个只按三句行为规则行动的小生命开始，先明确暗格、青格、紫格分别怎么处理，再看它如何在发光棋盘里走出复杂花纹；随后只改一条规则观察纹理差异，再验证同一起点会完整重放，而只差一个被标出的初始亮格就会分岔；最后检查到一百万步，仍没有回到同一个完整状态。",
       "topic": "混沌",
@@ -314,7 +396,7 @@
         }
       ]
     },
-    "topics/coffee-cup-caustic/exports/final/CoffeeCupCaustic_final_1080p60_chatgpt_intro.mp4": {
+    "topics/coffee-cup-caustic/exports/final/CoffeeCupCaustic_1080p60_intro.mp4": {
       "title": "咖啡杯里的心形光斑，是怎么来的？",
       "description": "杯壁上那条像心形一样的亮线，并不是杯子的花纹。它是阳光反射后自然挤出来的一条边界，也是焦散线最容易被看见的样子之一。",
       "topic": "焦散线与包络线",
@@ -410,7 +492,7 @@
         }
       ]
     },
-    "topics/kepler-orbit-ellipse/exports/final/KeplerOrbitEllipse_final_1080p60_chatgpt_intro.mp4": {
+    "topics/kepler-orbit-ellipse/exports/final/KeplerOrbitEllipse_1080p60_intro.mp4": {
       "title": "行星轨道为什么偏偏是椭圆？",
       "description": "只看行星此刻的位置和速度，再加上太阳的引力，能不能判断它以后会怎么走？这支视频沿着牛顿的思路推导：椭圆从哪里来，初速度一变，轨道又为什么会变成圆、抛物线或双曲线。",
       "topic": "天体力学与圆锥曲线",
@@ -468,6 +550,77 @@
           "title": "真实行星轨道",
           "start": 374.37,
           "end": 405.77
+        }
+      ]
+    },
+    "topics/friction-amplification/exports/final/FrictionAmplification_1080p60.mp4": {
+      "title": "为什么越拉，反而越拉不开？",
+      "description": "从两本书一页页交错后几乎拉不开的生活实验出发，放大一张纸页的受力过程，解释拉力如何通过弯折和夹层变成正压力，再用码头绕柱绳的绞盘方程说明同一种摩擦放大机制。",
+      "topic": "摩擦放大与绞盘方程",
+      "tags": [
+        "摩擦",
+        "正压力",
+        "绞盘方程",
+        "书页实验",
+        "力学",
+        "物理科普",
+        "数学科普",
+        "1080p60"
+      ],
+      "status": "最终成片",
+      "priority": 2120,
+      "duration": "00:03:00.58",
+      "hasAudio": true,
+      "cover": "topics/friction-amplification/exports/covers/FrictionAmplification_v2_1080p60_cover.jpg",
+      "covers": {
+        "desktop": "topics/friction-amplification/exports/covers/FrictionAmplification_v2_1080p60_cover.jpg",
+        "mobile": "topics/friction-amplification/exports/covers/FrictionAmplification_v2_1080p60_cover.jpg"
+      },
+      "chapters": [
+        {
+          "title": "两本书拉不开",
+          "start": 0.0,
+          "end": 19.3
+        },
+        {
+          "title": "单页受力",
+          "start": 19.3,
+          "end": 38.87
+        },
+        {
+          "title": "拉力变成正压力",
+          "start": 38.87,
+          "end": 62.2
+        },
+        {
+          "title": "多层累积",
+          "start": 62.2,
+          "end": 83.67
+        },
+        {
+          "title": "页数趋势",
+          "start": 83.67,
+          "end": 103.61
+        },
+        {
+          "title": "绕柱绳模型",
+          "start": 103.61,
+          "end": 122.71
+        },
+        {
+          "title": "绞盘方程",
+          "start": 122.71,
+          "end": 145.25
+        },
+        {
+          "title": "共同机制",
+          "start": 145.25,
+          "end": 161.23
+        },
+        {
+          "title": "生活应用",
+          "start": 161.23,
+          "end": 180.58
         }
       ]
     }

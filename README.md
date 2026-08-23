@@ -71,7 +71,7 @@ python -m venv .venv
 把音轨合成进视频：
 
 ```powershell
-.\.venv\Scripts\python scripts\add_audio.py --video topics\<topic>\exports\final\preview_silent.mp4 --audio topics\<topic>\audio\preview.mp3 --out topics\<topic>\exports\final\preview_with_audio.mp4 --overwrite
+.\.venv\Scripts\python scripts\add_audio.py --video topics\<topic>\exports\final\preview_silent.mp4 --audio topics\<topic>\audio\preview.mp3 --out topics\<topic>\exports\final\ExampleTopic_1080p60.mp4 --overwrite
 ```
 
 启动本地视频库：

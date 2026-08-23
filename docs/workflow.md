@@ -28,6 +28,14 @@
 13. 低清版确认后，再渲染最终高清版。
 14. 高清发布前后按 `docs/final_release_checklist.md` 做验收和清理，避免复用旧高清文件或误删新成片；最终成片、封面和字幕路径同步写回大纲。
 
+## 理解与版式放行门
+
+“术语已经出现过”和“观众能跟上因果关系”是两件事。旁白进入 TTS 前，除故事状态检查外，还必须做一次只读文案的因果链检查：每个新符号、等式或判据都要能回答“当前在求什么、为什么现在需要它、它怎样由上一拍得到、它让下一步能做什么”。任何一问答不出来，都不能标记为可生成旁白。
+
+每个含卡片的 Scene 在渲染前要声明内容状态，而不是只检查最终静帧：`进入 → 过程 → 信息峰值 → 结论替换 → 退出`。卡片内部必须预留安全框；信息峰值时若放不下，优先淡出已完成的过程、原位替换或分页切换，不得继续向下追加。
+
+低清预览实行两遍视觉验收：第一遍按固定间隔抽全片，发现整体节奏和字幕问题；第二遍按 Scene 声明的“信息峰值”精确抽帧，并单独裁出左右卡片检查四边间距。高清重渲染后，对同一批峰值帧再检查一次，低清通过不能替代高清放行。
+
 ## 常用命令
 
 生成旁白：
@@ -53,13 +61,13 @@
 合成音轨：
 
 ```powershell
-.\.venv\Scripts\python scripts\add_audio.py --video topics\<topic>\exports\final\preview_silent.mp4 --audio topics\<topic>\audio\preview.mp3 --out topics\<topic>\exports\final\preview_with_audio.mp4 --overwrite
+.\.venv\Scripts\python scripts\add_audio.py --video topics\<topic>\exports\final\preview_silent.mp4 --audio topics\<topic>\audio\preview.mp3 --out topics\<topic>\exports\final\ExampleTopic_1080p60.mp4 --overwrite
 ```
 
 生成本地封面并写回 metadata：
 
 ```powershell
-.\.venv\Scripts\python scripts\generate_cover.py --video topics\<topic>\exports\final\preview_with_audio.mp4 --time 0.100 --out topics\<topic>\exports\covers\preview_cover.jpg --overwrite --update-metadata
+.\.venv\Scripts\python scripts\generate_cover.py --video topics\<topic>\exports\final\ExampleTopic_1080p60.mp4 --time 0.100 --out topics\<topic>\exports\covers\preview_cover.jpg --overwrite --update-metadata
 ```
 
 启动预览网页：

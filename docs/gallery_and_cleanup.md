@@ -31,7 +31,7 @@
 ```json
 {
   "videos": {
-    "topics/example-topic/exports/final/ExampleTopic_preview_with_audio.mp4": {
+    "topics/example-topic/exports/final/ExampleTopic_1080p60.mp4": {
       "title": "示例视频标题",
       "description": "一句话说明这一版解决了什么问题，以及观众能看懂什么。",
       "topic": "示例主题",
@@ -69,7 +69,7 @@
 生成封面：
 
 ```powershell
-.\.venv\Scripts\python scripts\generate_cover.py --video topics\<topic>\exports\final\preview_with_audio.mp4 --time 0.100 --out topics\<topic>\exports\covers\preview_cover.jpg --overwrite --update-metadata
+.\.venv\Scripts\python scripts\generate_cover.py --video topics\<topic>\exports\final\ExampleTopic_1080p60.mp4 --time 0.100 --out topics\<topic>\exports\covers\preview_cover.jpg --overwrite --update-metadata
 ```
 
 ## 分段预览

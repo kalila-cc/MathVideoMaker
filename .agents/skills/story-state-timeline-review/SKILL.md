@@ -28,9 +28,10 @@ Do not treat code variables, future reveals, author intent, math meaning, or lat
    - `terms/actions now allowed`
    - `terms/actions still forbidden`
 3. Audit every narration line, subtitle, title, label, and on-screen callout against the timeline.
-4. Mark a line as blocking if it uses information before introduction, asks the viewer to react in a way the scene has not earned, or names a conclusion before the visual evidence exists.
-5. Rewrite blocking lines using only observable information from that beat, or move the reveal later.
-6. If the user asked for implementation, edit the script/source files directly and then rerun the relevant preview step.
+4. For every new symbol, equation, theorem, criterion, or classification, run a causal-link check: `what are we solving now?`, `why is this needed now?`, `how does the previous beat produce it?`, and `what next step does it enable?`. A term may be viewer-known yet still fail this check.
+5. Mark a line as blocking if it uses information before introduction, asks the viewer to react in a way the scene has not earned, names a conclusion before the visual evidence exists, or depends on an unstated causal bridge.
+6. Rewrite blocking lines using only observable information from that beat, add the missing bridge, or move the reveal later.
+7. If the user asked for implementation, edit the script/source files directly and then rerun the relevant preview step.
 
 ## What To Catch
 
@@ -49,6 +50,8 @@ Do not treat code variables, future reveals, author intent, math meaning, or lat
 - Deictic mismatch: narration points with words like "这里", "这个位置", or "这一处" before the frame has a visible pointer, highlight, or stable label for the referred object. Add the cue or rewrite to a relational description the viewer can verify.
 - Physics label mismatch: screen text, narration, and arrow labels assign different meanings to the same symbol. For example, `\vec a` cannot be labeled as force or as "the Sun pulls it"; it must be described as acceleration, while force should use its own label if it is being taught.
 - Scene-entry mismatch: if narration says the viewer is entering a room, meeting a character, or seeing a concrete object, the frame should first show that story scene or object. Do not replace scene entry with an abstract flowchart unless the narration has explicitly moved into abstraction.
+- Causal-chain gap: a symbol or formula has technically been introduced, but the viewer is not told why it is the current target, which visible objects it compresses, how the preceding relation transforms into it, or why it matters to the next step.
+- Mathematical-scope gap: words such as `root`, `factor`, `irreducible`, or `solvable` switch number systems or coefficient fields without saying so. Make distinctions such as real zero versus rational root and real factorization versus factorization over rational coefficients explicit.
 
 ## Rewrite Strategy
 

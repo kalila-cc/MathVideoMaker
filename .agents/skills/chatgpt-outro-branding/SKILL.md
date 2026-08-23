@@ -37,7 +37,7 @@ Recommended structure:
 ## Workflow
 
 1. Check whether a reusable outro scene already exists for the topic.
-2. For an intro slate, first look for an already approved 5.05s ChatGPT intro in prior final videos such as `topics/power-sum-polynomials/exports/final/PowerSumPolynomials_final_1080p60_chatgpt_intro.mp4`; extract and reuse that slate unchanged when available.
+2. For an intro slate, first look for an already approved 5.05s ChatGPT intro in prior final videos such as `topics/power-sum-polynomials/exports/final/PowerSumPolynomials_1080p60_intro.mp4`; extract and reuse that slate unchanged when available.
 3. Edit only the branding scene unless the main video timing needs to change or no approved reusable slate exists.
 4. Render the outro alone in low quality first when the branding scene is new or changed:
 

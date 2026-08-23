@@ -18,6 +18,8 @@ Use this skill for end-to-end preview generation.
 7. Verify duration, audio presence, and local gallery metadata.
 8. Only render final high quality after the low-quality preview is approved.
 
+Visual approval has two passes. First sample the whole preview at uniform intervals. Then sample the exact `peak occupancy` beats declared by dense scenes and inspect cropped left/right panels, subtitles, and all four card edges. After HD rerendering, repeat the peak-beat review from the final HD MP4; a low-quality screenshot is not release evidence for the HD build.
+
 Keep outputs topic-local:
 
 - Manim intermediate clips: `topics/<topic>/exports/manim/videos/...`
@@ -32,14 +34,16 @@ Keep outputs topic-local:
 
 .\.venv\Scripts\python scripts\concat_videos.py --out topics\astroid-envelope\exports\final\example_silent.mp4 --overwrite path\to\clip1.mp4 path\to\clip2.mp4
 
-.\.venv\Scripts\python scripts\add_audio.py --video topics\astroid-envelope\exports\final\example_silent.mp4 --audio topics\astroid-envelope\audio\narration.mp3 --out topics\astroid-envelope\exports\final\example_with_audio.mp4 --overwrite
+.\.venv\Scripts\python scripts\add_audio.py --video topics\astroid-envelope\exports\final\example_silent.mp4 --audio topics\astroid-envelope\audio\narration.mp3 --out topics\astroid-envelope\exports\final\ExampleTopic_1080p60.mp4 --overwrite
 
-.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\example_with_audio.mp4 --time 0.100 --out topics\astroid-envelope\exports\covers\example_cover.jpg --overwrite --update-metadata
+.\.venv\Scripts\python scripts\generate_cover.py --video topics\astroid-envelope\exports\final\ExampleTopic_1080p60.mp4 --time 0.100 --out topics\astroid-envelope\exports\covers\example_cover.jpg --overwrite --update-metadata
 ```
 
 ## Validation
 
 - Use FFmpeg to confirm video duration and audio stream.
+- Run a complete decode of the final file with `ffmpeg -v error -i <final.mp4> -f null NUL`; metadata probing alone does not catch corruption near the end.
+- Treat panel overflow as a release blocker. For each dense card, keep evidence for entry, peak, and conclusion states; prefer dynamic replacement of completed detail over stacking more rows into the same card.
 - For videos with timeline drift or dense narration/animation sync, maintain a topic-local timeline config and run `scripts/build_timeline_index.py --config <config> --check` after rendering changed clips. Use `--search <text>` to locate where a visual beat and matching SRT cue appear on the accumulated whole-video timeline.
 - When narration is shortened, a derivation is collapsed, or a scene duration changes, rebuild the accumulated timeline before judging sync. Downstream chapter offsets, gallery chapter metadata, and case-by-case comparison beats can all become stale even if the final MP4 duration looks plausible.
 - When a branded intro or silent pre-roll precedes narration, measure the actual rendered intro clip for each quality and use that duration for sync. HD mux delay and segmented-preview `audioDelay` may differ because 60 fps and 15 fps renders round to different clip lengths; do not reuse an old nominal delay after changing the intro.
