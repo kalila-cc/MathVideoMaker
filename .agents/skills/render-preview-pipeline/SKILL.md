@@ -13,6 +13,8 @@ Use this skill for end-to-end preview generation.
 2. For fast local iteration, optionally register those clips in `data/videos.json` as a `segments` virtual preview and inspect them in the gallery before concatenating. If the clips are silent, attach the narration with `audio` and align it with `audioDelay`.
 3. During segmented-preview review, update only the changed scene clips and metadata. Do not regenerate the complete concatenated MP4 after every segment tweak; wait until the overall chapter flow is close to approved.
 4. Concatenate clips into a silent MP4 when the segmented preview is approved enough for whole-video review.
+   - Treat `silent` as “no audio track,” not “no narration context.” If the screen alone cannot communicate the intended explanation, also generate a review SRT and a burned-caption preview by default.
+   - First audit whether the source frame can reserve a consistent bottom subtitle-safe band by moving panels upward and tightening unused layout space. At 854×480, a roughly 50–60 px band with panel bottoms above it is often enough for one-line `FontSize=14` captions. Use direct overlay when that audit passes. Extend the frame only when no stable in-frame band is possible; a large extension can read as wasted blank space even if its background matches. In either case, do not add a contrasting permanent slab or cue-sized subtitle box. Split or shorten a cue before allowing a second line, and rebuild the final SRT from real audio boundaries after TTS.
 5. Mux narration audio into the video.
 6. Generate a readable local cover separately from the video timeline. Default to one high-resolution, mobile/feed-first cover; only make separate desktop/mobile variants or low-resolution check images if the user explicitly asks.
 7. Verify duration, audio presence, and local gallery metadata.
@@ -42,6 +44,7 @@ Keep outputs topic-local:
 ## Validation
 
 - Use FFmpeg to confirm video duration and audio stream.
+- For burned Chinese captions, use `fontsdir=assets/fonts` and an alias that actually selects the bundled Smiley Sans font. Capture the FFmpeg/libass log and require its `fontselect` result to resolve to `SmileySans-Oblique`; seeing `FontName=Smiley Sans` in the filter string is not proof. Treat fallback to Arial, `MicrosoftYaHeiUI`, or another system font as a failed caption-font check and fix the alias (for example `FontName=Smiley Sans Oblique` or `FontName=得意黑`) before delivery.
 - Run a complete decode of the final file with `ffmpeg -v error -i <final.mp4> -f null NUL`; metadata probing alone does not catch corruption near the end.
 - Treat panel overflow as a release blocker. For each dense card, keep evidence for entry, peak, and conclusion states; prefer dynamic replacement of completed detail over stacking more rows into the same card.
 - For videos with timeline drift or dense narration/animation sync, maintain a topic-local timeline config and run `scripts/build_timeline_index.py --config <config> --check` after rendering changed clips. Use `--search <text>` to locate where a visual beat and matching SRT cue appear on the accumulated whole-video timeline.

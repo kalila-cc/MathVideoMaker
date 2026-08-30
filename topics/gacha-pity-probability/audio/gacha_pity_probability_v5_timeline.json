@@ -1,0 +1,911 @@
+{
+  "fps": 60,
+  "audio_duration_seconds": 552.528,
+  "total_frames": 33152,
+  "video_duration_seconds": 552.5333333333333,
+  "cue_count": 137,
+  "scene_count": 18,
+  "scenes": [
+    {
+      "index": 1,
+      "name": "ThreeNumbersHookV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 6,
+      "start_frame": 0,
+      "end_frame": 1408,
+      "frames": 1408,
+      "duration_seconds": 23.466666666666665,
+      "cues": [
+        {
+          "start_seconds": 0.1,
+          "end_seconds": 5.932,
+          "text": "打开角色活动祈愿，详情里同时写着0.6%和1.6%。"
+        },
+        {
+          "start_seconds": 5.932,
+          "end_seconds": 9.133,
+          "text": "旁边还有一条：90抽内必出五星。"
+        },
+        {
+          "start_seconds": 9.133,
+          "end_seconds": 11.962,
+          "text": "0.6%落在每一次祈愿上。"
+        },
+        {
+          "start_seconds": 11.962,
+          "end_seconds": 15.679,
+          "text": "1.6%描述算上保底后的长期平均。"
+        },
+        {
+          "start_seconds": 15.679,
+          "end_seconds": 18.87,
+          "text": "90抽则给等待五星划了一条上限。"
+        },
+        {
+          "start_seconds": 18.87,
+          "end_seconds": 23.464,
+          "text": "把这三个数字放到一万人身上，概率才会真正有形状。"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "name": "CohortAfterEachPullV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 10,
+      "start_frame": 1408,
+      "end_frame": 3639,
+      "frames": 2231,
+      "duration_seconds": 37.18333333333333,
+      "cues": [
+        {
+          "start_seconds": -0.003,
+          "end_seconds": 4.8,
+          "text": "为了看清0.6%本身，先用一个不含保底的对照模型。"
+        },
+        {
+          "start_seconds": 4.8,
+          "end_seconds": 9.109,
+          "text": "每抽相互独立，五星概率始终是0.6%。"
+        },
+        {
+          "start_seconds": 9.109,
+          "end_seconds": 11.872,
+          "text": "让1万名玩家同时开始抽卡。"
+        },
+        {
+          "start_seconds": 11.872,
+          "end_seconds": 14.625,
+          "text": "这里只追踪每个人的第一颗五星。"
+        },
+        {
+          "start_seconds": 14.625,
+          "end_seconds": 17.958,
+          "text": "有人出金就离开，没出金的人继续等待。"
+        },
+        {
+          "start_seconds": 17.958,
+          "end_seconds": 22.179,
+          "text": "第一抽平均约60人出金，还剩9940人。"
+        },
+        {
+          "start_seconds": 22.179,
+          "end_seconds": 25.469,
+          "text": "第二抽的分母只剩这9940人。"
+        },
+        {
+          "start_seconds": 25.469,
+          "end_seconds": 28.144,
+          "text": "之后每抽都重复同样的分流。"
+        },
+        {
+          "start_seconds": 28.144,
+          "end_seconds": 32.53,
+          "text": "抽完90次，仍有约5818人没见到五星。"
+        },
+        {
+          "start_seconds": 32.53,
+          "end_seconds": 37.19,
+          "text": "可见，固定0.6%本身并不会带来90抽必出。"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "name": "PullFiftyThreeViewsV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 10,
+      "start_frame": 3639,
+      "end_frame": 5959,
+      "frames": 2320,
+      "duration_seconds": 38.666666666666664,
+      "cues": [
+        {
+          "start_seconds": 0.007,
+          "end_seconds": 1.915,
+          "text": "时间来到第50抽。"
+        },
+        {
+          "start_seconds": 1.915,
+          "end_seconds": 6.016,
+          "text": "这一抽开始前，约7446人仍在等待。"
+        },
+        {
+          "start_seconds": 6.016,
+          "end_seconds": 9.876,
+          "text": "其中平均约44.68人会第一次出金。"
+        },
+        {
+          "start_seconds": 9.876,
+          "end_seconds": 15.007,
+          "text": "44.68除以7446，仍然是0.6%。"
+        },
+        {
+          "start_seconds": 15.007,
+          "end_seconds": 19.481,
+          "text": "如果除以最初的1万人，结果约为0.447%。"
+        },
+        {
+          "start_seconds": 19.481,
+          "end_seconds": 23.11,
+          "text": "这个数表示首金正好落在第50抽的比例。"
+        },
+        {
+          "start_seconds": 23.11,
+          "end_seconds": 27.968,
+          "text": "再把前50抽的出金人数合起来，共有约2599人。"
+        },
+        {
+          "start_seconds": 27.968,
+          "end_seconds": 31.334,
+          "text": "他们占最初1万人的25.99%。"
+        },
+        {
+          "start_seconds": 31.334,
+          "end_seconds": 34.503,
+          "text": "同样是第50抽，三个百分比都成立。"
+        },
+        {
+          "start_seconds": 34.503,
+          "end_seconds": 38.67,
+          "text": "差别在于统计哪批人，以及统计多长一段时间。"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "name": "ConditionalProbabilityCurveFullV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 5,
+      "start_frame": 5959,
+      "end_frame": 7099,
+      "frames": 1140,
+      "duration_seconds": 19.0,
+      "cues": [
+        {
+          "start_seconds": 0.003,
+          "end_seconds": 2.755,
+          "text": "第一张图只盯着仍在等待的人。"
+        },
+        {
+          "start_seconds": 2.755,
+          "end_seconds": 6.954,
+          "text": "前面一直没出时，这一抽出金的比例叫条件概率。"
+        },
+        {
+          "start_seconds": 6.954,
+          "end_seconds": 11.022,
+          "text": "我们把它记作字母q，横轴上的n表示抽数。"
+        },
+        {
+          "start_seconds": 11.022,
+          "end_seconds": 16.121,
+          "text": "固定0.6%的模型里，这个比例始终等于0.6%。"
+        },
+        {
+          "start_seconds": 16.121,
+          "end_seconds": 18.994,
+          "text": "所以条件概率是一条水平线。"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "name": "FirstGoldPmfCurveFullV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 8,
+      "start_frame": 7099,
+      "end_frame": 8997,
+      "frames": 1898,
+      "duration_seconds": 31.633333333333333,
+      "cues": [
+        {
+          "start_seconds": -0.006,
+          "end_seconds": 3.897,
+          "text": "换回最初的1万人，把每个人的首金抽数排开。"
+        },
+        {
+          "start_seconds": 3.897,
+          "end_seconds": 7.768,
+          "text": "得到的柱状图叫概率质量函数，英文缩写是PMF。"
+        },
+        {
+          "start_seconds": 7.768,
+          "end_seconds": 11.079,
+          "text": "它也就是每一抽对应的“首金分布”。"
+        },
+        {
+          "start_seconds": 11.079,
+          "end_seconds": 14.5,
+          "text": "某一柱表示首金恰好落在这一抽的概率。"
+        },
+        {
+          "start_seconds": 14.5,
+          "end_seconds": 18.185,
+          "text": "想在这一抽首次出金，前面必须一直没出。"
+        },
+        {
+          "start_seconds": 18.185,
+          "end_seconds": 22.011,
+          "text": "再乘上这一抽的条件概率，才得到柱子的高度。"
+        },
+        {
+          "start_seconds": 22.011,
+          "end_seconds": 25.981,
+          "text": "等待的人越来越少，首金分布也会慢慢降低。"
+        },
+        {
+          "start_seconds": 25.981,
+          "end_seconds": 31.639,
+          "text": "第50抽约为0.447%，第90抽约为0.351%。"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "name": "CumulativeCdfCurveFullV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 7,
+      "start_frame": 8997,
+      "end_frame": 10657,
+      "frames": 1660,
+      "duration_seconds": 27.666666666666668,
+      "cues": [
+        {
+          "start_seconds": 0.006,
+          "end_seconds": 4.666,
+          "text": "如果只看截止某一抽已经出金的比例，"
+        },
+        {
+          "start_seconds": 4.666,
+          "end_seconds": 8.043,
+          "text": "得到的曲线叫累积分布函数，英文缩写是CDF。"
+        },
+        {
+          "start_seconds": 8.043,
+          "end_seconds": 11.53,
+          "text": "在抽卡里，它就是“累计出金率”。"
+        },
+        {
+          "start_seconds": 11.53,
+          "end_seconds": 15.62,
+          "text": "把此前各抽的首金概率加起来，就得到这条曲线。"
+        },
+        {
+          "start_seconds": 15.62,
+          "end_seconds": 18.909,
+          "text": "也可以用100%减去仍未出金的比例。"
+        },
+        {
+          "start_seconds": 18.909,
+          "end_seconds": 24.03,
+          "text": "固定模型中，前50抽的累计出金率约为25.99%。"
+        },
+        {
+          "start_seconds": 24.03,
+          "end_seconds": 27.659,
+          "text": "到前90抽，它也只有41.82%。"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "name": "CompactCurveRelationshipV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 7,
+      "start_frame": 10657,
+      "end_frame": 12382,
+      "frames": 1725,
+      "duration_seconds": 28.75,
+      "cues": [
+        {
+          "start_seconds": -0.008,
+          "end_seconds": 3.018,
+          "text": "这三张图记录的是同一次人群分流。"
+        },
+        {
+          "start_seconds": 3.018,
+          "end_seconds": 7.24,
+          "text": "条件概率看仍在等待的人，这一抽有多少会出金。"
+        },
+        {
+          "start_seconds": 7.24,
+          "end_seconds": 11.056,
+          "text": "首金分布把这些人放到各自首次出金的位置。"
+        },
+        {
+          "start_seconds": 11.056,
+          "end_seconds": 15.19,
+          "text": "累计出金率把此前已经出金的人全部合在一起。"
+        },
+        {
+          "start_seconds": 15.19,
+          "end_seconds": 19.926,
+          "text": "只要逐抽的条件概率确定，另外两张图也随之确定。"
+        },
+        {
+          "start_seconds": 19.926,
+          "end_seconds": 24.521,
+          "text": "抽数只能取整数，所以首金分布要画成一根根柱。"
+        },
+        {
+          "start_seconds": 24.521,
+          "end_seconds": 28.742,
+          "text": "连线只能帮助观察走势，并不存在第50.5抽。"
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "name": "HardPityCurveDashboardV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 7,
+      "start_frame": 12382,
+      "end_frame": 14405,
+      "frames": 2023,
+      "duration_seconds": 33.71666666666667,
+      "cues": [
+        {
+          "start_seconds": -0.008,
+          "end_seconds": 5.211,
+          "text": "给固定0.6%的模型加上90抽硬保底，形状立刻变了。"
+        },
+        {
+          "start_seconds": 5.211,
+          "end_seconds": 10.08,
+          "text": "前89抽仍为0.6%，第90抽改为100%。"
+        },
+        {
+          "start_seconds": 10.08,
+          "end_seconds": 14.696,
+          "text": "这只是观察硬保底作用的对照，不是官方逐抽概率表。"
+        },
+        {
+          "start_seconds": 14.696,
+          "end_seconds": 20.343,
+          "text": "前89抽都没出金的约5853人，会在第90抽一起出金。"
+        },
+        {
+          "start_seconds": 20.343,
+          "end_seconds": 24.554,
+          "text": "首金分布因此冒出一根58.53%的高柱。"
+        },
+        {
+          "start_seconds": 24.554,
+          "end_seconds": 29.225,
+          "text": "累计出金率也从41.47%直接跳到100%。"
+        },
+        {
+          "start_seconds": 29.225,
+          "end_seconds": 33.709,
+          "text": "硬保底不只限制最长等待，也改变了整段等待分布。"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "name": "IntegratedRateVsHardPityV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 7,
+      "start_frame": 14405,
+      "end_frame": 16166,
+      "frames": 1761,
+      "duration_seconds": 29.35,
+      "cues": [
+        {
+          "start_seconds": -0.007,
+          "end_seconds": 5.914,
+          "text": "只靠0.6%和90抽硬保底，平均约69.7抽出一颗五星。"
+        },
+        {
+          "start_seconds": 5.914,
+          "end_seconds": 9.851,
+          "text": "换算成长期五星率，约为1.435%。"
+        },
+        {
+          "start_seconds": 9.851,
+          "end_seconds": 12.625,
+          "text": "这比详情里的1.6%更低。"
+        },
+        {
+          "start_seconds": 12.737,
+          "end_seconds": 17.812,
+          "text": "综合概率1.6%对应的平均五星间隔是62.5抽。"
+        },
+        {
+          "start_seconds": 17.812,
+          "end_seconds": 22.472,
+          "text": "所以在90抽以前，条件概率还会在某些位置升高。"
+        },
+        {
+          "start_seconds": 22.472,
+          "end_seconds": 25.981,
+          "text": "但公开数字没有写明从哪一抽开始升高。"
+        },
+        {
+          "start_seconds": 25.981,
+          "end_seconds": 29.347,
+          "text": "每抽升高多少，也没有写进官方详情。"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "name": "NonUniquePerPullCurvesV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 5,
+      "start_frame": 16166,
+      "end_frame": 17358,
+      "frames": 1192,
+      "duration_seconds": 19.866666666666667,
+      "cues": [
+        {
+          "start_seconds": -0.003,
+          "end_seconds": 3.144,
+          "text": "满足这些公开条件的曲线不止一条。"
+        },
+        {
+          "start_seconds": 3.144,
+          "end_seconds": 8.166,
+          "text": "不同的上升起点和幅度，都可能得到62.5抽的平均间隔。"
+        },
+        {
+          "start_seconds": 8.166,
+          "end_seconds": 11.444,
+          "text": "它们也都能在第90抽到达100%。"
+        },
+        {
+          "start_seconds": 11.444,
+          "end_seconds": 15.392,
+          "text": "可中间的条件概率和累计出金率会很不一样。"
+        },
+        {
+          "start_seconds": 15.392,
+          "end_seconds": 19.865,
+          "text": "公开数字圈出了范围，却没有给出唯一的逐抽曲线。"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "name": "CommunitySampleDistributionV5",
+      "source": "gacha_pity_probability_v5.py",
+      "cue_count": 8,
+      "start_frame": 17358,
+      "end_frame": 19438,
+      "frames": 2080,
+      "duration_seconds": 34.666666666666664,
+      "cues": [
+        {
+          "start_seconds": -0.002,
+          "end_seconds": 4.077,
+          "text": "数学上的不唯一，不代表真实抽卡毫无线索。"
+        },
+        {
+          "start_seconds": 4.077,
+          "end_seconds": 8.891,
+          "text": "从Paimon.moe公开聚合中筛出74期角色活动祈愿。"
+        },
+        {
+          "start_seconds": 8.891,
+          "end_seconds": 12.389,
+          "text": "其中包含约2205万条五星落点。"
+        },
+        {
+          "start_seconds": 12.389,
+          "end_seconds": 17.345,
+          "text": "把这些落点按抽数排开，最高的一根柱出现在第77抽。"
+        },
+        {
+          "start_seconds": 17.345,
+          "end_seconds": 21.972,
+          "text": "第77抽占全部上传五星记录的9.708%。"
+        },
+        {
+          "start_seconds": 21.972,
+          "end_seconds": 24.735,
+          "text": "如果改用仍在等待的人作为分母，"
+        },
+        {
+          "start_seconds": 24.735,
+          "end_seconds": 28.672,
+          "text": "第74抽的条件概率约为6.746%。"
+        },
+        {
+          "start_seconds": 28.672,
+          "end_seconds": 34.67,
+          "text": "第77抽约24.622%，第80抽约42.440%。"
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "name": "CommunityFitComparisonV5",
+      "source": "gacha_pity_probability_v5.py",
+      "cue_count": 6,
+      "start_frame": 19438,
+      "end_frame": 20981,
+      "frames": 1543,
+      "duration_seconds": 25.716666666666665,
+      "cues": [
+        {
+          "start_seconds": 0.003,
+          "end_seconds": 3.961,
+          "text": "另一份社区分析使用了约2500万抽的样本。"
+        },
+        {
+          "start_seconds": 3.961,
+          "end_seconds": 7.415,
+          "text": "由此得到一条常见的条件概率拟合曲线。"
+        },
+        {
+          "start_seconds": 7.415,
+          "end_seconds": 13.709,
+          "text": "前73抽保持0.6%，从第74抽起，每抽增加约6个百分点。"
+        },
+        {
+          "start_seconds": 13.709,
+          "end_seconds": 16.625,
+          "text": "第90抽由硬保底升到100%。"
+        },
+        {
+          "start_seconds": 16.625,
+          "end_seconds": 20.945,
+          "text": "换成首金分布后，峰值同样落在第77抽附近。"
+        },
+        {
+          "start_seconds": 20.945,
+          "end_seconds": 25.715,
+          "text": "这条拟合曲线和Paimon.moe上传样本的整体形状相近。"
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "name": "FinalEstimatedCurvesV5",
+      "source": "gacha_pity_probability_v5.py",
+      "cue_count": 8,
+      "start_frame": 20981,
+      "end_frame": 23528,
+      "frames": 2547,
+      "duration_seconds": 42.45,
+      "cues": [
+        {
+          "start_seconds": -0.001,
+          "end_seconds": 4.769,
+          "text": "用这条拟合重新画出三种曲线，软保底的形状就清楚了。"
+        },
+        {
+          "start_seconds": 4.769,
+          "end_seconds": 10.756,
+          "text": "条件概率在前73抽保持0.6%，第74抽起快速上升。"
+        },
+        {
+          "start_seconds": 10.756,
+          "end_seconds": 16.523,
+          "text": "第89抽约为96.6%，第90抽由硬保底变成100%。"
+        },
+        {
+          "start_seconds": 16.523,
+          "end_seconds": 21.556,
+          "text": "首金分布的峰值落在第77抽，约为10.535%。"
+        },
+        {
+          "start_seconds": 21.556,
+          "end_seconds": 28.475,
+          "text": "累计出金率到第73抽约35.55%，第80抽约91.85%。"
+        },
+        {
+          "start_seconds": 28.475,
+          "end_seconds": 34.692,
+          "text": "这套曲线的长期五星率约1.605%，与官方1.6%很接近。"
+        },
+        {
+          "start_seconds": 34.692,
+          "end_seconds": 39.056,
+          "text": "这些社区数据只能估计趋势，并不是官方逐抽表。"
+        },
+        {
+          "start_seconds": 39.056,
+          "end_seconds": 42.455,
+          "text": "这三条曲线只描述五星何时出现。"
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "name": "FiveStarThenUpIdentityV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 8,
+      "start_frame": 23528,
+      "end_frame": 25280,
+      "frames": 1752,
+      "duration_seconds": 29.2,
+      "cues": [
+        {
+          "start_seconds": 0.005,
+          "end_seconds": 3.646,
+          "text": "五星出现以后，还要判断它是不是当期UP。"
+        },
+        {
+          "start_seconds": 3.646,
+          "end_seconds": 6.738,
+          "text": "没有必中UP的保证时，就是小保底。"
+        },
+        {
+          "start_seconds": 6.738,
+          "end_seconds": 10.729,
+          "text": "小保底下，当期UP的基础概率是50%。"
+        },
+        {
+          "start_seconds": 10.729,
+          "end_seconds": 14.315,
+          "text": "如果抽到常驻五星，就是大家常说的“歪了”。"
+        },
+        {
+          "start_seconds": 14.315,
+          "end_seconds": 17.758,
+          "text": "歪了以后，下一颗五星保证是当期UP。"
+        },
+        {
+          "start_seconds": 17.758,
+          "end_seconds": 20.334,
+          "text": "这份保证状态就是“大保底”。"
+        },
+        {
+          "start_seconds": 20.334,
+          "end_seconds": 25.093,
+          "text": "所以除了垫抽数，还要记录当前是小保底还是大保底。"
+        },
+        {
+          "start_seconds": 25.093,
+          "end_seconds": 29.205,
+          "text": "也就不能用一个固定的单抽UP概率概括所有账号。"
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "name": "UpWaitingTwoPeaksV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 10,
+      "start_frame": 25280,
+      "end_frame": 27432,
+      "frames": 2152,
+      "duration_seconds": 35.86666666666667,
+      "cues": [
+        {
+          "start_seconds": 0.005,
+          "end_seconds": 4.15,
+          "text": "只按小保底和大保底建模，拿到UP有两条路径。"
+        },
+        {
+          "start_seconds": 4.15,
+          "end_seconds": 7.669,
+          "text": "每段五星等待都按刚才的社区拟合计算。"
+        },
+        {
+          "start_seconds": 7.669,
+          "end_seconds": 11.222,
+          "text": "大约一半的人，第一颗五星就是当期UP。"
+        },
+        {
+          "start_seconds": 11.222,
+          "end_seconds": 13.492,
+          "text": "他们只经历一段五星等待。"
+        },
+        {
+          "start_seconds": 13.492,
+          "end_seconds": 16.507,
+          "text": "另一半人先歪，再等待下一颗五星。"
+        },
+        {
+          "start_seconds": 16.507,
+          "end_seconds": 19.917,
+          "text": "他们经历的是前后两段等待时间之和。"
+        },
+        {
+          "start_seconds": 19.917,
+          "end_seconds": 23.042,
+          "text": "第二条路径会让拿到UP的时间更晚。"
+        },
+        {
+          "start_seconds": 23.042,
+          "end_seconds": 27.45,
+          "text": "两条路径混在一起，首个UP的分布就会出现两个峰。"
+        },
+        {
+          "start_seconds": 27.45,
+          "end_seconds": 31.935,
+          "text": "数学上，两段独立等待时间相加，对应离散卷积。"
+        },
+        {
+          "start_seconds": 31.935,
+          "end_seconds": 35.871,
+          "text": "这个双峰来自简化模型，并非官方UP分布。"
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "name": "CapturingRadianceBasicsV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 8,
+      "start_frame": 27432,
+      "end_frame": 29330,
+      "frames": 1898,
+      "duration_seconds": 31.633333333333333,
+      "cues": [
+        {
+          "start_seconds": 0.004,
+          "end_seconds": 4.324,
+          "text": "从5.0版本开始，角色活动祈愿加入了捕获明光。"
+        },
+        {
+          "start_seconds": 4.324,
+          "end_seconds": 8.151,
+          "text": "当前处于小保底时，它会参与五星的UP判定。"
+        },
+        {
+          "start_seconds": 8.151,
+          "end_seconds": 11.419,
+          "text": "一旦触发，这颗五星就是当期UP。"
+        },
+        {
+          "start_seconds": 11.419,
+          "end_seconds": 15.607,
+          "text": "官方同时给出了0.018%和55%。"
+        },
+        {
+          "start_seconds": 15.607,
+          "end_seconds": 19.653,
+          "text": "0.018%是按每次祈愿计算的基础概率。"
+        },
+        {
+          "start_seconds": 19.653,
+          "end_seconds": 23.305,
+          "text": "把小保底下的不同历史状态合并统计，"
+        },
+        {
+          "start_seconds": 23.305,
+          "end_seconds": 26.813,
+          "text": "当期UP的官方综合概率是55%。"
+        },
+        {
+          "start_seconds": 26.813,
+          "end_seconds": 31.627,
+          "text": "所以55%不是每个账号固定不变的单抽UP概率。"
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "name": "CapturingRadianceHistoryV4",
+      "source": "gacha_pity_probability_v4.py",
+      "cue_count": 7,
+      "start_frame": 29330,
+      "end_frame": 30831,
+      "frames": 1501,
+      "duration_seconds": 25.016666666666666,
+      "cues": [
+        {
+          "start_seconds": -0.006,
+          "end_seconds": 3.47,
+          "text": "捕获明光还会参考此前连续歪的情况。"
+        },
+        {
+          "start_seconds": 3.47,
+          "end_seconds": 7.077,
+          "text": "如果连续3轮都是先歪，再由大保底拿到UP，"
+        },
+        {
+          "start_seconds": 7.077,
+          "end_seconds": 10.356,
+          "text": "下一次出五星时，捕获明光必定触发。"
+        },
+        {
+          "start_seconds": 10.356,
+          "end_seconds": 14.248,
+          "text": "一轮指一次完整的“先歪，再由大保底拿到UP”。"
+        },
+        {
+          "start_seconds": 14.248,
+          "end_seconds": 17.297,
+          "text": "连续3轮，一共会出现6颗五星。"
+        },
+        {
+          "start_seconds": 17.297,
+          "end_seconds": 20.762,
+          "text": "官方没有公开中间各阶段的完整概率表。"
+        },
+        {
+          "start_seconds": 20.859,
+          "end_seconds": 25.013,
+          "text": "账号历史不同，下一颗五星的UP判定也可能不同。"
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "name": "ProbabilityStateConclusionV5",
+      "source": "gacha_pity_probability_v5.py",
+      "cue_count": 10,
+      "start_frame": 30831,
+      "end_frame": 33152,
+      "frames": 2321,
+      "duration_seconds": 38.68333333333333,
+      "cues": [
+        {
+          "start_seconds": -0.004,
+          "end_seconds": 4.053,
+          "text": "一张完整的抽卡概率图，要保留三种统计视角。"
+        },
+        {
+          "start_seconds": 4.053,
+          "end_seconds": 7.617,
+          "text": "条件概率描述等待者在这一抽出金的比例。"
+        },
+        {
+          "start_seconds": 7.617,
+          "end_seconds": 11.224,
+          "text": "PMF是首金分布，标出第一次出金落在哪一抽。"
+        },
+        {
+          "start_seconds": 11.224,
+          "end_seconds": 15.259,
+          "text": "CDF是累计出金率，看截至这一抽有多少人出金。"
+        },
+        {
+          "start_seconds": 15.259,
+          "end_seconds": 19.481,
+          "text": "代入社区拟合后，三张图就会显出软保底的形状。"
+        },
+        {
+          "start_seconds": 19.481,
+          "end_seconds": 22.375,
+          "text": "0.6%是五星基础概率。"
+        },
+        {
+          "start_seconds": 22.375,
+          "end_seconds": 26.202,
+          "text": "1.6%是计入保底后的长期综合概率。"
+        },
+        {
+          "start_seconds": 26.202,
+          "end_seconds": 29.119,
+          "text": "90抽给出了等待五星的硬上限。"
+        },
+        {
+          "start_seconds": 29.119,
+          "end_seconds": 33.921,
+          "text": "五星何时出现，与它是不是当期UP，是前后两层规则。"
+        },
+        {
+          "start_seconds": 33.921,
+          "end_seconds": 38.625,
+          "text": "垫抽数、保底状态和捕获明光历史，都会改变结果。"
+        }
+      ]
+    }
+  ]
+}

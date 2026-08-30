@@ -5,11 +5,15 @@ __pycache__/
 .video_gallery.pid
 /media/
 /exports/
-topics/*/exports/manim/
+topics/*/exports/manim*/
 topics/*/exports/final/
 topics/*/exports/covers/
 topics/*/exports/posters/
 topics/*/exports/debug/
+topics/*/exports/qa*/
+topics/*/exports/sync_lq*/
+topics/*/exports/timing_lq*/
+topics/*/exports/outro_preview/
 topics/*/audio/*.mp3
 topics/*/audio/*.wav
 topics/*/remotion/public/audio/

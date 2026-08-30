@@ -13,6 +13,8 @@ Use this skill for files under `topics/<topic>/audio/` and narration timing.
 - Keep one paragraph per major visual beat.
 - Avoid saying "第几章" in the voiceover.
 - Use daily-life phrasing before formal math language.
+- Keep spoken narration and display subtitles as separate representations when needed. The narration may spell out values for stable TTS pronunciation, while the SRT should use familiar compact notation such as `0.6%`, `1.6%`, `90抽`, `62.5抽`, and `q(n)` instead of `百分之零点六`, `九十抽`, or `q下标n`. Preserve Chinese wording when it is ordinary prose rather than a mathematical value.
+- After converting narration into display subtitles, scan the full SRT for spelled-out percentages, decimal values, exact counts, version numbers, and symbol names. Keep notation consistent throughout the video.
 
 ## Pronunciation
 

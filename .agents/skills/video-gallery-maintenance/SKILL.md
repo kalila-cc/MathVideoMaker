@@ -31,6 +31,7 @@ Each important video should have:
 - Keep chapter controls close to the main player.
 - Prefer generated explicit covers for important videos; automatic posters can catch black frames.
 - Generate and store one mobile/feed-first cover by default under `topics/<topic>/exports/covers`. The gallery can reuse that same cover on wide and narrow viewports.
+- If the user explicitly requests several aspect ratios, preserve every requested asset but bind `cover` / `covers.desktop` / `covers.mobile` only to formats the gallery can display safely. Inspect the actual thumbnail aspect ratio and `object-fit` behavior first; do not map a portrait cover to `covers.mobile` when the mobile gallery slot is still fixed at 16:9.
 - Gallery video deletion must only target MP4 files inside configured export roots. Final topic cleanup may also delete stale generated covers and posters inside that topic's `exports` directory.
 - After deleting videos, also prune generated posters and stale metadata.
 - Prefer topic-local paths, such as `topics/astroid-envelope/exports/final/video.mp4` and `topics/astroid-envelope/exports/covers/cover.jpg`.

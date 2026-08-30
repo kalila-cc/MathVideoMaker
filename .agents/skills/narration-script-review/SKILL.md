@@ -19,6 +19,7 @@ Use this skill as the gate before running `scripts/make_voice.py`.
 
 - Chapter clarity: The script should have clear content progression, usually one paragraph per visual beat or chapter. The voiceover should not say "第几章"; chapter labels belong to the video UI or screen.
 - Conversational tone: Prefer relaxed spoken Chinese, as if explaining to one curious person. Avoid textbook phrasing, production notes, and stiff transitions like "接下来我们将".
+- Meta-question phrasing: Search for repeated scaffolding such as “先问X问题”, “回答的是X问题”, “三种问法”, or “先把问题补完整”. Replace it with the quantity, denominator, or operation itself; the narration should teach the distinction directly instead of describing the outline.
 - Final-video perspective: Remove phrasing that answers internal review history instead of teaching the current viewer. Avoid lines like "不是被丢掉了" or "这一步才加入" unless the viewer has just been given a reason to suspect that; normally rewrite them as the actual operation, such as "合并成相位平移" or "现在加入反平方引力".
 - Opening hook: The first 5-15 seconds should start from a concrete scene, surprising phenomenon, or natural question. Avoid opening with formulas, definitions, or assumptions about what the audience is thinking.
 - Accessible analogy: Abstract math should have a physical image, daily-life metaphor, or visual anchor before formal language. Assume the audience does not have advanced math background.
@@ -37,6 +38,8 @@ Use this skill as the gate before running `scripts/make_voice.py`.
 - Polyphone risk: Rewrite ambiguous Chinese words that edge-tts may misread.
 - Cognitive load: When a paragraph mentions a specific equation among many visible formulas, ensure the scene plan highlights that expression.
 - Deictic wording: If narration says "这里", "这个位置", or "这一处", confirm the frame has a matching pointer, label, or highlight. If not, rewrite to a relational description such as "太阳和行星的相对位置".
+- Evidence status: For community statistics, check whether an observed histogram, a risk-set estimate, a fitted model, and an official rule come from the same source. Require source/date/sample labels and state sampling, truncation, missing-history, or censoring limits where relevant. Do not call self-selected uploads “实测总体” or describe a model from another dataset as a fit to the displayed bars.
+- Domain shorthand: Keep common game and math terms, but verify that the target community really uses each label. Do not rename a numerical split as jargon. For Genshin Impact, use `小保底 / 大保底` and explain on first use that under 小保底 the featured character has a 50% base chance; do not introduce `五五开`. A published aggregate such as `55%` must not be narrated as a fixed personal single-pull probability when account history changes it.
 
 ## TTS-Safe Formula Wording
 

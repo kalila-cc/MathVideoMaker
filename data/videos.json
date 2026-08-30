@@ -1,5 +1,87 @@
 {
   "videos": {
+    "topics/gacha-pity-probability/exports/final/GachaPityProbability_v5_1080p60_final.mp4": {
+      "title": "0.6%、1.6%、90抽必出：怎样读懂原神抽卡概率",
+      "description": "原神祈愿页面写着五星基础概率0.6%、综合概率1.6%，又有90抽必出——这三个数字到底怎么同时成立？这期视频用直观的概率曲线拆解软硬保底、大小保底和捕获明光，看看多数人会在第几抽出金，以及出了五星后为什么还不一定是当期UP。软保底曲线采用玩家社区汇总样本作近似参考，具体规则以官方说明为准。",
+      "topic": "抽卡概率与保底机制",
+      "tags": [
+        "原神",
+        "原神抽卡",
+        "抽卡概率",
+        "角色活动祈愿",
+        "软保底",
+        "硬保底",
+        "大小保底",
+        "捕获明光",
+        "条件概率",
+        "概率分布",
+        "数学科普",
+        "ChatGPT制作",
+        "1080p60"
+      ],
+      "status": "最终成片",
+      "priority": 2130,
+      "cover": "topics/gacha-pity-probability/exports/covers/GachaPityProbability_api_cover_16x9.png",
+      "covers": {
+        "desktop": "topics/gacha-pity-probability/exports/covers/GachaPityProbability_api_cover_16x9.png",
+        "mobile": "topics/gacha-pity-probability/exports/covers/GachaPityProbability_api_cover_16x9.png"
+      },
+      "duration": "00:09:20.23",
+      "hasAudio": true,
+      "reviewFocus": false,
+      "chapters": [
+        {
+          "title": "0.6%、1.6%与90抽",
+          "start": 0.0,
+          "end": 23.467
+        },
+        {
+          "title": "一万人抽卡：三个不同概率",
+          "start": 23.467,
+          "end": 99.317
+        },
+        {
+          "title": "三条概率曲线",
+          "start": 99.317,
+          "end": 206.367
+        },
+        {
+          "title": "硬保底与公开信息的边界",
+          "start": 206.367,
+          "end": 289.3
+        },
+        {
+          "title": "社区样本中的软保底",
+          "start": 289.3,
+          "end": 349.683
+        },
+        {
+          "title": "软保底下的完整曲线",
+          "start": 349.683,
+          "end": 392.133
+        },
+        {
+          "title": "小保底与大保底",
+          "start": 392.133,
+          "end": 457.2
+        },
+        {
+          "title": "捕获明光如何改变UP判定",
+          "start": 457.2,
+          "end": 513.85
+        },
+        {
+          "title": "账号状态决定下一抽概率",
+          "start": 513.85,
+          "end": 552.533
+        },
+        {
+          "title": "ChatGPT 制作片尾",
+          "start": 552.533,
+          "end": 560.233
+        }
+      ]
+    },
     "topics/constructible-17-gon/exports/final/Constructible17Gon_v7_1080p60_final.mp4": {
       "title": "尺规作图最反直觉的一集：边更少的正七边形反而画不出来？",
       "description": "正七边形居然比正十七边形难画？只给一把没刻度的直尺和一个圆规，正十七边形能精确画出来，正七边形反而画不了。这期视频从最基础的规则开始，一步步推给你看，为什么正七边形卡死，正十七边形却能画出来。",

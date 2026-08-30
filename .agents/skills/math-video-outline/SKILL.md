@@ -21,6 +21,7 @@ Use this skill before writing or revising a math animation script.
 10. Before committing to a section, check whether it still supports the audience promise. If a compelling side mechanism pulls the topic toward a different promise, split it into a future topic instead of forcing it into the current outline.
 11. For formula-derivation videos, prefer a hook based on the viewer's practical friction, such as "memorized formulas stop helping at the next case," then ask what can be computed from structure.
 12. For "physical phenomenon -> family of objects -> envelope/trace -> named curve" videos, outline these as separate beats. First show the visible phenomenon, then derive the generating family, then explain why the envelope/trace operation is needed, and only after that name the final curve or give secondary coordinate forms.
+13. When a video teaches a statistical abstraction from a real product or community dataset, plan a return-to-evidence beat after the math. Show the observed sample distribution, then any fitted model, then the official boundary or rule; label their dates, populations, assumptions, and limitations separately instead of presenting all three as one “real probability curve”.
 
 ## Style Rules
 
@@ -39,6 +40,7 @@ Use this skill before writing or revising a math animation script.
 - Do not introduce a named curve or standard equation before the viewer has seen the mechanism that generates it. Use aliases or search terms only after a short operational definition, such as "the brightest boundary formed by many reflected rays."
 - Remove or compress attractive side results if they do not support the central derivation path.
 - End by showing the full object or payoff visually, not only as an equation.
+- Use only shorthand that the target community actually recognizes; do not invent a label from a numerical split. Explain state and denominator on first use. For Genshin Impact, use `小保底 / 大保底`: first explain that under 小保底 the featured character has a 50% base chance, and that losing it makes the next five-star the featured character under 大保底.
 
 ## Output
 

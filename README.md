@@ -121,5 +121,5 @@ python -m venv .venv
 - README 只保留入口信息；长流程、案例复盘和规范放进 `docs/` 或主题 `docs/`。
 - 低清预览通过后再渲染高清，避免反复浪费时间。
 - 重要成片在 `data/videos.json` 里维护标题、简介、封面和章节。
-- 封面 JPG 属于可生成产物，不提交 Git；需要时用 `scripts/generate_cover.py` 生成。
+- 封面图片属于可生成产物，不提交 Git；需要时可用 `scripts/generate_cover.py` 生成。
 - 删除文件优先使用项目脚本或网页按钮，不手动清理不确定的产物目录。
